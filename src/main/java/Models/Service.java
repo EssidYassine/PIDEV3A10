@@ -1,5 +1,7 @@
 package Models;
 
+
+
 public class Service {
     private int id_service;
     private String nom_service;
@@ -85,4 +87,5 @@ public class Service {
                 '}';
     }
 }
+
 

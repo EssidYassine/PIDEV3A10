@@ -1,98 +1,47 @@
 package Models;
 
-import java.util.Date;
-
 public class User {
-
-    private int id;
-    private String username;
+    private int id_user;
+    private String nom;
+    private String prenom;
     private String email;
-    private String password;
-    private String role;         // Rôle de l'utilisateur (ex : admin, user)
-    private String isActive;     // Statut actif de l'utilisateur ("ok" ou "nok")
-    private int numTel;       // Numéro de téléphone
-    private Date dateDeNaissance; // Date de naissance
+    private String mot_de_passe;
 
-    public User(String username, String email, String password, String role, String isActive, int numTel, Date dateDeNaissance) {
+    public User() {}
 
-        this.username = username;
+    public User(int id_user, String nom, String prenom, String email, String mot_de_passe) {
+        this.id_user = id_user;
+        this.nom = nom;
+        this.prenom = prenom;
         this.email = email;
-        this.password = password;
-        this.role = role;
-        this.isActive = isActive;
-        this.numTel = numTel;
-        this.dateDeNaissance = dateDeNaissance;
+        this.mot_de_passe = mot_de_passe;
     }
 
-    // Getters et Setters
-    public int getId() {
-        return id;
-    }
+    public int getId_user() { return id_user; }
+    public void setId_user(int id_user) { this.id_user = id_user; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getNom() { return nom; }
+    public void setNom(String nom) { this.nom = nom; }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getPrenom() { return prenom; }
+    public void setPrenom(String prenom) { this.prenom = prenom; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
-    }
-
-    public int getNumTel() {
-        return numTel;
-    }
-
-    public void setNumTel(int numTel) {
-        this.numTel = numTel;
-    }
-
-    public Date getDateDeNaissance() {
-        return dateDeNaissance;
-    }
-
-    public void setDateDeNaissance(Date dateDeNaissance) {
-        this.dateDeNaissance = dateDeNaissance;
-    }
+    public String getMot_de_passe() { return mot_de_passe; }
+    public void setMot_de_passe(String mot_de_passe) { this.mot_de_passe = mot_de_passe; }
 
     @Override
     public String toString() {
-        return "User{username='" + username + "', email='" + email + "', role='" + role +
-                "', isActive='" + isActive + "', numTel='" + numTel +
-                "', dateDeNaissance=" + dateDeNaissance + "}";
+        return "User{" +
+                "id_user=" + id_user +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
+
+
+
