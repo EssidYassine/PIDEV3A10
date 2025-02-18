@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GS.ServiceController">
+    <children>
+        <ImageView fx:id="logoImageView" fitHeight="86.0" fitWidth="127.0" layoutX="20.0" layoutY="20.0" />
+
+        <Label layoutX="300.0" layoutY="20.0" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Ajouter un Service" />
+        <TextField fx:id="nomServiceField" layoutX="150.0" layoutY="70.0" maxWidth="600" promptText="Nom du service" style="-fx-background-radius: 8; -fx-padding: 10;" />
+        <TextArea fx:id="descriptionField" layoutX="150.0" layoutY="414.0" maxWidth="600" prefHeight="118.0" prefWidth="335.0" promptText="Description" style="-fx-background-radius: 8; -fx-padding: 10;" />
+        <TextField fx:id="prixField" layoutX="150.0" layoutY="254.0" maxWidth="600" promptText="Prix" style="-fx-background-radius: 8; -fx-padding: 10;" />
+        <ComboBox fx:id="typeServiceCombo" layoutX="384.0" layoutY="307.0" maxWidth="600" prefHeight="52.0" prefWidth="167.0" style="-fx-background-radius: 8; -fx-padding: 10;" />
+        <Button fx:id="choisirImageButton" layoutX="600.0" layoutY="310.0" onAction="#choisirImage" style="-fx-background-color: #284386; -fx-text-fill: white; -fx-background-radius: 8;" text="Choisir une image" />
+
+        <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="225.0" layoutX="562.0" layoutY="91.0" style="-fx-border-radius: 10; -fx-background-radius: 10;" />
+        <TextField fx:id="quantiteMaterielField" layoutX="150.0" layoutY="191.0" maxWidth="500" promptText="1" style="-fx-background-radius: 8; -fx-padding: 10;" />
+
+        <Button fx:id="btnMoins" layoutX="490.0" layoutY="180.0" onAction="#decrementerQuantite" prefWidth="35" style="-fx-background-color: #fe6521; -fx-text-fill: white; -fx-background-radius: 8;" text="−" />
+        <Button fx:id="btnPlus" layoutX="450.0" layoutY="180.0" onAction="#incrementerQuantite" prefWidth="35" style="-fx-background-color: #284386; -fx-text-fill: white; -fx-background-radius: 8;" text="+" />
+
+        <TextField fx:id="roleStaffField" layoutX="150.0" layoutY="130.0" maxWidth="600" promptText="Rôle du staff" style="-fx-background-radius: 8; -fx-padding: 10;" />
+        <TextField fx:id="experienceField" layoutX="150.0" layoutY="316.0" maxWidth="600" promptText="Expérience" style="-fx-background-radius: 8; -fx-padding: 10;" />
+        <Button fx:id="ajouterButton" layoutX="525.0" layoutY="450.0" onAction="#ajouterService" style="-fx-background-color: #fe6521; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 8; -fx-padding: 10;" text="Ajouter Service" />
+      <Text fill="#6e6363" layoutX="422.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type de service" textAlignment="CENTER" wrappingWidth="91.7515869140625">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+    </children>
+</AnchorPane>

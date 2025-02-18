@@ -19,19 +19,18 @@ public class ServiceService implements IService<Service> {
 
     @Override
     public void add(Service service) throws SQLException {
-        String query = "INSERT INTO service (nom_service, description, prix, type_service, disponibilite, id_utilisateur, image_url, quantite_materiel, role_staff, experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO service (nom_service, description, prix, type_service, id_utilisateur, image_url, quantite_materiel, role_staff, experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, service.getNom_service());
             ps.setString(2, service.getDescription());
             ps.setInt(3, service.getPrix());
             ps.setString(4, service.getType_service().name());
-            ps.setInt(5, service.getDisponibilite());
-            ps.setInt(6, service.getId_utilisateur());
-            ps.setString(7, service.getImage_url());
-            ps.setInt(8, service.getQuantite_materiel());
-            ps.setString(9, service.getRole_staff());
-            ps.setString(10, service.getExperience());
+            ps.setInt(5, service.getId_utilisateur());
+            ps.setString(6, service.getImage_url());
+            ps.setInt(7, service.getQuantite_materiel());
+            ps.setString(8, service.getRole_staff());
+            ps.setString(9, service.getExperience());
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
@@ -39,6 +38,11 @@ public class ServiceService implements IService<Service> {
             } else {
                 System.out.println("❌ Aucun service ajouté.");
             }
+        }
+
+        // Mettre automatiquement disponibilité à 1 après l'ajout
+        try (PreparedStatement psUpdate = connection.prepareStatement("UPDATE service SET disponibilite = 1 WHERE id_service = (SELECT MAX(id_service) FROM service)")) {
+            psUpdate.executeUpdate();
         }
     }
 
