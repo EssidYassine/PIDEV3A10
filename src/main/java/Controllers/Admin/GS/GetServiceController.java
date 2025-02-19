@@ -1,4 +1,4 @@
-package Controllers.Client.GS;
+package Controllers.Admin.GS;
 
 import Models.Service;
 import Services.ServiceService;
@@ -14,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class GetServiceController implements Initializable {
     @FXML
     private void retourVersAjoutService() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Serviice.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/Serviice.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) gridPane.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -61,7 +60,7 @@ public class GetServiceController implements Initializable {
                 gridPane.add(serviceBox, col, row);
 
                 col++;
-                if (col == 4) { // Afficher 3 services par ligne
+                if (col == 4) {
                     col = 0;
                     row++;
                 }
@@ -95,7 +94,7 @@ public class GetServiceController implements Initializable {
         prixLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
 
         // Icône de suppression
-        ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/image/delete.png")));
+        ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/pngtree-vector-trash-icon-png-image_865253.jpg")));
         deleteIcon.setFitWidth(20);
         deleteIcon.setFitHeight(20);
         deleteIcon.setOnMouseClicked(event -> supprimerService(service));

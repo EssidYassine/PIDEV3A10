@@ -1,4 +1,4 @@
-package Controllers.Client.GS;
+package Controllers.Admin.GS;
 
 import Models.Service;
 import Services.ServiceService;
@@ -124,7 +124,7 @@ public class ServiceController {
             alert.showAndWait();
 
             // Redirection vers la liste des services
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/GetService.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/GetService.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) nomServiceField.getScene().getWindow();
             stage.setScene(new Scene(root));
