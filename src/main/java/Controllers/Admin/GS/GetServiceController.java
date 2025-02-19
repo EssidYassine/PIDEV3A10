@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -94,8 +95,12 @@ public class GetServiceController implements Initializable {
         nomLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
 
         // Prix du service
-        Label prixLabel = new Label(service.getPrix() + " €");
+        Label prixLabel = new Label(service.getPrix() + "DT");
         prixLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
+
+        Button detailButton = new Button("Détail");
+        detailButton.setStyle("-fx-background-color: #ed4e00; -fx-text-fill: white; -fx-padding: 5px 10px; -fx-border-radius: 5;");
+        detailButton.setOnAction(event -> afficherDetailsService(service));
 
         // Icône de suppression
         ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/pngtree-vector-trash-icon-png-image_865253.jpg")));
@@ -106,7 +111,7 @@ public class GetServiceController implements Initializable {
         HBox deleteBox = new HBox(deleteIcon);
         deleteBox.setStyle("-fx-alignment: center-right;");
 
-        serviceBox.getChildren().addAll(serviceImage, nomLabel, prixLabel, deleteBox);
+        serviceBox.getChildren().addAll(serviceImage, nomLabel, prixLabel, detailButton, deleteBox);
         return serviceBox;
     }
 
@@ -128,6 +133,24 @@ public class GetServiceController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Impossible de supprimer le service !");
             alert.showAndWait();
+        }
+    }
+    private void afficherDetailsService(Service service) {
+        try {
+            // Charger le FXML des détails
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/ServiceDetails.fxml"));
+            Parent detailsPane = loader.load();
+
+            // Récupérer le contrôleur et envoyer les données
+            ServiceDetailsController controller = loader.getController();
+            controller.setDetails(service.getNom_service(), service.getDescription(), service.getImage_url());
+
+            // Remplacer le contenu du GridPane
+            gridPane.getChildren().clear();
+            gridPane.add(detailsPane, 0, 0, 3, 3); // Sur 3 colonnes et 3 lignes
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
