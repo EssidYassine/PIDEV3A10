@@ -87,6 +87,7 @@ public class LocauxService implements IService<Locaux> {
         return locauxList;
     }
 
+
     @Override
     public Locaux getById(int id) throws SQLException {
         String query = "SELECT * FROM locaux WHERE id_local = ?";

@@ -3,25 +3,29 @@ package Controllers;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class HelloApplication extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
+
     @Override
-    public void start(Stage stage){
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Views/Client/GL/Add_Local.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load(), 320, 240);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+
+        public void start(Stage stage) throws Exception {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/Home.fxml"));
+           AnchorPane root = (AnchorPane) loader.load();
+            Scene scene = new Scene(root);
+
+            stage.setScene(scene);
+            stage.setTitle("home sweet home");
+            stage.show();
         }
-        stage.setTitle("Gestion Locaux ");
-        stage.setScene(scene);
-        stage.show();
+
+
+    public static void main(String[] args) {
+        launch();
     }
 }
+
