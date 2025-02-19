@@ -12,6 +12,18 @@ public class User {
     private String isActive;     // Statut actif de l'utilisateur ("ok" ou "nok")
     private int numTel;       // Numéro de téléphone
     private Date dateDeNaissance; // Date de naissance
+    private  User loggedInUser;
+
+    public User(int id,String username, String email, String password, String role, String isActive, int numTel, Date dateDeNaissance) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.isActive = isActive;
+        this.numTel = numTel;
+        this.dateDeNaissance = dateDeNaissance;
+    }
 
     public User(String username, String email, String password, String role, String isActive, int numTel, Date dateDeNaissance) {
 
@@ -22,6 +34,9 @@ public class User {
         this.isActive = isActive;
         this.numTel = numTel;
         this.dateDeNaissance = dateDeNaissance;
+    }
+    public User() {
+
     }
 
     // Getters et Setters

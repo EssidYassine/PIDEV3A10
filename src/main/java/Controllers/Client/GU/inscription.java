@@ -6,6 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -32,11 +34,12 @@ public class inscription {
     @FXML
     private Button retourid;
 
+
+
     private final ServiceUser serviceUser = new ServiceUser(); // Service pour gérer les utilisateurs
 
     @FXML
     private void handleInscription(ActionEvent event) {
-        // 1️⃣ Récupération des valeurs saisies
         String username = prenomid.getText().trim();
         String email = mailid.getText().trim();
         String password = passeid.getText().trim();
@@ -67,10 +70,13 @@ public class inscription {
         // 5️⃣ Conversion de la date
         Date sqlDate = Date.valueOf(dateNaissance);
 
-        // 6️⃣ Création de l'objet utilisateur
-        User newUser = new User( username, email, password, "user", "", numTel, sqlDate);
+        // 🔐 6️⃣ Hashage du mot de passe
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        // 7️⃣ Ajout dans la base de données
+        // 7️⃣ Création de l'objet utilisateur avec le mot de passe hashé
+        User newUser = new User(username, email, hashedPassword, "user", "nok", numTel, sqlDate);
+
+        // 8️⃣ Ajout dans la base de données
         try {
             serviceUser.ajouter(newUser);
             showAlert(AlertType.INFORMATION, "Succès", "Utilisateur ajouté avec succès !");
@@ -79,7 +85,6 @@ public class inscription {
             showAlert(AlertType.ERROR, "Erreur", "Impossible d'ajouter l'utilisateur : " + e.getMessage());
         }
     }
-
     private boolean isValidEmail(String email) {
         return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }

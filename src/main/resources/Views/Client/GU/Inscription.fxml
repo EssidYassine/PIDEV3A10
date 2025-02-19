@@ -1,37 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane  prefHeight="626.0" prefWidth="971.0"
-             xmlns="http://javafx.com/javafx/17.0.6"
-             xmlns:fx="http://javafx.com/fxml/1"
-             fx:controller="Controllers.Client.GU.inscription">
+<?import javafx.scene.control.DatePicker?>
+<AnchorPane prefHeight="651.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.inscription">
     <children>
-        <ImageView fitHeight="632.0" fitWidth="1127.0" layoutX="-37.0" pickOnBounds="true" preserveRatio="true">
-        </ImageView>
-        <TextField fx:id="prenomid" layoutX="831.0" layoutY="227.0" />
-        <Text layoutX="750.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" AnchorPane.leftAnchor="750.0" />
-        <TextField fx:id="mailid" layoutX="831.0" layoutY="290.0" />
-        <Text layoutX="744.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="votre mail" AnchorPane.leftAnchor="744.0" />
-        <Text layoutX="736.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mot de passe" AnchorPane.leftAnchor="736.0" />
-        <TextField fx:id="telid" layoutX="831.0" layoutY="394.0" />
-        <Text layoutX="750.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="num_tel" AnchorPane.leftAnchor="750.0" />
-        <DatePicker fx:id="dateid" layoutX="831.0" layoutY="443.0" />
-        <Text layoutX="722.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de naissance" AnchorPane.leftAnchor="722.0" />
-        <Button fx:id="validerid" layoutX="831.0" layoutY="500.0"
-                mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0"
-                style="-fx-background-color: transparent;" text="Valider" AnchorPane.leftAnchor="831.0" onAction="#handleInscription"/>
-        <ImageView fitHeight="76.0" fitWidth="62.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-        </ImageView>
+        <Pane layoutX="616.0" prefHeight="642.0" prefWidth="464.0" style="-fx-background-color: #d7e3f5;">
+            <children>
+
+                <TextField fx:id="prenomid" layoutX="680.0" layoutY="200.0" promptText="Nom d'utilisateur" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </TextField>
+
+                <TextField fx:id="mailid" layoutX="680.0" layoutY="260.0" promptText="Adresse e-mail" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </TextField>
+
+                <PasswordField fx:id="passeid" layoutX="680.0" layoutY="320.0" promptText="Mot de passe" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </PasswordField>
+                <CheckBox fx:id="showid" layoutX="332.0" layoutY="365.0">
+                    <graphic>
+                        <ImageView fitHeight="26.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/Images/eye.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </CheckBox>
+                <TextField fx:id="telid" layoutX="680.0" layoutY="380.0" promptText="Numéro de téléphone" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </TextField>
+                <DatePicker fx:id="dateid" layoutX="680.0" layoutY="440.0" promptText="Date de naissance" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </DatePicker>
 
 
-        <PasswordField fx:id="passeid" layoutX="831.0" layoutY="344.0" />
+
+                <!-- Bouton d'inscription -->
+                <Button fx:id="validerid" layoutX="76.0" layoutY="419.0"
+                        mnemonicParsing="false" prefHeight="40.0" prefWidth="312.0"
+                        styleClass="dashboard-button" text="S'inscrire" onAction="#handleInscription" style="-fx-background-color: #1464db;" textFill="WHITE"/>
+            </children>
+        </Pane>
+
+        <ImageView fitHeight="651.0" fitWidth="506.0" layoutX="110.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@/Images/image1.jpeg" />
+            </image>
+        </ImageView>
     </children>
+    <effect>
+        <Blend />
+    </effect>
 </AnchorPane>

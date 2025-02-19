@@ -1,0 +1,249 @@
+.underline-button {
+    -fx-background-color: transparent;
+    -fx-underline: true;
+}
+
+.underline-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1); /* Optional: Add a hover effect */
+}
+
+/* ******************** */
+.navbar_admin{
+    -fx-background-color: #ffffff; /*  Change background color on hover */
+}
+
+.submit_button {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+}
+
+
+
+.submit_button:hover {
+    -fx-background-color: lightgray; /* Change to the desired hover color */
+}
+
+/* ***********image browse********* */
+
+.browseButton {
+    -fx-background-color: #696666;
+    -fx-text-fill: white;
+}
+
+.browseButton:hover {
+    -fx-background-color: darkgray; /* Change to the desired hover color */
+}
+
+.exhibition-box {
+    -fx-border-radius: 10px;
+    -fx-border-color: #7A6FAC; /* Border color */
+    -fx-border-width: 2px;
+    -fx-background-color: #B3A4C9; /* Background color */
+    -fx-padding: 10px;
+}
+.round-button{
+    -fx-background-radius: 30;
+    -fx-background-color: black;
+    -fx-text-fill: white ;
+}
+
+.round-button:hover {
+    -fx-background-color: #D0D7AC;
+    -fx-text-fill: white ;
+}
+
+.round-button:pressed {
+    -fx-background-color: #D0D7AC;
+    -fx-text-fill: white ;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.underline-button {
+    -fx-background-color: transparent;
+    -fx-underline: true;
+}
+
+.underline-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1); /* Optional: Add a hover effect */
+}
+
+/* ******************** */
+.navbar_admin{
+    -fx-background-color: #ffffff; /*  Change background color on hover */
+}
+
+.submit_button {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+}
+
+.submit_button:hover {
+    -fx-background-color: lightgray; /* Change to the desired hover color */
+}
+
+/* ***********image browse********* */
+
+.browseButton {
+    -fx-background-color: #696666;
+    -fx-text-fill: white;
+}
+
+.browseButton:hover {
+    -fx-background-color: darkgray; /* Change to the desired hover color */
+}
+
+
+.form-container {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 20px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+.form-title {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+}
+
+.exposition-details-label {
+    -fx-font-size: 14;
+}
+
+.text-field {
+    -fx-pref-width: 200px;
+}
+
+.submit-button {
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-text-fill: white;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14;
+    -fx-border-radius: 5px;
+}
+
+.submit-button:hover {
+    -fx-background-color: #45a049; /* Darker green on hover */
+}
+
+.exhibition-container {
+    -fx-padding: 10px;
+}
+
+.exhibition-box {
+    -fx-border-radius: 10px;
+    -fx-border-color: #a8a0a0; /* Border color */
+    -fx-border-width: 2px;
+    -fx-background-color: #ecf0f1; /* Background color */
+    -fx-padding: 10px;
+}
+.vbox-center {
+    -fx-alignment: CENTER;
+}
+
+
+
+/* rservation historique */
+
+/* style.css */
+
+/* style.css */
+
+.historique-reservation-table {
+    -fx-table-cell-border-color: derive(-fx-base, 20%);
+    -fx-table-cell-border-width: 0.5;
+}
+
+.historique-reservation-table .column-header-background {
+    -fx-background-color: #FDF2E9; /* Beige clair */
+}
+
+.historique-reservation-table .column-header,
+.historique-reservation-table .table-cell {
+    -fx-alignment: CENTER;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.historique-reservation-table .table-row-cell {
+    -fx-background-color: #FDF2E9; /* Beige foncé */
+}
+.historique-reservation-table .table-row-cell {
+    -fx-border-color: derive(-fx-base, 100%);
+    -fx-border-width:3;
+}
+
+
+
+.historique-reservation-table .table-row-cell:selected {
+    -fx-background-color: rgba(217, 183, 183, 0.78); /* Beige foncé plus clair */
+    -fx-text-fill: white;
+}
+.x-button {
+    -fx-text-fill: red; /* Set the text color to red */
+    /* Add any other styles you want for the button */
+}
+/* edit button */
+
+.edit-button {
+    -fx-background-color: rgb(131, 105, 105); /* Couleur de fond verte */
+    -fx-text-fill: #ffffff;         /* Couleur du texte blanc */
+    -fx-background-radius: 5;
+    -fx-pref-width:45;          /* Largeur préférée */
+    -fx-pref-height: 30;
+    -fx-font-size: 16px;
+
+    /* Rayon pour arrondir les coins */
+}
+.custom-font {
+    -fx-font-family: 'Dubai';
+    -fx-font-size: 30px;
+    -fx-background-color: rgb(131, 105, 105);
+    -fx-alignment: center;
+
+}
+/* Style pour les labels en gras */
+.bold-label {
+    -fx-font-weight: bold;
+}
+
+/* chaklon */
+.round-button{
+    -fx-background-radius: 30;
+    -fx-background-color: #000000; /* Jaune */
+    -fx-text-fill: #ffffff; /* Bleu roi pour le texte */
+}
+
+.round-button:hover {
+    -fx-background-color: #D0D7AC; /* Bleu au survol */
+    -fx-text-fill: #000000; /* Bleu roi pour le texte */
+}
+
+.round-button:pressed {
+    -fx-background-color: #D0D7AC; /* Bleu clair enfoncé */
+    -fx-text-fill: #000000; /* Bleu roi pour le texte */
+}
+
+
+
+.default-color0.chart-bar { -fx-bar-fill: #f3622d; }
+.default-color1.chart-bar { -fx-bar-fill: #fba71b; }
+.default-color2.chart-bar { -fx-bar-fill: #57b757; }
+.default-color3.chart-bar { -fx-bar-fill: #41a9c9; }
+.default-color4.chart-bar { -fx-bar-fill: #4258c9; }
+.default-color5.chart-bar { -fx-bar-fill: #9a42c8; }
+.default-color6.chart-bar { -fx-bar-fill: #c84164; }
+.default-color7.chart-bar { -fx-bar-fill: #888888; }

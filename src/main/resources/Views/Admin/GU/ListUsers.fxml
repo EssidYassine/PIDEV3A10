@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="617.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GU.ListUsers">
+    <children>
+        <Pane layoutX="-1.0" prefHeight="628.0" prefWidth="199.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 30 0 30;">
+            <children>
+                <ImageView fitHeight="268.0" fitWidth="282.0" layoutX="-21.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Images/Blanc_non_bg.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+        <ScrollPane fx:id="scroll" layoutX="205.0" layoutY="228.0" prefHeight="401.0" prefWidth="710.0">
+            <content><VBox fx:id="container" spacing="10" />  </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

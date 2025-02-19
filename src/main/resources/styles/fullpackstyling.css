@@ -1,0 +1,126 @@
+.button {
+    -fx-background-color: #F3F3F3;
+}
+
+.button:hover {
+    -fx-background-color: #A1C1F4;
+}
+
+.button:pressed {
+    -fx-background-color: #73A3EF;
+}
+
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-cell-size: 20px;
+    -fx-background-color: #2D75E8;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .cell {
+    -fx-cell-size: 30px;
+    -fx-alignment: center-left;
+    -fx-text-fill: #000000;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: rgb(127, 172, 243);
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: white;
+}
+
+/* Scroll bar styles */
+.table-view .increment-button,
+.table-view .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 2em;
+}
+
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: derive(#2D75E8, 80%);
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(#2D75E8, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+/* Chart properties */
+.chart {
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+    -fx-legend-visible: false;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-pie {
+    -fx-border-color: derive(-fx-pie-color, 1%);
+    -fx-border-width: 0px;
+}
+
+/* General scene styling */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Rounded buttons */
+.rounded-button {
+    -fx-background-color: linear-gradient(#000000, #000000);
+    -fx-background-radius: 20px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 0);
+    -fx-padding: 10px 20px;
+}
+
+.rounded-button:hover {
+    -fx-background-color: #EDE4E0;
+}
+
+.icon-button {
+    -fx-graphic-text-gap: 8px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ED4E00;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #ED4E00;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+}
+
+.icon-button:hover {
+    -fx-background-color: #f2f2f2;
+    -fx-cursor: hand;
+}
+
+.pane-background {
+    -fx-background-image: url("images/Ralph Lauren Collection Fall 2024 Runway Show.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-radius: 0 0 30px 30px;
+}
+
+.shadow-pane {
+    -fx-background-color: #ED4E00;
+    -fx-background-radius: 0 0 30px 30px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 5);
+}
