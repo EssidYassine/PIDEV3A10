@@ -41,12 +41,16 @@ public class GetServiceController implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    private ImageView serviceImage; // Assure-toi que l'ID correspond au FXML
+
 
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         afficherServices();
+
     }
 
     private void afficherServices() {
@@ -126,4 +130,5 @@ public class GetServiceController implements Initializable {
             alert.showAndWait();
         }
     }
+
 }

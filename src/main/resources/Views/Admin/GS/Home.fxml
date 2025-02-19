@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="943.0" style="-fx-background-color: DADCDFFF;" stylesheets="/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.DashboardAdminController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="943.0" style="-fx-background-color: DADCDFFF;" stylesheets="/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.GestionnaireS">
     <children>
         <BorderPane prefHeight="618.0" prefWidth="943.0">
             <left>
@@ -51,7 +51,7 @@
                         <Button fx:id="btn_Timetable" contentDisplay="TOP" mnemonicParsing="false"
                                 prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button"
                                 text="Gestion Services" GridPane.columnIndex="2"
-                                onAction="#afficherServices">
+                                onAction="#afficherGestionnaire">
                             <graphic>
                                 <ImageView fitHeight="40.0" fitWidth="40.0">
                                     <image>
