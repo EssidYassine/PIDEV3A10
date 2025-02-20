@@ -33,7 +33,7 @@ public class ListUsers {
 
                 container.getChildren().add(root);
             } catch (IOException e) {
-                e.printStackTrace(); // Handle the exception appropriately
+                e.printStackTrace();
             }
         }
 

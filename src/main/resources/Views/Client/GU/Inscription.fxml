@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -12,67 +11,79 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.DatePicker?>
-<AnchorPane prefHeight="651.0" prefWidth="994.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.inscription">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.inscription">
     <children>
-        <Pane layoutX="616.0" prefHeight="642.0" prefWidth="464.0" style="-fx-background-color: #d7e3f5;">
+        <Pane layoutX="543.0" prefHeight="700.0" prefWidth="543.0" style="-fx-background-color: white;">
             <children>
-
-                <TextField fx:id="prenomid" layoutX="680.0" layoutY="200.0" promptText="Nom d'utilisateur" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-                </TextField>
-
-                <TextField fx:id="mailid" layoutX="680.0" layoutY="260.0" promptText="Adresse e-mail" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-                </TextField>
-
-                <PasswordField fx:id="passeid" layoutX="680.0" layoutY="320.0" promptText="Mot de passe" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-                </PasswordField>
-                <CheckBox fx:id="showid" layoutX="332.0" layoutY="365.0">
-                    <graphic>
-                        <ImageView fitHeight="26.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@/Images/eye.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </CheckBox>
-                <TextField fx:id="telid" layoutX="680.0" layoutY="380.0" promptText="Numéro de téléphone" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-                </TextField>
-                <DatePicker fx:id="dateid" layoutX="680.0" layoutY="440.0" promptText="Date de naissance" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
-                    <cursor>
-                        <Cursor fx:constant="HAND" />
-                    </cursor>
-                </DatePicker>
-
-
-
-                <!-- Bouton d'inscription -->
-                <Button fx:id="validerid" layoutX="76.0" layoutY="419.0"
-                        mnemonicParsing="false" prefHeight="40.0" prefWidth="312.0"
-                        styleClass="dashboard-button" text="S'inscrire" onAction="#handleInscription" style="-fx-background-color: #1464db;" textFill="WHITE"/>
+                <Button fx:id="validerid" layoutX="76.0" layoutY="508.0" mnemonicParsing="false" onAction="#handleInscription" prefHeight="40.0" prefWidth="312.0" style="-fx-background-color: #1464db;" styleClass="dashboard-button" text="S'inscrire" textFill="WHITE">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font></Button>
+            <TextField fx:id="prenomid" layoutX="76.0" layoutY="125.0" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </TextField>
+            <TextField fx:id="mailid" layoutX="76.0" layoutY="205.0" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </TextField>
+            <PasswordField fx:id="passeid" layoutX="76.0" layoutY="290.0" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </PasswordField>
+            <TextField fx:id="telid" layoutX="76.0" layoutY="368.0" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </TextField>
+            <DatePicker fx:id="dateid" layoutX="76.0" layoutY="447.0" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </DatePicker>
+            <Text fill="#1464db" layoutX="151.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Inscription">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Text>
+            <Label layoutX="76.0" layoutY="95.0" text="Nom D utilisateur" textFill="#1464db">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="76.0" layoutY="175.0" text="Adresse Email" textFill="#1464db">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="76.0" layoutY="258.0" prefHeight="20.0" prefWidth="91.0" text="Mot De Passe" textFill="#1464db">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="76.0" layoutY="342.0" text="Numero Telephone" textFill="#1464db">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="76.0" layoutY="418.0" text="Date De Naissance " textFill="#1464db">
+               <font>
+                  <Font name="Cambria" size="15.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
-
-        <ImageView fitHeight="651.0" fitWidth="506.0" layoutX="110.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@/Images/image1.jpeg" />
-            </image>
-        </ImageView>
+      <ImageView fitHeight="580.0" fitWidth="614.0" layoutX="-41.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/EVENTUS-removebg-preview.png" />
+         </image>
+      </ImageView>
     </children>
     <effect>
         <Blend />

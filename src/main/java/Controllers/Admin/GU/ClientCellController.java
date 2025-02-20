@@ -40,6 +40,8 @@ public class ClientCellController {
 
     @FXML
     private Button deleteButton;
+    @FXML
+    private Button activebutton;
 
     private ServiceUser userService; // Add ServiceUser field
     private User currentUser; // Store the current user for this cell
@@ -65,7 +67,6 @@ public class ClientCellController {
         isActiveLabel.setText(user.getIsActive());
         numTelLabel.setText(String.valueOf(user.getNumTel()));
         dateNaissanceLabel.setText(String.valueOf(user.getDateDeNaissance()));
-        // ... set other data (image, etc.)
     }
 
 

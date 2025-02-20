@@ -2,6 +2,7 @@ package Controllers;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -12,16 +13,25 @@ public class HelloApplication extends Application {
         launch(args);
     }
     @Override
-    public void start(Stage stage){
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Views/Admin/GU/Home.fxml"));
-        Scene scene = null;
+    public void start(Stage stage) {
         try {
-            scene = new Scene(fxmlLoader.load(), 982, 610);
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Views/Login.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Scene scene = new Scene(root, 1086, 700);
+
+            stage.setTitle("TEST!");
+            stage.setScene(scene);
+
+            // ✅ Center the window on the screen
+            stage.centerOnScreen();
+
+            // ✅ Prevent resizing if necessary
+            stage.setResizable(false);
+
+            stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
     }
 }
