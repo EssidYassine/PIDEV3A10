@@ -2,9 +2,11 @@ package Controllers.Admin.GS;
 
 import Models.Service;
 import Services.ServiceService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -77,7 +79,7 @@ public class GetServiceController implements Initializable {
 
     private VBox creerServiceBox(Service service) {
         VBox serviceBox = new VBox(10);
-        serviceBox.setStyle("-fx-background-color: white; -fx-padding: 10px; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-alignment: center;");
+        serviceBox.setStyle("-fx-background-color: white; -fx-padding: 10px; -fx-border-radius: 10; -fx-border-color: #1f2c50; -fx-alignment: center;");
         serviceBox.setPrefWidth(200);
 
         // Image du service
@@ -154,4 +156,20 @@ public class GetServiceController implements Initializable {
         }
     }
 
+    public void revenirFenetreGestion1(ActionEvent actionEvent) {
+        try {
+            // Charger l'interface Service.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/GestionnaireS.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("gestionnaire");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de GestionnaireS.fxml !");
+        }
+    }
 }

@@ -2,9 +2,10 @@ package Controllers.Admin.GS;
 
 import Models.Service;
 import Services.ServiceService;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,9 +17,13 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+
+import javafx.event.ActionEvent;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.EventObject;
 
 public class ServiceController {
 
@@ -140,6 +145,23 @@ public class ServiceController {
             showErrorAlert("Erreur", "Impossible de charger la page des services.");
         }
     }
+    public void revenirFenetreGestion(ActionEvent actionEvent) {
+
+        try {
+            // Charger l'interface Service.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/GestionnaireS.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("gestionnaire");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de GestionnaireS.fxml !");
+        }
+    }
 
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -148,4 +170,7 @@ public class ServiceController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-}
+
+
+    }
+

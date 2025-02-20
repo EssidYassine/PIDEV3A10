@@ -64,4 +64,22 @@ public class GestionnaireS {
             System.err.println("Erreur de chargement de Service.fxml !");
         }
     }
+
+    public void revenirFenetreHome(ActionEvent actionEvent) {
+        try {
+            // Charger l'interface Service.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/Home.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("gestionnaire");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de GestionnaireS.fxml !");
+        }
+
+    }
 }
