@@ -110,4 +110,33 @@ public class LocauxService implements IService<Locaux> {
         }
         return null;
     }
+    public List<Locaux> getAllSorted(String sortOrder) throws SQLException {
+        String query;
+        if ("Tarifs: Ascending".equals(sortOrder)) {
+            query = "SELECT * FROM locaux ORDER BY tarifs ASC";  // Ascending order
+        } else if ("Tarifs: Descending".equals(sortOrder)) {
+            query = "SELECT * FROM locaux ORDER BY tarifs DESC"; // Descending order
+        } else {
+            query = "SELECT * FROM locaux"; // Default: No sorting
+        }
+
+        List<Locaux> locauxList = new ArrayList<>();
+
+        try (Connection connection = DataBaseConnection.getConnection();  // Use your own database connection
+             PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Locaux local = new Locaux();
+
+                local.setAdresse(rs.getString("adresse"));
+                local.setCapacite(rs.getInt("capacite"));
+                local.setTarifs(rs.getBigDecimal("tarifs"));
+                // Add more fields as needed
+                locauxList.add(local);
+            }
+        }
+
+        return locauxList;
+    }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.Admin.GL.CrudModify"
+            prefHeight="450.0" prefWidth="650.0">
+    <children>
+        <GridPane layoutX="50.0" layoutY="30.0" hgap="15" vgap="15">
+
+            <Label text="Adresse:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="TFAdresse" promptText="Entrez l'adresse" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Capacité:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="TFCapacite" promptText="Ex: 50" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Type:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="CBType" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Équipements:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="CBEquipements" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Tarifs (DT):" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="TFTarifs" promptText="Ex: 100.50" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="Image actuelle:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <ImageView fx:id="imageViewLocal" fitWidth="200" fitHeight="150" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+            <Button text="Choisir une image" fx:id="btnChoisirImage" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+            <Button text="Enregistrer" fx:id="btnSave" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+            <Button text="Annuler" fx:id="btnCancel" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+        </GridPane>
+    </children>
+</AnchorPane>

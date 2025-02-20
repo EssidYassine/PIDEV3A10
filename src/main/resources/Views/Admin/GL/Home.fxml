@@ -61,7 +61,7 @@
                             </graphic>
                         </Button>
 
-                        <Button fx:id="btnClasses" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button" text="Gestion Locaux" GridPane.rowIndex="1" onAction="#ajouterLocal">
+                        <Button fx:id="btnClasses" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button" text="Gestion Locaux" GridPane.rowIndex="1" onAction="#gererLocaux">
                             <graphic>
                                 <ImageView fitHeight="40.0" fitWidth="40.0">
                                     <image>

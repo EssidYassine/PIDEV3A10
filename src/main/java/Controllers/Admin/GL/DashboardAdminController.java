@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class DashboardAdminController {
 
@@ -23,7 +24,9 @@ public class DashboardAdminController {
     @FXML
     public void initialize() {
         // Ajout d'un événement pour le bouton "Gestion locaux "
-        btn_Timetable.setOnAction(event -> ajouterLocal(event));
+        //btn_Timetable.setOnAction(event -> ajouterLocal(event));
+        btn_Timetable.setOnAction(event -> gererLocaux(event));
+
     }
 
 
@@ -35,6 +38,8 @@ public class DashboardAdminController {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("affichage des locaux ");
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,6 +57,21 @@ public class DashboardAdminController {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Erreur de chargement de AddLocal.fxml !");
+        }
+    }
+    @FXML
+    private void gererLocaux(ActionEvent event)
+    {
+        try{
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Admin/GL/CrudLocaux.fxml")));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Welcome to dashboard ");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de CrudLocaux.fxml !");
         }
     }
 }
