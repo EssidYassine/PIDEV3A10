@@ -1,4 +1,5 @@
 package Controllers;
+
 import Models.Session;
 import javafx.scene.Node;
 import Models.User;
@@ -11,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -26,8 +28,6 @@ public class LoginController {
     @FXML
     private Button inscrireid;
     @FXML
-    private CheckBox showid;
-    @FXML
     private Label errorLabel;
     @FXML
     private Label errorEmailLabel;
@@ -36,14 +36,13 @@ public class LoginController {
 
     private DataBaseConnection dbConnection;
     private ServiceUser userService;
+    private boolean isPasswordVisible = false; // Champ pour suivre l'état de visibilité du mot de passe
 
     public void initialize() {
-        showid.setOnAction(e -> handleShowPassword());
         dbConnection = DataBaseConnection.getDatabaseConnection();
         userService = new ServiceUser();
         inscrireid.setOnAction(this::handleInscription);
 
-        // Ajout des Listeners pour la validation en temps réel
         mailid.textProperty().addListener((observable, oldValue, newValue) -> validateEmail());
         passeid.textProperty().addListener((observable, oldValue, newValue) -> validatePassword());
     }
@@ -65,28 +64,28 @@ public class LoginController {
 
     private void validatePassword() {
         String password = passeid.getText();
-
         if (password.isEmpty()) {
             errorPasswordLabel.setText("Le mot de passe ne peut pas être vide.");
         } else if (password.length() < 8) {
             errorPasswordLabel.setText("Le mot de passe doit contenir au moins 8 caractères.");
         } else {
-            errorPasswordLabel.setText(""); // Efface l'erreur si valide
+            errorPasswordLabel.setText("");
         }
     }
-
 
     @FXML
     private void seConnecter(ActionEvent event) {
         validateEmail();
         validatePassword();
 
+        // Vérification des erreurs de validation
         if (!errorEmailLabel.getText().isEmpty() || !errorPasswordLabel.getText().isEmpty()) {
             showAlert("Erreur", "Corrigez les erreurs avant de vous connecter.");
-            errorPasswordLabel.setText("");
-            errorEmailLabel.setText("");
+            // Vider les champs et les labels en cas d'erreur
             mailid.clear();
             passeid.clear();
+            errorEmailLabel.setText("");
+            errorPasswordLabel.setText("");
             return;
         }
 
@@ -98,9 +97,8 @@ public class LoginController {
         User user = userService.findUserByEmailAndPassword2(email, motDePasse);
 
         if (user != null) {
-
+            user.setPassword(motDePasse);
             Session.setUser(user);
-
             Session.afficherSession();
 
             System.out.println("Login effectué en tant que " + user.getRole());
@@ -115,21 +113,18 @@ public class LoginController {
                     currentStage.show();
                 } else {
                     showAlert("Erreur", "Rôle non reconnu.");
-                    errorPasswordLabel.setText("");
-                    errorEmailLabel.setText("");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
                 showAlert("Erreur", "Erreur lors du chargement de la vue.");
-                errorPasswordLabel.setText("");
-                errorEmailLabel.setText("");
             }
         } else {
+            // Connexion échouée → afficher une alerte et vider les labels/champs
             showAlert("Erreur", "Email ou mot de passe invalide.");
-            errorPasswordLabel.setText("");
-            errorEmailLabel.setText("");
-            mailid.clear();
-            passeid.clear();
+            mailid.clear(); // Vider le champ email
+            passeid.clear(); // Vider le champ mot de passe
+            errorEmailLabel.setText(""); // Vider le label d'erreur d'email
+            errorPasswordLabel.setText(""); // Vider le label d'erreur de mot de passe
         }
     }
 
@@ -146,9 +141,9 @@ public class LoginController {
             case "admin":
                 return "/Views/Admin/GU/Home.fxml";
             case "user":
-                return "/AccueilUser.fxml";
+                return "/Views/Client/GU/Home1.fxml";
             default:
-                return null; // Or handle the default case appropriately
+                return null;
         }
     }
 
@@ -161,16 +156,6 @@ public class LoginController {
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-    }
-
-    private void handleShowPassword() {
-        if (showid.isSelected()) {
-            passeid.setPromptText(passeid.getText());
-            passeid.setText("");
-        } else {
-            passeid.setText(passeid.getPromptText());
-            passeid.setPromptText("");
         }
     }
 }

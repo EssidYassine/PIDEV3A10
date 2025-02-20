@@ -61,18 +61,14 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="btn_Timetable1" contentDisplay="TOP" layoutX="501.0" layoutY="594.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="48.0" style="-fx-background-color: ED4E00;" styleClass="rounded-button" textAlignment="CENTER">
-         <graphic>
-            <ImageView fitHeight="55.0" fitWidth="62.0" styleClass="rounded-button">
-               <image>
-                  <Image url="@/Images/icons8-sortie-26.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
       <ImageView fitHeight="281.0" fitWidth="250.0" layoutX="418.0" layoutY="-45.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../Images/EVENTUS-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="logoutbtn" fitHeight="77.0" fitWidth="88.0" layoutX="505.0" layoutY="595.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/se-deconnecter.png" />
          </image>
       </ImageView>
     </children>

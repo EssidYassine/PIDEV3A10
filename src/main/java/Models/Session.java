@@ -11,11 +11,16 @@ public class Session {
     public static void setUser(User user) {
         if (instance == null) {
             instance = new Session(user);
+        } else {
+            instance.user = user;
         }
     }
 
     public static User getUser() {
         return instance != null ? instance.user : null;
+    }
+    public void setPwdUser(String pwd){
+        user.setPassword(pwd);
     }
 
     public static void clear() {
@@ -27,6 +32,7 @@ public class Session {
             System.out.println("Utilisateur connecté : ");
             System.out.println("ID : " + user.getId());
             System.out.println("Nom d'utilisateur : " + user.getUsername());
+            System.out.println("mot de passe : " + user.getPassword());
             System.out.println("Email : " + user.getEmail());
             System.out.println("Rôle : " + user.getRole());
             System.out.println("Statut : " + user.getIsActive());

@@ -1,6 +1,8 @@
 package Models;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.sql.Date;
 
 public class User {
 
@@ -110,4 +112,6 @@ public class User {
                 "', isActive='" + isActive + "', numTel='" + numTel +
                 "', dateDeNaissance=" + dateDeNaissance + "}";
     }
+
+
 }

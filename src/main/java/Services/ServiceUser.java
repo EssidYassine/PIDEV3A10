@@ -7,7 +7,7 @@ import javafx.application.Platform;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -112,11 +112,7 @@ public class ServiceUser implements IService<User> {
             System.out.println("Erreur lors de l'ajout de l'utilisateur : " + e.getMessage());
         }
     }
-
-    @Override
-    public void modifier(User p) {
-
-    }
+//////////////////////////////////////////////
 
     public void supprimer(int id) {
         String sql = "DELETE FROM user WHERE id = ?"; // Requête SQL pour la suppression
@@ -135,10 +131,69 @@ public class ServiceUser implements IService<User> {
             System.out.println("Erreur lors de la suppression de l'utilisateur : " + e.getMessage());
         }
     }
+
+    /////////////////////////////
     @Override
     public User getOneById(int id) {
         return null;
     }
+
+    /////////////////////////////
+    @Override
+    public void modifier(User p) {
+        String sql = "UPDATE user SET username = ?, email = ?, password = ?, role = ?, is_active = ?, num_tel = ?, date_de_naissance = ? WHERE id = ?";
+
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
+            pstmt.setString(1, p.getUsername());
+            pstmt.setString(2, p.getEmail());
+            pstmt.setString(3, p.getPassword());
+            pstmt.setString(4, p.getRole());
+            pstmt.setString(5, p.getIsActive());
+
+            // Gestion du numéro de téléphone
+            if (p.getNumTel() != 0) {
+                pstmt.setInt(6, p.getNumTel());
+            } else {
+                pstmt.setNull(6, java.sql.Types.INTEGER);
+            }
+
+            // Gestion de la date de naissance
+            if (p.getDateDeNaissance() != null) {
+                pstmt.setDate(7, new java.sql.Date(p.getDateDeNaissance().getTime())); // Conversion correcte
+            } else {
+                pstmt.setNull(7, java.sql.Types.DATE);
+            }
+
+            pstmt.setInt(8, p.getId()); // Paramètre pour l'ID
+
+            int rowsAffected = pstmt.executeUpdate(); // Exécution de la mise à jour
+
+            if (rowsAffected > 0) {
+                System.out.println("Utilisateur modifié avec succès !");
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec cet ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la modification de l'utilisateur : " + e.getMessage());
+        }
+    }
+
+
+    public boolean emailExists(String email) {
+        String sql = "SELECT COUNT(*) FROM user WHERE email = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
+            pstmt.setString(1, email);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // Retourne true si le compte existe
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la vérification de l'email : " + e.getMessage());
+        }
+        return false; // Retourne false si l'email n'existe pas
+    }
+
 
     @Override
     public Set<User> getAll() {
@@ -166,6 +221,5 @@ public class ServiceUser implements IService<User> {
         }
         return users;
     }
-
 
 }

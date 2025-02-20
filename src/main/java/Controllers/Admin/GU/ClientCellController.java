@@ -43,17 +43,16 @@ public class ClientCellController {
     @FXML
     private Button activebutton;
 
-    private ServiceUser userService; // Add ServiceUser field
-    private User currentUser; // Store the current user for this cell
+    private ServiceUser userService;
+    private User currentUser;
 
     public void initialize() {
-        userService = new ServiceUser(); // Initialize the ServiceUser
+        userService = new ServiceUser();
 
         deleteButton.setOnAction(event -> {
-            if (currentUser != null) {  // Check if user data is set
+            if (currentUser != null) {
                 supprimerUtilisateur(currentUser.getId());
             } else {
-                // Handle the case where user data is not set (e.g., log a warning)
                 System.out.println("No user data available for deletion.");
             }
         });
@@ -71,6 +70,7 @@ public class ClientCellController {
 
 
     private void supprimerUtilisateur(int id) {
+        System.out.println("voila l id "+id);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation de suppression");
         alert.setHeaderText("Êtes-vous sûr de vouloir supprimer cet utilisateur ?");
@@ -80,15 +80,11 @@ public class ClientCellController {
             try {
                 userService.supprimer(id);
 
-                // *** RECHARGEMENT DE LA PAGE ***
-                // 1. Récupérer la scène et la fenêtre
                 Stage stage = (Stage) deleteButton.getScene().getWindow();
 
-                // 2. Créer un nouvel FXMLLoader pour la même page
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GU/ListUsers.fxml")); // Chemin vers votre fichier FXML
                 Parent root = loader.load();
 
-                // 3. Définir la nouvelle scène sur la fenêtre
                 stage.setScene(new Scene(root));
                 stage.show();
 
@@ -98,7 +94,6 @@ public class ClientCellController {
         }
     }
 
-    // Callback interface for user deletion
     public interface OnUserDeleted {
         void onUserDeleted();
     }

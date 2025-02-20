@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.Home1">
+
+    <children>
+        <!-- Navigation Bar -->
+        <HBox layoutX="297.0" layoutY="23.0" prefHeight="60.0" prefWidth="603.0" spacing="30" style="-fx-alignment: center;">
+            <children>
+
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="PACK" />
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="SERVICE" />
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="lIEUX" />
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="ACTUALITE" />
+            </children>
+        </HBox>
+
+        <!-- Illustration Image -->
+        <ImageView fitHeight="537.0" fitWidth="665.0" layoutX="419.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../Images/event1.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="311.0" fitWidth="283.0" layoutX="82.0" layoutY="-85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../Images/EVENTUS-removebg-preview.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="userIcon" fitHeight="58.0" fitWidth="63.0" layoutX="986.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../Images/backflech-removebg-preview.png" />
+            </image>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+        </ImageView>
+
+          <Label layoutX="27.0" layoutY="264.0" prefHeight="114.0" prefWidth="526.0" style="-fx-font-size: 16px; -fx-text-fill: #666;" text="Eventus – La plateforme qui simplifie l'organisation d'événements.Réservez, proposez des services, et découvrez les lieux parfaits pour vos événements. Actualités, interactions, et intelligence artificielle pour une expérience unique et personnalisée." wrapText="true" />
+
+          <Button layoutX="27.0" layoutY="408.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10;" text="A propos de nous ➜" />
+          <Label layoutX="27.0" layoutY="186.0" prefHeight="78.0" prefWidth="453.0" style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Bienvenue a Eventus" />
+      <ImageView fitHeight="37.0" fitWidth="39.0" layoutX="99.0" layoutY="478.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/WhatsApp_Image_2025-02-20_à_19.19.39_a6363b59-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="46.0" fitWidth="74.0" layoutX="14.0" layoutY="471.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/7252a7a2b8fa3ab9bd2294b0edfe96ba-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="78.0" fitWidth="74.0" layoutX="145.0" layoutY="460.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/fb2-removebg-preview.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>

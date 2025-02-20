@@ -9,16 +9,22 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GU.ListUsers">
     <children>
-        <Pane layoutX="-1.0" prefHeight="700.0" prefWidth="199.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 30 0 30;">
+        <Pane layoutX="-1.0" prefHeight="700.0" prefWidth="199.0" style="-fx-background-color: ED4E00; -fx-background-radius: 30 30 30 30;">
             <children>
-                <ImageView fitHeight="211.0" fitWidth="172.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="235.0" fitWidth="168.0" layoutX="16.0" layoutY="518.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../Images/user-interface.png" />
                     </image>
                 </ImageView>
+
+            <ImageView fx:id="backflech" fitHeight="82.0" fitWidth="83.0" layoutX="59.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/back-removebg-preview.png" />
+               </image>
+            </ImageView>
             </children>
         </Pane>
-        <ScrollPane fx:id="scroll" layoutX="205.0" layoutY="228.0" prefHeight="468.0" prefWidth="878.0">
+        <ScrollPane fx:id="scroll" layoutX="198.0" layoutY="14.0" prefHeight="318.0" prefWidth="878.0" style="-fx-border-color: transpaarent;">
             <content><VBox fx:id="container" spacing="10" />  </content>
         </ScrollPane>
     </children>

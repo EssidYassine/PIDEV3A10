@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.UserDetails">
+   <children>
+      <ImageView fitHeight="235.0" fitWidth="168.0" layoutX="460.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/backflech-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Pane layoutX="114.0" layoutY="207.0" prefHeight="467.0" prefWidth="852.0" style=" -fx-border-color: #ED4E00; -fx-border-width: 10; -fx-border-radius: 30 30 30 30;">
+         <children>
+            <Label layoutX="37.0" layoutY="63.0" prefHeight="31.0" prefWidth="228.0" text="Username         :">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="139.0" prefHeight="31.0" prefWidth="175.0" text="Adresse Email  :">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="218.0" prefHeight="31.0" prefWidth="192.0" text="Etat de compte  :">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="295.0" prefHeight="31.0" prefWidth="192.0" text="Numero De Tel  :">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="372.0" prefHeight="31.0" prefWidth="228.0" text="Date De Naissance  :">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="usernameLabel" layoutX="265.0" layoutY="63.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="emailLabel" layoutX="265.0" layoutY="139.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="etatCompteLabel" layoutX="265.0" layoutY="218.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="numeroTelLabel" layoutX="265.0" layoutY="295.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateNaissanceLabel" layoutX="312.0" layoutY="372.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+               <font>
+                  <Font name="Calibri" size="26.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="editpage" fitHeight="87.0" fitWidth="84.0" layoutX="744.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/paper.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </Pane>
+      <ImageView fx:id="backflech" fitHeight="82.0" fitWidth="83.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/back-removebg-preview.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="logout" fitHeight="80.0" fitWidth="62.0" layoutX="1000.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/se-deconnecter.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </ImageView>
+   </children>
+</AnchorPane>

@@ -16,7 +16,7 @@
     -fx-background-color: #ffffff;
     -fx-border-color: #2d75e8;
     -fx-border-width: 2px;
-    -fx-font-size: 16px;
+    -fx-font-size: 24px;
     -fx-text-fill: #2d75e8;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 1);
     -fx-background-radius: 10;

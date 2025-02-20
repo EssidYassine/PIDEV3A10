@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,15 +13,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.inscription">
-    <children>
-        <Pane layoutX="543.0" prefHeight="700.0" prefWidth="543.0" style="-fx-background-color: white;">
-            <children>
-                <Button fx:id="validerid" layoutX="76.0" layoutY="559.0" mnemonicParsing="false" onAction="#handleInscription" prefHeight="40.0" prefWidth="312.0" style="-fx-background-color: #1464db;" styleClass="dashboard-button" text="S'inscrire" textFill="WHITE">
+<AnchorPane prefHeight="700.0" prefWidth="1086.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.EditProfile">
+   <children>
+      <Pane layoutX="562.0" layoutY="10.0" prefHeight="700.0" prefWidth="534.0" style="-fx-background-color: white;">
+         <children>
+            <Button fx:id="validerid" layoutX="76.0" layoutY="527.0" mnemonicParsing="false" onAction="#handleEditUser" prefHeight="40.0" prefWidth="312.0" style="-fx-background-color: #ED4E00;" styleClass="dashboard-button" text="Modifier" textFill="WHITE">
                <font>
-                  <Font name="Cambria" size="15.0" />
+                  <Font name="Cambria" size="24.0" />
                </font>
-                </Button>
+            </Button>
             <TextField fx:id="prenomid" layoutX="76.0" layoutY="135.0" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -48,32 +47,32 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </DatePicker>
-            <Text fill="#1464db" layoutX="151.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Inscription">
+            <Text fill="#ed4e00" layoutX="111.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Modifier Profile">
                <font>
-                  <Font size="32.0" />
+                  <Font name="Calibri" size="32.0" />
                </font>
             </Text>
-            <Label layoutX="75.0" layoutY="115.0" text="Nom D utilisateur" textFill="#1464db">
+            <Label layoutX="75.0" layoutY="115.0" text="Nom D utilisateur" textFill="#ed4e00">
                <font>
                   <Font name="Cambria" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="75.0" layoutY="197.0" text="Adresse Email" textFill="#1464db">
+            <Label layoutX="75.0" layoutY="197.0" text="Adresse Email" textFill="#ed4e00">
                <font>
                   <Font name="Cambria" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="76.0" layoutY="276.0" prefHeight="20.0" prefWidth="91.0" text="Mot De Passe" textFill="#1464db">
+            <Label layoutX="76.0" layoutY="276.0" prefHeight="20.0" prefWidth="91.0" text="Mot De Passe" textFill="#ed4e00">
                <font>
                   <Font name="Cambria" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="76.0" layoutY="359.0" text="Numero Telephone" textFill="#1464db">
+            <Label layoutX="76.0" layoutY="359.0" text="Numero Telephone" textFill="#ed4e00">
                <font>
                   <Font name="Cambria" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="77.0" layoutY="446.0" text="Date De Naissance " textFill="#1464db">
+            <Label layoutX="77.0" layoutY="446.0" text="Date De Naissance " textFill="#ed4e00">
                <font>
                   <Font name="Cambria" size="15.0" />
                </font>
@@ -83,15 +82,20 @@
             <Label fx:id="ermotdepasse" layoutX="77.0" layoutY="333.0" />
             <Label fx:id="ertel" layoutX="77.0" layoutY="416.0" />
             <Label fx:id="erdate" layoutX="77.0" layoutY="503.0" />
-            </children>
-        </Pane>
-      <ImageView fitHeight="580.0" fitWidth="614.0" layoutX="-41.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+         </children>
+      </Pane>
+      <ImageView fitHeight="379.0" fitWidth="386.0" layoutX="93.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../Images/EVENTUS-removebg-preview.png" />
+            <Image url="@../../../Images/paper.png" />
          </image>
       </ImageView>
-    </children>
-    <effect>
-        <Blend />
-    </effect>
+      <ImageView  fx:id="backflech" fitHeight="82.0" fitWidth="83.0" layoutX="24.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/back-removebg-preview.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </ImageView>
+   </children>
 </AnchorPane>
