@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.Admin.GS.CrudModifier"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <GridPane layoutX="50.0" layoutY="50.0" hgap="10" vgap="10">
+
+            <!-- Nom du Service -->
+            <Label text="Nom du Service:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <!-- Description -->
+            <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="descriptionField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <!-- Prix -->
+            <Label text="Prix (DT):" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="prixField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <!-- Image Actuelle -->
+            <Label text="Image Actuelle:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <ImageView fx:id="serviceImage" fitWidth="150" fitHeight="100" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <!-- Bouton pour changer d'image -->
+            <Button text="Changer l'image" fx:id="changeImageButton" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <!-- Boutons d'actions -->
+            <Button text="Enregistrer" fx:id="saveButton" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <Button text="Annuler" fx:id="cancelButton" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        </GridPane>
+    </children>
+</AnchorPane>
