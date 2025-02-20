@@ -25,7 +25,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class GetServiceController implements Initializable {
+public class ModifierS implements Initializable {
 
     @FXML
     private GridPane gridPane;
@@ -100,28 +100,52 @@ public class GetServiceController implements Initializable {
         Label prixLabel = new Label(service.getPrix() + "DT");
         prixLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
 
-        Button detailButton = new Button("Détail");
+        Button detailButton = new Button("modifier");
         detailButton.setStyle("-fx-background-color: #ed4e00; -fx-text-fill: white; -fx-padding: 5px 10px; -fx-border-radius: 5;");
-        detailButton.setOnAction(event -> afficherDetailsService(service));
+        detailButton.setOnAction(event -> afficherModifier(service));
 
+        // Icône de suppression
+        ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/pngtree-vector-trash-icon-png-image_865253.jpg")));
+        deleteIcon.setFitWidth(20);
+        deleteIcon.setFitHeight(20);
+        deleteIcon.setOnMouseClicked(event -> supprimerService(service));
 
+        HBox deleteBox = new HBox(deleteIcon);
+        deleteBox.setStyle("-fx-alignment: center-right;");
 
-
-
-        serviceBox.getChildren().addAll(serviceImage, nomLabel, prixLabel, detailButton);
+        serviceBox.getChildren().addAll(serviceImage, nomLabel, prixLabel, detailButton, deleteBox);
         return serviceBox;
     }
 
+    private void supprimerService(Service service) {
+        try {
+            serviceService.delete(service);
+            afficherServices();
 
-    private void afficherDetailsService(Service service) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Suppression");
+            alert.setHeaderText(null);
+            alert.setContentText("Service supprimé avec succès !");
+            alert.showAndWait();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Impossible de supprimer le service !");
+            alert.showAndWait();
+        }
+    }
+    private void afficherModifier(Service service) {
         try {
             // Charger le FXML des détails
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/ServiceDetails.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/CrudModifier.fxml"));
             Parent detailsPane = loader.load();
 
             // Récupérer le contrôleur et envoyer les données
-            ServiceDetailsController controller = loader.getController();
-            controller.setDetails(service.getNom_service(), service.getDescription(), service.getImage_url());
+            CrudModifier controller = loader.getController();
+            controller.setService(service);
 
             // Remplacer le contenu du GridPane
             gridPane.getChildren().clear();
@@ -132,7 +156,8 @@ public class GetServiceController implements Initializable {
         }
     }
 
-    public void revenirFenetreGestion1(ActionEvent actionEvent) {
+
+    public void revenirFenetreGestion2(ActionEvent actionEvent) {
         try {
             // Charger l'interface Service.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/GestionnaireS.fxml"));

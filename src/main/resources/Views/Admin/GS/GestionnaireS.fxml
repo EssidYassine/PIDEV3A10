@@ -20,7 +20,7 @@
                 <Button layoutX="34.0" layoutY="207.0" mnemonicParsing="false"
                         prefHeight="35.0" prefWidth="132.0" text="Ajouter"
                         onAction="#afficherService" />
-            <Button layoutX="34.0" layoutY="272.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Modifier" />
+            <Button layoutX="34.0" layoutY="272.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Modifier" onAction="#consultermodifier"/>
             <Button layoutX="34.0" layoutY="337.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Consulter" onAction="#consulterService" />
             <Button layoutX="52.0" layoutY="442.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" text="paramétre" />
             <Button layoutX="12.0" layoutY="36.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="45.0" onAction="#revenirFenetreHome">

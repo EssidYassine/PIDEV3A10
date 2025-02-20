@@ -99,18 +99,56 @@ public class ServiceController {
     private void ajouterService(ActionEvent event) {
         try {
             // Récupération des valeurs des champs
-            String nomService = nomServiceField.getText();
-            String description = descriptionField.getText();
-            int prix = Integer.parseInt(prixField.getText());
+            String nomService = nomServiceField.getText().trim();
+            String description = descriptionField.getText().trim();
+            String prixText = prixField.getText().trim();
             Service.TypeService typeService = typeServiceCombo.getValue();
-            int quantiteMateriel = Integer.parseInt(quantiteMaterielField.getText());
-            String roleStaff = roleStaffField.getText();
-            String experience = experienceField.getText();
+            String quantiteMaterielText = quantiteMaterielField.getText().trim();
+            String roleStaff = roleStaffField.getText().trim();
+            String experience = experienceField.getText().trim();
             int idUtilisateur = 1; // Remplace par l'ID réel de l'utilisateur connecté
 
             // Validation des entrées
             if (nomService.isEmpty() || description.isEmpty() || roleStaff.isEmpty() || experience.isEmpty() || typeService == null) {
                 showErrorAlert("Champs obligatoires", "Veuillez remplir tous les champs requis.");
+                return;
+            }
+
+            // Vérification du nom du service (Pas de caractères spéciaux)
+            if (!nomService.matches("[a-zA-Z0-9 ]+")) {
+                showErrorAlert("Nom invalide", "Le nom du service ne doit pas contenir de caractères spéciaux.");
+                return;
+            }
+
+            // Vérification de la longueur de la description
+            if (description.length() < 10) {
+                showErrorAlert("Description trop courte", "La description doit contenir au moins 10 caractères.");
+                return;
+            }
+
+            // Vérification du prix (Nombre positif)
+            int prix;
+            try {
+                prix = Integer.parseInt(prixText);
+                if (prix <= 0) {
+                    showErrorAlert("Prix invalide", "Le prix doit être un nombre positif.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showErrorAlert("Prix invalide", "Veuillez entrer un nombre valide pour le prix.");
+                return;
+            }
+
+            // Vérification de la quantité de matériel (Nombre entier positif)
+            int quantiteMateriel;
+            try {
+                quantiteMateriel = Integer.parseInt(quantiteMaterielText);
+                if (quantiteMateriel < 0) {
+                    showErrorAlert("Quantité invalide", "La quantité de matériel ne peut pas être négative.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showErrorAlert("Quantité invalide", "Veuillez entrer un nombre entier pour la quantité de matériel.");
                 return;
             }
 
@@ -135,8 +173,6 @@ public class ServiceController {
             stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (NumberFormatException e) {
-            showErrorAlert("Erreur de saisie", "Veuillez entrer des valeurs valides pour les champs numériques.");
         } catch (SQLException e) {
             e.printStackTrace();
             showErrorAlert("Erreur SQL", "Impossible d'ajouter le service : " + e.getMessage());

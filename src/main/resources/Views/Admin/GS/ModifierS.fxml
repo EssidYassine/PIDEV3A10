@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0"  stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.GetServiceController">
+<AnchorPane prefHeight="700.0" prefWidth="900.0"  stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.ModifierS">
 
     <children>
         <Label layoutX="350.0" layoutY="20.0" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Liste des Services" />
@@ -24,14 +24,14 @@
                 </columnConstraints>
             </GridPane>
         </ScrollPane>
-      <Button layoutX="20.0" layoutY="15.0" mnemonicParsing="false" onAction="#revenirFenetreGestion1" prefHeight="38.0" prefWidth="77.0">
-         <graphic>
-            <ImageView fitHeight="31.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
-             <image>
-                 <Image url="@../../../Images/retour1.png" />
-             </image>
-            </ImageView>
-         </graphic>
-      </Button>
+        <Button layoutX="20.0" layoutY="15.0" mnemonicParsing="false" onAction="#revenirFenetreGestion2" prefHeight="38.0" prefWidth="77.0">
+            <graphic>
+                <ImageView fitHeight="31.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Images/retour1.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
     </children>
 </AnchorPane>

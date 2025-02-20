@@ -82,4 +82,21 @@ public class GestionnaireS {
         }
 
     }
+
+    public void consultermodifier(ActionEvent actionEvent) {
+        try {
+            // Charger l'interface Service.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/ModifierS.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Ajouter un Service");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de Service.fxml !");
+        }
+    }
 }
