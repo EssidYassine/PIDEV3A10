@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="event.aura.Eventus.Controllers.SidebarController">
+    <left>
+        <VBox prefHeight="820.0" prefWidth="251.0" spacing="10.0" style="-fx-padding: 20px;" styleClass="header" stylesheets="@../css/Styles.css" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="113.0" fitWidth="107.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                <image>
+                    <Image url="@../Assets/LogoEventus-modified.png" />
+                </image>
+                <VBox.margin>
+                    <Insets bottom="5.0" left="33.0" />
+                </VBox.margin>
+            </ImageView>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="130.0" text="Welcome to Eventus" textFill="#fffdfd">
+                <VBox.margin>
+                    <Insets left="30.0" />
+                </VBox.margin>
+            </Label>
+            <Label fx:id="userStatusLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="129.0" textFill="WHITE">
+                <VBox.margin>
+                    <Insets bottom="20.0" left="30.0" />
+                </VBox.margin></Label>
+
+            <!-- Menu container to manage dynamic elements -->
+            <VBox fx:id="menuContainer" spacing="10.0">
+                <Label style="-fx-font-size: 18px; -fx-text-fill: white; -fx-cursor: hand;" text="Home" textFill="WHITE" />
+                <!-- Activity Section -->
+                <VBox spacing="5.0">
+                    <!-- Label cliquable pour ouvrir/fermer le menu Activity -->
+                    <Label fx:id="toggleActivityMenuLabel" onMouseClicked="#toggleActivityMenu" style="-fx-font-size: 18px; -fx-text-fill: white; -fx-cursor: hand;" text="Actuality">
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <font>
+                            <Font size="10.0" />
+                        </font>
+                    </Label>
+
+                    <!-- Conteneur des boutons Activity -->
+                    <VBox fx:id="activityMenu" managed="false" spacing="5.0" visible="false">
+                        <Button fx:id="getAllActivityButton" onAction="#navigateToGetAllActivity" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Available Activity">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Button>
+
+                        <Button fx:id="MyActivityButton" onAction="#navigateToMyActivity" style="-fx-background-color: transparent; -fx-text-fill: white;" text="My Actuality">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button fx:id="addActivityButton" onAction="#navigateToaddActuality" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Add Actuality">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </VBox>
+                </VBox>
+
+                <!-- Herbergement Section -->
+                <VBox spacing="5.0">
+                    <!-- Label cliquable pour ouvrir/fermer le menu Herbergement -->
+                    <Label fx:id="toggleHerbergementMenuLabel" onMouseClicked="#toggleHerbergementMenu" style="-fx-font-size: 18px; -fx-text-fill: white; -fx-cursor: hand;" text="Services">
+                        <font>
+                            <Font size="10.0" />
+                        </font>
+                    </Label>
+
+                    <!-- Conteneur des boutons Herbergement -->
+                    <VBox fx:id="herbergementMenu" managed="false" spacing="5.0" visible="false">
+                        <Button fx:id="viewHerbergementButton" onAction="#viewHerbergement" style="-fx-background-color: transparent; -fx-text-fill: white;" text="View Services">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Button>
+                        <Button fx:id="addHerbergementButton" onAction="#addHerbergement" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Add Services">
+                            <VBox.margin>
+                                <Insets left="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </VBox>
+                </VBox>
+            </VBox>
+
+            <VBox alignment="BOTTOM_LEFT" prefHeight="256.0" prefWidth="182.0" stylesheets="@../css/Styles.css" VBox.vgrow="ALWAYS">
+                <children>
+                    <!-- Button Logout ajouté à la fin -->
+                    <Button fx:id="logoutButton" alignment="BOTTOM_CENTER" contentDisplay="BOTTOM" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Logout">
+                        <VBox.margin>
+                            <Insets left="10.0" top="10.0" />
+                        </VBox.margin>
+                    </Button>
+                </children>
+            </VBox>
+        </VBox>
+    </left>
+</BorderPane>

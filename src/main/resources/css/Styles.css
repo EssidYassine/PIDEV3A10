@@ -1,0 +1,62 @@
+
+.header{
+    -fx-background-color:linear-gradient(to bottom right,#FF681F,#294487);
+}
+
+
+.nav form{
+    -fx-background-color: linear-gradient(to bottom right,#294487,#FFFFFF);
+}
+
+.button {
+    -fx-background-color: #294487; /* Blue */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-color: #294487;
+    -fx-border-width: 2px;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+    -fx-background-color: white; /* Turns White */
+    -fx-text-fill: #294487; /* Text turns Blue */
+    -fx-border-color: #294487; /* Border turns Blue */
+}
+
+.button:pressed {
+    -fx-background-color: #f0f0f0; /* Light Gray when clicked */
+    -fx-text-fill: #294487; /* Darker blue text */
+}
+.white-bg{
+    -fx-background-color: #fff;
+}
+.radius{
+    -fx-background-radius: 8px;
+}
+.my-element {
+    background-image: url("https://example.com/image.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.sidebar {
+    -fx-background-color:linear-gradient(to bottom right,#FF681F,#294487);
+    -fx-padding: 20;
+}
+
+.sidebar-button {
+    -fx-background-color: #3b3b98;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-pref-width: 180px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 5px;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #575fcf;
+}

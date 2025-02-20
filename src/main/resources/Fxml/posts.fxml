@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="707.0" prefWidth="829.0" styleClass="header"
+            stylesheets="@../../../../../../../Users/MARIEM/IdeaProjects/Eventus/src/main/resources/css/Styles.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="event.aura.Eventus.Controllers.PostController">
+
+    <fx:include source="Sidebar.fxml"
+                AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="970.0"
+                AnchorPane.topAnchor="0.0" />
+
+    <VBox spacing="10" layoutX="223.0" layoutY="1.0"
+          AnchorPane.bottomAnchor="-1.0"
+          AnchorPane.leftAnchor="223.0"
+          AnchorPane.rightAnchor="17.0"
+          AnchorPane.topAnchor="1.0">
+
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Actuality Page" />
+
+        <ListView fx:id="postListView" VBox.vgrow="ALWAYS" />
+    </VBox>
+</AnchorPane>
