@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="205.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.PackCellController">
+
+    <!-- Titre du pack -->
+    <Label alignment="TOP_CENTER" layoutX="34.0" layoutY="7.0" prefHeight="39.0" prefWidth="144.0" text="Pack" textOverrun="CENTER_ELLIPSIS">
+        <font>
+            <Font size="22.0" />
+        </font>
+    </Label>
+
+    <!-- Conteneur principal -->
+    <VBox layoutX="9.0" layoutY="47.0" prefHeight="387.0" prefWidth="187.0" style="-fx-background-color: #EF4E00; -fx-background-radius: 20; -fx-padding: 15; -fx-spacing: 10; -fx-alignment: CENTER;">
+        <!-- Informations du pack -->
+        <Label fx:id="NamePack" styleClass="pack-label" text="Nom Pack" />
+        <Label fx:id="DescPack" styleClass="pack-label" text="Description" />
+        <Label fx:id="TypePack" styleClass="pack-label" text="Type Pack" />
+        <Label fx:id="PrixPack" styleClass="pack-label" text="Prix" />
+        <Label fx:id="BudgetPack" styleClass="pack-label" text="Budget" />
+        <Label fx:id="NbrInvPack" styleClass="pack-label" text="Invités" />
+        <Label fx:id="datePack" styleClass="pack-label" text="Date Événement" />
+        <Label fx:id="LieuPack" styleClass="pack-label" text="Lieu" />
+        <Label fx:id="ServPack" styleClass="pack-label" text="Services" />
+        <Label fx:id="titleLabel" styleClass="pack-label" text="Status" />
+
+        <!-- Bouton de suppression avec l'ID corrigé -->
+        <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="34.0" onAction="#handleDeleteAction" style="-fx-background-color: ef4f00;">
+            <graphic>
+                <ImageView fitHeight="24.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Images/poubelle.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </VBox>
+
+</AnchorPane>

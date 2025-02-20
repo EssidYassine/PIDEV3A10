@@ -1,0 +1,62 @@
+/* 🌟 Style général de la carte */
+.pack-card {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 15;
+    -fx-border-color: #ddd;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 10, 0, 0, 5);
+}
+
+/* 🌄 Image du pack */
+.pack-image {
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+/* 🏆 Titre principal */
+.pack-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* 🏷️ Sous-titre */
+.pack-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #777;
+}
+
+/* ✍️ Description du pack */
+.pack-description {
+    -fx-font-size: 14px;
+    -fx-text-fill: #444;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* 💰 Labels de prix et autres infos */
+.pack-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+}
+
+.pack-price {
+    -fx-font-size: 16px;
+    -fx-text-fill: #28a745;
+    -fx-font-weight: bold;
+}
+
+/* 🎟️ Bouton de réservation */
+.pack-button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-border-radius: 10;
+}
+
+.pack-button:hover {
+    -fx-background-color: #0056b3;
+}

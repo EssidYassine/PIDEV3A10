@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.2</junit.version>
-        <javafx.version>17.0.6</javafx.version>
+        <javafx.version>17.0.2</javafx.version>
     </properties>
 
     <dependencies>
@@ -60,6 +60,12 @@
             <version>8.0.33</version>
             <scope>runtime</scope>
         </dependency>
+
+            <dependency>
+                <groupId>com.jfoenix</groupId>
+                <artifactId>jfoenix</artifactId>
+                <version>9.0.10</version> <!-- Vérifiez la dernière version -->
+            </dependency>
     </dependencies>
 
     <build>
@@ -85,7 +91,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>Controllers.HelloApplication</mainClass>
+                    <mainClass>HelloApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

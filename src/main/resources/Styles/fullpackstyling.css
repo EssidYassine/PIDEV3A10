@@ -1,0 +1,86 @@
+/* Styles pour les boutons */
+.button {
+    -fx-background-color: #F3F3F3; /* Couleur de fond initiale */
+    -fx-text-fill: #000000; /* Texte noir */
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+    -fx-transition: background-color 0.3s, transform 0.2s;
+}
+
+.button:hover {
+    -fx-background-color: #A1C1F4; /* Couleur au survol */
+}
+
+.button:pressed {
+    -fx-background-color: #1E0FC6; /* Couleur lors du clic */
+    -fx-text-fill: #FFFFFF; /* Texte blanc */
+    -fx-border-color: #1E0FC6; /* Bordure lors du clic */
+    -fx-transform: scale(0.95); /* Effet de pression */
+}
+
+/* Styles pour les boutons arrondis */
+.rounded-button {
+    -fx-background-color: linear-gradient(#000000, #000000);
+    -fx-background-radius: 20; /* Ajuster le rayon pour plus ou moins d’arrondi */
+    -fx-text-fill: #ef4e00;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 0);
+    -fx-padding: 10 20 10 20;
+}
+
+/* Effet au survol de la souris pour les boutons arrondis */
+.rounded-button:hover {
+    -fx-background-color: #EDE4E0; /* Couleur plus claire au survol */
+}
+
+/* Styles pour les icônes de bouton */
+.icon-button {
+    -fx-graphic-text-gap: 8px;
+    -fx-background-radius: 10;
+    -fx-background-color: #ed4e00; /* Couleur de fond */
+    -fx-border-color: #ed4e00; /* Bordure */
+    -fx-border-radius: 10;
+    -fx-text-fill: #ed4e00; /* Couleur du texte */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+}
+
+.icon-button:hover {
+    -fx-background-color: #ef4e00; /* Couleur au survol */
+    -fx-cursor: hand;
+}
+
+/* Styles pour le panneau avec ombre */
+.shadow-pane {
+    -fx-background-color: #ED4E00;
+    -fx-background-radius: 0 0 30 30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 5);
+}
+
+/* Styles pour les graphiques */
+.chart {
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+    -fx-legend-visible: false;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-pie {
+    -fx-border-color: derive(-fx-pie-color, 1%);
+    -fx-border-width: 0px;
+}
+
+/* Style général pour la scène */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
