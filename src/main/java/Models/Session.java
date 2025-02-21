@@ -3,10 +3,16 @@ package Models;
 public class Session {
     private static Session instance;
     private User user;
+    private String generatedcode;
 
     private Session(User user) {
         this.user = user;
     }
+    public static Session getInstance() {
+        return instance;
+    }
+
+
 
     public static void setUser(User user) {
         if (instance == null) {
@@ -19,8 +25,11 @@ public class Session {
     public static User getUser() {
         return instance != null ? instance.user : null;
     }
-    public void setPwdUser(String pwd){
-        user.setPassword(pwd);
+    public void setcodeUser(String code){
+        generatedcode=code;
+    }
+    public String getcodeUser(){
+        return generatedcode;
     }
 
     public static void clear() {

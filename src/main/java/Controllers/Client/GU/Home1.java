@@ -15,9 +15,11 @@ import java.io.IOException;
 public class Home1 {
     @FXML
     private ImageView userIcon;
+    private Session session;
     @FXML
     void initialize() {
         userIcon.setOnMouseClicked(event -> gotodetails());
+        session.afficherSession();
     }
     private void gotodetails() {
 

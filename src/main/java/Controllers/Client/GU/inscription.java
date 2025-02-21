@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,8 @@ import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 public class inscription {
+    @FXML
+    private ImageView backflech;
 
     @FXML
     private TextField prenomid;
@@ -62,12 +65,29 @@ public class inscription {
 
     @FXML
     public void initialize() {
+        backflech.setOnMouseClicked(event -> gotodetails());
+
         prenomid.textProperty().addListener((obs, oldVal, newVal) -> validateUsername());
         mailid.textProperty().addListener((obs, oldVal, newVal) -> validateEmail());
         passeid.textProperty().addListener((obs, oldVal, newVal) -> validatePassword());
         telid.textProperty().addListener((obs, oldVal, newVal) -> validatePhone());
         dateid.valueProperty().addListener((obs, oldVal, newVal) -> validateDate());
     }
+
+    private void gotodetails() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Login.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) backflech.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Détails de l'utilisateur");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void validateUsername() {
         String username = prenomid.getText().trim();

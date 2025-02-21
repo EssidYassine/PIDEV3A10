@@ -20,8 +20,11 @@
             <children>
                 <Button fx:id="validerid" layoutX="76.0" layoutY="559.0" mnemonicParsing="false" onAction="#handleInscription" prefHeight="40.0" prefWidth="312.0" style="-fx-background-color: #1464db;" styleClass="dashboard-button" text="S'inscrire" textFill="WHITE">
                <font>
-                  <Font name="Cambria" size="15.0" />
+                  <Font name="Cambria" size="27.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
                 </Button>
             <TextField fx:id="prenomid" layoutX="76.0" layoutY="135.0" prefHeight="37.0" prefWidth="312.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
                <cursor>
@@ -89,6 +92,14 @@
          <image>
             <Image url="@../../../Images/EVENTUS-removebg-preview.png" />
          </image>
+      </ImageView>
+      <ImageView fx:id="backflech" fitHeight="78.0" fitWidth="67.0" layoutX="23.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/back-removebg-preview.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
       </ImageView>
     </children>
     <effect>

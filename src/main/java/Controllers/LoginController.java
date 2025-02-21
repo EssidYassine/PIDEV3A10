@@ -14,7 +14,11 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import mailling.SendEmail;
+
 import java.io.IOException;
+import java.util.Optional;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class LoginController {
@@ -27,6 +31,8 @@ public class LoginController {
     private Button connecterid;
     @FXML
     private Button inscrireid;
+    @FXML
+    private Button gotoforgotpwd;
     @FXML
     private Label errorLabel;
     @FXML
@@ -42,6 +48,7 @@ public class LoginController {
         dbConnection = DataBaseConnection.getDatabaseConnection();
         userService = new ServiceUser();
         inscrireid.setOnAction(this::handleInscription);
+        gotoforgotpwd.setOnAction(this::gotoforgotpwd);
 
         mailid.textProperty().addListener((observable, oldValue, newValue) -> validateEmail());
         passeid.textProperty().addListener((observable, oldValue, newValue) -> validatePassword());
@@ -158,4 +165,79 @@ public class LoginController {
             ex.printStackTrace();
         }
     }
+
+    @FXML
+    public void gotoforgotpwd(ActionEvent e) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/Views/forgotPassword.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+
+   /* @FXML
+    void forgotPasswordButtonAction(ActionEvent event) {
+        // Generate a random code
+        if (mailid.getText().isEmpty()) {
+            // Show a warning message
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter your email address.");
+            alert.showAndWait();
+            return; // Exit the method
+        }
+
+        String generatedCode = generateCode();
+
+        // Send the code via email
+        SendEmail.send(mailid.getText(), Integer.parseInt(generatedCode));
+
+        // Prompt the user to enter the code
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Verification");
+        dialog.setHeaderText("Enter the verification code sent to your email:");
+        dialog.setContentText("Code:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            String enteredCode = result.get();
+            if (enteredCode.equals(generatedCode)) {
+                // Code is correct, show success message
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Verification successful. You can proceed to reset your password.");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid verification code. Please try again.");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    public  String generateCode() {
+        String characters = "0123456789";
+
+        Random random = new Random();
+        StringBuilder code = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            code.append(characters.charAt(randomIndex));
+        }
+
+        // Convert StringBuilder to String and return
+        return code.toString();
+    }*/
+
 }

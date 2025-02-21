@@ -43,7 +43,7 @@ public class UserDetails {
         backflech.setOnMouseClicked(event -> gotodetails());
         editpage.setOnMouseClicked(event -> gotoedit());
         loadUserDetails(Session.getUser());
-        logout.setOnMouseClicked(event -> confirmLogout()); // Ajout de la confirmation pour logout
+        logout.setOnMouseClicked(event -> confirmLogout());
         loadUserDetails(Session.getUser());
 
 

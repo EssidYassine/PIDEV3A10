@@ -50,6 +50,8 @@ public class ServiceUser implements IService<User> {
         }
         return null;
     }
+
+
     public User findUserByEmailAndPassword2(String email, String password) {
         try (PreparedStatement pstmt = cnx.prepareStatement("SELECT * FROM user WHERE email = ?")) {
             pstmt.setString(1, email);
@@ -74,6 +76,8 @@ public class ServiceUser implements IService<User> {
         }
         return null;
     }
+
+
     @Override
     public void ajouter(User p) {
         // Vérification de l'email
@@ -113,6 +117,30 @@ public class ServiceUser implements IService<User> {
         }
     }
 //////////////////////////////////////////////
+
+    public User getUserByEmail(String email) {
+        try (PreparedStatement pstmt = cnx.prepareStatement("SELECT * FROM user WHERE email = ?")) {
+            pstmt.setString(1, email);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setDateDeNaissance(rs.getDate("date_de_naissance"));
+                    user.setIsActive(rs.getString("is_active"));
+                    user.setNumTel(rs.getInt("num_tel"));
+                    user.setEmail(rs.getString("email"));
+                    user.setRole(rs.getString("role"));
+                    user.setPassword(rs.getString("password")); // Le mot de passe haché
+                    return user;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gestion d'erreur
+        }
+        return null;
+    }
+
 
     public void supprimer(int id) {
         String sql = "DELETE FROM user WHERE id = ?"; // Requête SQL pour la suppression
@@ -177,6 +205,24 @@ public class ServiceUser implements IService<User> {
             System.out.println("Erreur lors de la modification de l'utilisateur : " + e.getMessage());
         }
     }
+
+
+    public boolean updatePassword(String email, String newPassword) {
+        String sql = "UPDATE user SET password = ? WHERE email = ?";
+
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
+            pstmt.setString(1, newPassword); // Nouveau mot de passe
+            pstmt.setString(2, email); // Adresse e-mail de l'utilisateur
+
+            int rowsAffected = pstmt.executeUpdate(); // Exécution de la mise à jour
+
+            return rowsAffected > 0; // Retourne vrai si l'utilisateur a été modifié
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise à jour du mot de passe : " + e.getMessage());
+            return false; // Retourne faux en cas d'erreur
+        }
+    }
+
 
 
     public boolean emailExists(String email) {

@@ -37,7 +37,7 @@
                               <Font name="Cambria" size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="mailid" prefWidth="300.0" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif;">
+                        <TextField fx:id="mailid" prefHeight="36.0" prefWidth="300.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -52,33 +52,34 @@
                               <Font name="Cambria" size="15.0" />
                            </font>
                         </Label>
-                        <PasswordField fx:id="passeid" prefWidth="300.0" style="-fx-font-family: 'Georgia', serif; -fx-background-color: #F4F1EA;" />
+                        <PasswordField fx:id="passeid" prefHeight="36.0" prefWidth="300.0" />
                         <Label fx:id="errorPasswordLabel" textFill="RED" />
                      </children>
                   </VBox>
-                  <Button fx:id="connecterid"
-                          mnemonicParsing="false"
-                          onAction="#seConnecter"
-                          prefWidth="300.0"
-                          prefHeight="50.0"
-                          minWidth="300.0"
-                          minHeight="50.0"
-                          style="-fx-background-color: #1e0fc8; -fx-font-weight: bold; -fx-padding: 10; -fx-font-size: 24; -fx-text-fill: white;"
-                          text="SE CONNECTER">
+                  <Button fx:id="connecterid" minHeight="50.0" minWidth="300.0" mnemonicParsing="false" onAction="#seConnecter" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #1e0fc8; -fx-font-weight: bold; -fx-padding: 10; -fx-font-size: 24; -fx-text-fill: white;" text="SE CONNECTER">
                      <font>
                         <Font name="Cambria" size="24.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
                   </Button>
 
 
                   <Button fx:id="inscrireid" mnemonicParsing="false" prefHeight="24.0" prefWidth="117.0" style="-fx-background-color: ED4E00;" styleClass="underline-button" stylesheets="@/styles/stylee.css" text="S'inscrire" textFill="WHITE">
                      <font>
                         <Font name="Cambria" size="18.0" />
-                     </font></Button>
-                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;" styleClass="underline-button" stylesheets="@/styles/stylee.css" text="Forgot password" textFill="#1e0fc8" underline="true">
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor></Button>
+                  <Button fx:id="gotoforgotpwd" mnemonicParsing="false" onAction="#gotoforgotpwd" style="-fx-background-color: transparent;" styleClass="underline-button" stylesheets="@/styles/stylee.css" text="Forgot password ?" textFill="#1e0fc8" underline="true">
                      <font>
-                        <Font name="Calibri" size="14.0" />
-                     </font></Button>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor></Button>
                   <Label fx:id="errorLabel" textFill="RED" />
                </children>
                <padding>
@@ -90,7 +91,6 @@
                   <Image url="@../Images/EVENTUS-removebg-preview.png" />
                </image>
             </ImageView>
-
          </children>
       </Pane>
    </children>
