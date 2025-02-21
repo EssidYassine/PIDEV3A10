@@ -13,10 +13,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
-
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.util.regex.Pattern;
 
@@ -46,7 +46,6 @@ public class EditProfile {
     private Label erdate;
     @FXML
     private Button validerid;
-
     private final ServiceUser serviceUser = new ServiceUser();
 
     @FXML
@@ -189,12 +188,25 @@ public class EditProfile {
     }
 
     private void validateDate() {
-        if (dateid.getValue() == null) {
+        LocalDate selectedDate = dateid.getValue();
+
+        if (selectedDate == null) {
             erdate.setText("La date de naissance est obligatoire.");
+            erdate.setTextFill(javafx.scene.paint.Color.RED);
         } else {
-            erdate.setText("");
+            LocalDate today = LocalDate.now();
+            int age = Period.between(selectedDate, today).getYears();
+
+            if (age < 10) {
+                erdate.setText("L'âge minimum doit être de 10 ans.");
+                erdate.setTextFill(javafx.scene.paint.Color.RED);
+            } else {
+                erdate.setText("");
+                erdate.setTextFill(javafx.scene.paint.Color.BLACK);
+            }
         }
     }
+
 
     private void showAlert(AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);

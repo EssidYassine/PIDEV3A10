@@ -42,27 +42,27 @@
                   <Font name="Calibri" size="26.0" />
                </font>
             </Label>
-            <Label fx:id="usernameLabel" layoutX="265.0" layoutY="63.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+            <Label fx:id="usernameLabel" layoutX="265.0" layoutY="63.0" prefHeight="31.0" prefWidth="324.0" textFill="#1e0fc8">
                <font>
                   <Font name="Calibri" size="26.0" />
                </font>
             </Label>
-            <Label fx:id="emailLabel" layoutX="265.0" layoutY="139.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+            <Label fx:id="emailLabel" layoutX="265.0" layoutY="139.0" prefHeight="31.0" prefWidth="379.0" textFill="#1e0fc8">
                <font>
                   <Font name="Calibri" size="26.0" />
                </font>
             </Label>
-            <Label fx:id="etatCompteLabel" layoutX="265.0" layoutY="218.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+            <Label fx:id="etatCompteLabel" layoutX="265.0" layoutY="218.0" prefHeight="31.0" prefWidth="358.0" textFill="#1e0fc8">
                <font>
                   <Font name="Calibri" size="26.0" />
                </font>
             </Label>
-            <Label fx:id="numeroTelLabel" layoutX="265.0" layoutY="295.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+            <Label fx:id="numeroTelLabel" layoutX="265.0" layoutY="295.0" prefHeight="31.0" prefWidth="342.0" textFill="#1e0fc8">
                <font>
                   <Font name="Calibri" size="26.0" />
                </font>
             </Label>
-            <Label fx:id="dateNaissanceLabel" layoutX="312.0" layoutY="372.0" prefHeight="31.0" prefWidth="228.0" textFill="#1e0fc8">
+            <Label fx:id="dateNaissanceLabel" layoutX="312.0" layoutY="372.0" prefHeight="31.0" prefWidth="331.0" textFill="#1e0fc8">
                <font>
                   <Font name="Calibri" size="26.0" />
                </font>

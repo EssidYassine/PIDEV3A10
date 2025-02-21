@@ -4,6 +4,8 @@ import Models.User;
 import Services.ServiceUser;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import java.time.LocalDate;
+import java.time.Period;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.regex.Pattern;
 
 public class inscription {
@@ -146,15 +149,28 @@ public class inscription {
         }
     }
 
+
+
     private void validateDate() {
-        if (dateid.getValue() == null) {
+        LocalDate selectedDate = dateid.getValue();
+
+        if (selectedDate == null) {
             erdate.setText("La date de naissance est obligatoire.");
             erdate.setTextFill(javafx.scene.paint.Color.RED);
         } else {
-            erdate.setText("");
-            erdate.setTextFill(javafx.scene.paint.Color.BLACK);
+            LocalDate today = LocalDate.now();
+            int age = Period.between(selectedDate, today).getYears();
+
+            if (age < 10) {
+                erdate.setText("L'âge minimum doit être de 10 ans.");
+                erdate.setTextFill(javafx.scene.paint.Color.RED);
+            } else {
+                erdate.setText("");
+                erdate.setTextFill(javafx.scene.paint.Color.BLACK);
+            }
         }
     }
+
 
 
     public void handleInscription(ActionEvent event) {
@@ -179,6 +195,13 @@ public class inscription {
         LocalDate dateNaissance = dateid.getValue();
 
         try {
+            // Vérifier si l'email existe déjà
+            if (serviceUser.emailExists(email)) {
+                mailid.clear(); // Vider le champ email
+                showAlert(AlertType.ERROR, "Erreur", "L'adresse e-mail existe déjà.");
+                return; // Stopper l'inscription
+            }
+
             int numTel = Integer.parseInt(telStr);
             Date sqlDate = Date.valueOf(dateNaissance);
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());

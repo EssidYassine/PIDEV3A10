@@ -219,7 +219,7 @@ public class ServiceUser implements IService<User> {
             return rowsAffected > 0; // Retourne vrai si l'utilisateur a été modifié
         } catch (SQLException e) {
             System.out.println("Erreur lors de la mise à jour du mot de passe : " + e.getMessage());
-            return false; // Retourne faux en cas d'erreur
+            return false;
         }
     }
 
@@ -237,7 +237,7 @@ public class ServiceUser implements IService<User> {
         } catch (SQLException e) {
             System.out.println("Erreur lors de la vérification de l'email : " + e.getMessage());
         }
-        return false; // Retourne false si l'email n'existe pas
+        return false;
     }
 
 
