@@ -1,6 +1,7 @@
 package Models;
 
-
+// Import de la classe Utilisateur
+import Models.User;
 
 public class Service {
     private int id_service;
@@ -9,7 +10,7 @@ public class Service {
     private int prix;
     private TypeService type_service;
     private int disponibilite;
-    private int id_utilisateur;
+    private User utilisateur; // Remplacement par un objet
     private String image_url;
     private int quantite_materiel;
     private String role_staff;
@@ -21,8 +22,9 @@ public class Service {
 
     public Service() {}
 
+    // Constructeur complet avec Utilisateur
     public Service(int id_service, String nom_service, String description, int prix, TypeService type_service,
-                   int disponibilite, int id_utilisateur, String image_url, int quantite_materiel,
+                   int disponibilite, User utilisateur, String image_url, int quantite_materiel,
                    String role_staff, String experience) {
         this.id_service = id_service;
         this.nom_service = nom_service;
@@ -30,45 +32,100 @@ public class Service {
         this.prix = prix;
         this.type_service = type_service;
         this.disponibilite = disponibilite;
-        this.id_utilisateur = id_utilisateur;
+        this.utilisateur = utilisateur;
         this.image_url = image_url;
         this.quantite_materiel = quantite_materiel;
         this.role_staff = role_staff;
         this.experience = experience;
     }
 
-    public int getId_service() { return id_service; }
-    public void setId_service(int id_service) { this.id_service = id_service; }
+    public int getId_service() {
+        return id_service;
+    }
 
-    public String getNom_service() { return nom_service; }
-    public void setNom_service(String nom_service) { this.nom_service = nom_service; }
+    public void setId_service(int id_service) {
+        this.id_service = id_service;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getNom_service() {
+        return nom_service;
+    }
 
-    public int getPrix() { return prix; }
-    public void setPrix(int prix) { this.prix = prix; }
+    public void setNom_service(String nom_service) {
+        this.nom_service = nom_service;
+    }
 
-    public TypeService getType_service() { return type_service; }
-    public void setType_service(TypeService type_service) { this.type_service = type_service; }
+    public String getDescription() {
+        return description;
+    }
 
-    public int getDisponibilite() { return disponibilite; }
-    public void setDisponibilite(int disponibilite) { this.disponibilite = disponibilite; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public int getId_utilisateur() { return id_utilisateur; }
-    public void setId_utilisateur(int id_utilisateur) { this.id_utilisateur = id_utilisateur; }
+    public int getPrix() {
+        return prix;
+    }
 
-    public String getImage_url() { return image_url; }
-    public void setImage_url(String image_url) { this.image_url = image_url; }
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
 
-    public int getQuantite_materiel() { return quantite_materiel; }
-    public void setQuantite_materiel(int quantite_materiel) { this.quantite_materiel = quantite_materiel; }
+    public TypeService getType_service() {
+        return type_service;
+    }
 
-    public String getRole_staff() { return role_staff; }
-    public void setRole_staff(String role_staff) { this.role_staff = role_staff; }
+    public void setType_service(TypeService type_service) {
+        this.type_service = type_service;
+    }
 
-    public String getExperience() { return experience; }
-    public void setExperience(String experience) { this.experience = experience; }
+    public int getDisponibilite() {
+        return disponibilite;
+    }
+
+    public void setDisponibilite(int disponibilite) {
+        this.disponibilite = disponibilite;
+    }
+
+    public User getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(User utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public int getQuantite_materiel() {
+        return quantite_materiel;
+    }
+
+    public void setQuantite_materiel(int quantite_materiel) {
+        this.quantite_materiel = quantite_materiel;
+    }
+
+    public String getRole_staff() {
+        return role_staff;
+    }
+
+    public void setRole_staff(String role_staff) {
+        this.role_staff = role_staff;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
 
     @Override
     public String toString() {
@@ -77,9 +134,9 @@ public class Service {
                 ", nom_service='" + nom_service + '\'' +
                 ", description='" + description + '\'' +
                 ", prix=" + prix +
-                ", type_service='" + type_service + '\'' +
+                ", type_service=" + type_service +
                 ", disponibilite=" + disponibilite +
-                ", id_utilisateur=" + id_utilisateur +
+                ", utilisateur=" + utilisateur +
                 ", image_url='" + image_url + '\'' +
                 ", quantite_materiel=" + quantite_materiel +
                 ", role_staff='" + role_staff + '\'' +
@@ -87,5 +144,3 @@ public class Service {
                 '}';
     }
 }
-
-

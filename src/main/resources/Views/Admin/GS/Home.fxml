@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="943.0" style="-fx-background-color: DADCDFFF;" stylesheets="/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.GestionnaireS">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700" prefWidth="1086" style="-fx-background-color: DADCDFFF;" stylesheets="/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.GestionnaireS">
     <children>
         <BorderPane prefHeight="618.0" prefWidth="943.0">
             <left>
@@ -38,7 +38,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="btnStudents" contentDisplay="TOP" mnemonicParsing="false"  prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button" text="Gestion Packs" GridPane.columnIndex="1">
+                        <Button fx:id="btnStudents" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button" text="Gestion Packs" GridPane.columnIndex="1">
                             <graphic>
                                 <ImageView fitHeight="40.0" fitWidth="40.0">
                                     <image>
@@ -48,10 +48,7 @@
                             </graphic>
                         </Button>
 
-                        <Button fx:id="btn_Timetable" contentDisplay="TOP" mnemonicParsing="false"
-                                prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button"
-                                text="Gestion Services" GridPane.columnIndex="2"
-                                onAction="#afficherGestionnaire">
+                        <Button fx:id="btn_Timetable" contentDisplay="TOP" mnemonicParsing="false" onAction="#afficherGestionnaire" prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button" text="Gestion Services" GridPane.columnIndex="2">
                             <graphic>
                                 <ImageView fitHeight="40.0" fitWidth="40.0">
                                     <image>
@@ -114,7 +111,7 @@
                     </children></Pane>
             </bottom>
             <top>
-                <Pane prefHeight="150.0" prefWidth="943.0" styleClass="shadow-pane" BorderPane.alignment="CENTER">
+                <Pane prefHeight="142.0" prefWidth="930.0" styleClass="shadow-pane" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
                         <Insets left="20.0" right="20.0" />
                     </BorderPane.margin>

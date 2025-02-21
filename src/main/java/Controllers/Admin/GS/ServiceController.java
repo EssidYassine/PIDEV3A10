@@ -1,6 +1,7 @@
 package Controllers.Admin.GS;
 
 import Models.Service;
+import Models.User;
 import Services.ServiceService;
 
 import javafx.fxml.FXML;
@@ -106,10 +107,12 @@ public class ServiceController {
             String quantiteMaterielText = quantiteMaterielField.getText().trim();
             String roleStaff = roleStaffField.getText().trim();
             String experience = experienceField.getText().trim();
-            int idUtilisateur = 1; // Remplace par l'ID réel de l'utilisateur connecté
+
+            // Simulation de l'utilisateur connecté (à remplacer par le système de session)
+            User utilisateur = new User(1, "Dupont", "Jean", "jean.dupont@example.com","emna");
 
             // Validation des entrées
-            if (nomService.isEmpty() || description.isEmpty() || roleStaff.isEmpty() || experience.isEmpty() || typeService == null) {
+            if (nomService.isEmpty() || description.isEmpty() || typeService == null) {
                 showErrorAlert("Champs obligatoires", "Veuillez remplir tous les champs requis.");
                 return;
             }
@@ -155,8 +158,10 @@ public class ServiceController {
             // Par défaut, on force `disponibilite = 1` lors de l'ajout
             int disponibilite = 1;
 
-            // Création du service
-            Service service = new Service(0, nomService, description, prix, typeService, disponibilite, idUtilisateur, imageUrl, quantiteMateriel, roleStaff, experience);
+            // Création du service avec l'objet Utilisateur
+            Service service = new Service(0, nomService, description, prix, typeService, disponibilite, utilisateur, imageUrl, quantiteMateriel, roleStaff, experience);
+
+            // Ajout du service via ServiceService
             serviceService.add(service);
 
             // Affichage d'une alerte de succès

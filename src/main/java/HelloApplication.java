@@ -12,7 +12,7 @@ public class HelloApplication extends Application {
             Parent root = loader.load();
 
             primaryStage.setTitle("Gestion des Services");
-            primaryStage.setScene(new Scene(root, 800, 600));
+            primaryStage.setScene(new Scene(root, 1086, 700));
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

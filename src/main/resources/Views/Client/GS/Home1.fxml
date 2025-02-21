@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GS.GestionnaireS1">
+
+    <children>
+        <!-- Navigation Bar -->
+        <HBox layoutX="132.0" layoutY="20.0" prefHeight="60.0" prefWidth="818.0" spacing="30" style="-fx-alignment: center;">
+            <children>
+                <Label style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
+
+                <Separator orientation="VERTICAL" prefHeight="40" />
+
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="PACK" />
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="SERVICE" onMouseClicked="#goToGestionnaireS" />
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="lIEUX" />
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="ACTUALITE" />
+            </children>
+        </HBox>
+
+        <!-- Main Content -->
+        <VBox layoutX="50.0" layoutY="100.0" prefWidth="900.0" spacing="20" style="-fx-alignment: center-left;">
+            <children>
+                <Label style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Bienvenue" />
+
+                <Label prefHeight="114.0" prefWidth="526.0" style="-fx-font-size: 16px; -fx-text-fill: #666;" text="Eventus – La plateforme qui simplifie l'organisation d'événements.Réservez, proposez des services, et découvrez les lieux parfaits pour vos événements. Actualités, interactions, et intelligence artificielle pour une expérience unique et personnalisée." wrapText="true" />
+
+                <Button style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10;" text="A propos de nous ➜" />
+
+                <HBox spacing="20" style="-fx-alignment: center-left;">
+                    <children>
+                        <ImageView fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+
+                            <image>
+                                <Image url="@/Images/fb2.png" />
+                            </image>
+
+                        </ImageView>
+                        <ImageView fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/Images/twiter.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@/Images/insta1.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- Illustration Image -->
+        <ImageView fitHeight="400.0" fitWidth="400.0" layoutX="550.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@/Images/event1.png" />
+            </image>
+        </ImageView>
+      <ImageView fitHeight="114.0" fitWidth="224.0" layoutX="46.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@/Images/EVENTUS-removebg-preview.png" />
+        </image>
+      </ImageView>
+      <ImageView fitHeight="58.0" fitWidth="63.0" layoutX="943.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@/Images/iconuser.png" />
+        </image>
+      </ImageView>
+    </children>
+</AnchorPane>

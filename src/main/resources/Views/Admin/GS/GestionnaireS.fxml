@@ -8,24 +8,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="617.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.GestionnaireS">
+<AnchorPane prefHeight="700" prefWidth="1086" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.GestionnaireS">
     <children>
-        <Pane layoutX="-1.0" prefHeight="628.0" prefWidth="199.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 30 0 30;">
+        <Pane layoutX="-1.0" prefHeight="700.0" prefWidth="199.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 30 0 30;">
             <children>
                 <ImageView fitHeight="268.0" fitWidth="282.0" layoutX="-21.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../Images/Blanc_non_bg.png" />
                     </image>
                 </ImageView>
-                <Button layoutX="34.0" layoutY="207.0" mnemonicParsing="false"
-                        prefHeight="35.0" prefWidth="132.0" text="Ajouter"
-                        onAction="#afficherService" />
-            <Button layoutX="34.0" layoutY="272.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Modifier" onAction="#consultermodifier"/>
-            <Button layoutX="34.0" layoutY="337.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Consulter" onAction="#consulterService" />
+                <Button layoutX="34.0" layoutY="207.0" mnemonicParsing="false" onAction="#afficherService" prefHeight="35.0" prefWidth="132.0" text="Ajouter" />
+            <Button layoutX="34.0" layoutY="272.0" mnemonicParsing="false" onAction="#consultermodifier" prefHeight="35.0" prefWidth="132.0" text="Modifier" />
+            <Button layoutX="34.0" layoutY="337.0" mnemonicParsing="false" onAction="#consulterService" prefHeight="35.0" prefWidth="132.0" text="Consulter" />
             <Button layoutX="52.0" layoutY="442.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" text="paramétre" />
-            <Button layoutX="12.0" layoutY="36.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="45.0" onAction="#revenirFenetreHome">
+            <Button layoutX="12.0" layoutY="36.0" mnemonicParsing="false" onAction="#revenirFenetreHome" prefHeight="35.0" prefWidth="45.0">
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" >
+                  <ImageView fitHeight="30.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                    <image>
                        <Image url="@../../../Images/retour1.png" />
                    </image>
@@ -34,7 +32,7 @@
             </Button>
             <Button layoutX="76.0" layoutY="502.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="45.0">
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" >
+                  <ImageView fitHeight="30.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                       <image>
                           <Image url="@../../../Images/para1.png" />
                       </image>
@@ -45,7 +43,7 @@
         </Pane>
       <Pane layoutX="232.0" layoutY="216.0" prefHeight="389.0" prefWidth="666.0">
          <children>
-            <ImageView fitHeight="399.0" fitWidth="666.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" >
+            <ImageView fitHeight="399.0" fitWidth="666.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@../../../Images/service1-removebg-preview.png" />
                 </image>

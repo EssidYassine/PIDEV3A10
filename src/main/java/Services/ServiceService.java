@@ -4,6 +4,7 @@ package Services;
 
 import Models.Service;
 import Interfaces.IService;
+import Models.User;
 import Tools.DataBaseConnection;
 
 import java.sql.*;
@@ -18,6 +19,7 @@ public class ServiceService implements IService<Service> {
     }
 
     @Override
+
     public void add(Service service) throws SQLException {
         String query = "INSERT INTO service (nom_service, description, prix, type_service, id_utilisateur, image_url, quantite_materiel, role_staff, experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -26,7 +28,7 @@ public class ServiceService implements IService<Service> {
             ps.setString(2, service.getDescription());
             ps.setInt(3, service.getPrix());
             ps.setString(4, service.getType_service().name());
-            ps.setInt(5, service.getId_utilisateur());
+            ps.setInt(5, service.getUtilisateur().getId_utilisateur()); // Utilisation de l'objet Utilisateur
             ps.setString(6, service.getImage_url());
             ps.setInt(7, service.getQuantite_materiel());
             ps.setString(8, service.getRole_staff());
@@ -56,7 +58,7 @@ public class ServiceService implements IService<Service> {
             ps.setInt(3, service.getPrix());
             ps.setString(4, service.getType_service().name());
             ps.setInt(5, service.getDisponibilite());
-            ps.setInt(6, service.getId_utilisateur());
+            ps.setInt(6, service.getUtilisateur().getId_utilisateur()); // Utilisation de l'objet Utilisateur
             ps.setString(7, service.getImage_url());
             ps.setInt(8, service.getQuantite_materiel());
             ps.setString(9, service.getRole_staff());
@@ -65,9 +67,9 @@ public class ServiceService implements IService<Service> {
 
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("Service mis à jour avec succès !");
+                System.out.println("✅ Service mis à jour avec succès !");
             } else {
-                System.out.println(" Aucune mise à jour effectuée.");
+                System.out.println("❌ Aucune mise à jour effectuée.");
             }
         }
     }
@@ -90,12 +92,22 @@ public class ServiceService implements IService<Service> {
     @Override
     public List<Service> getAll() throws SQLException {
         List<Service> services = new ArrayList<>();
-        String query = "SELECT * FROM service";
+        String query = "SELECT s.*, u.nom, u.prenom, u.email FROM service s " +
+                "JOIN user u ON s.id_utilisateur = u.id_user";
 
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
+                // Création de l'objet Utilisateur
+                User utilisateur = new User(
+                        rs.getInt("id_utilisateur"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email")
+                );
+
+                // Création de l'objet Service avec l'objet Utilisateur
                 Service service = new Service(
                         rs.getInt("id_service"),
                         rs.getString("nom_service"),
@@ -103,7 +115,7 @@ public class ServiceService implements IService<Service> {
                         rs.getInt("prix"),
                         Service.TypeService.valueOf(rs.getString("type_service")),
                         rs.getInt("disponibilite"),
-                        rs.getInt("id_utilisateur"),
+                        utilisateur, // Utilisation de l'objet Utilisateur
                         rs.getString("image_url"),
                         rs.getInt("quantite_materiel"),
                         rs.getString("role_staff"),
@@ -114,16 +126,25 @@ public class ServiceService implements IService<Service> {
         }
         return services;
     }
-
-    @Override
     public Service getById(int id) throws SQLException {
-        String query = "SELECT * FROM service WHERE id_service = ?";
+        String query = "SELECT s.*, u.nom, u.prenom, u.email FROM service s " +
+                "JOIN user u ON s.id_utilisateur = u.id_user " +
+                "WHERE s.id_service = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                // Création de l'objet Utilisateur
+                User utilisateur = new User(
+                        rs.getInt("id_utilisateur"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email")
+                );
+
+                // Création de l'objet Service avec l'objet Utilisateur
                 return new Service(
                         rs.getInt("id_service"),
                         rs.getString("nom_service"),
@@ -131,7 +152,7 @@ public class ServiceService implements IService<Service> {
                         rs.getInt("prix"),
                         Service.TypeService.valueOf(rs.getString("type_service")),
                         rs.getInt("disponibilite"),
-                        rs.getInt("id_utilisateur"),
+                        utilisateur, // Utilisation de l'objet Utilisateur
                         rs.getString("image_url"),
                         rs.getInt("quantite_materiel"),
                         rs.getString("role_staff"),
