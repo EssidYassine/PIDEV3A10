@@ -84,3 +84,7 @@
 .root {
     -fx-font-family: "Segoe UI", Arial, sans-serif;
 }
+
+.some-class {
+    -fx-transform: scale(1.2);
+}

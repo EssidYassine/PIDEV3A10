@@ -2,13 +2,22 @@ package Controllers.Admin.GP;
 
 import Models.Pack;
 import Services.ServiceGP;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class PackCellController {
 
@@ -34,19 +43,59 @@ public class PackCellController {
     private Label titleLabel;
     @FXML
     private Button deleteButton;
+    @FXML
+    private Button updateButton; // Bouton pour modifier le pack
 
     private Pack pack;
-    private ObservableList<Pack> packObservableList;
+    private ServiceGP serviceGP = new ServiceGP();
 
     @FXML
-    private VBox packVBox; // Déclaration du VBox
+    private VBox packVBox;
+
+    public void initialize() {
+        deleteButton.setOnAction(event -> {
+            if (pack != null) {
+                supprimerPack(pack.getId());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Aucun pack sélectionné");
+                alert.setContentText("Veuillez sélectionner un pack à supprimer.");
+                alert.showAndWait();
+            }
+        });
+    }
 
 
-    public void setPack(Pack pack, ObservableList<Pack> packObservableList) {
+    private void supprimerPack(int id) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation de suppression");
+        alert.setHeaderText("Êtes-vous sûr de vouloir supprimer le pack avec l'ID : " + id + " ?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                serviceGP.supprimer(id);
+                // Recharger la vue après suppression
+                Stage stage = (Stage) deleteButton.getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/Pack.fxml"));
+                Parent root = loader.load();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (Exception e) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setTitle("Erreur");
+                errorAlert.setHeaderText("Une erreur est survenue lors de la suppression du pack.");
+                errorAlert.setContentText(e.getMessage());
+                errorAlert.showAndWait();
+            }
+        }
+    }
+
+    public void setPack(Pack pack) {
         this.pack = pack;
-        this.packObservableList = packObservableList;
-
         if (pack != null) {
+            System.out.println("Pack sélectionné : " + pack.getNom() + " avec ID : " + pack.getId());
             NamePack.setText(pack.getNom());
             TypePack.setText(pack.getType());
             DescPack.setText(pack.getDescription());
@@ -56,34 +105,44 @@ public class PackCellController {
             datePack.setText(pack.getDateEvenement().toString());
             LieuPack.setText(pack.getLieu());
             titleLabel.setText(pack.getStatut());
+        } else {
+            System.out.println("⚠ Aucun pack sélectionné !");
+            NamePack.setText("");
+            TypePack.setText("");
+            DescPack.setText("");
+            PrixPack.setText("");
+            NbrInvPack.setText("");
+            BudgetPack.setText("");
+            datePack.setText("");
+            LieuPack.setText("");
+            titleLabel.setText("");
         }
     }
 
+
     @FXML
-    private void handleDeleteAction(ActionEvent event) {
-        if (pack != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation de suppression");
-            alert.setHeaderText("Suppression du pack");
-            alert.setContentText("Voulez-vous vraiment supprimer le pack : " + pack.getNom() + " ?");
+    private void handleUpdateClick(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/UpdatePack.fxml"));
+            Parent root = loader.load();
 
-            alert.showAndWait().ifPresent(response -> {
-                if (response.getText().equals("OK")) {
-                    ServiceGP serviceGP = new ServiceGP();
-                    serviceGP.supprimer(pack); // Appel de la méthode de suppression du service
+            UpdatePackController updatePackController = loader.getController();
+            updatePackController.initData(pack);
 
-                    // Supprimer le pack de la ObservableList
-                    packObservableList.remove(pack);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier le Pack");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
 
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader parentLoader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/Pack.fxml"));
+            Parent parentRoot = parentLoader.load();
+            currentStage.setScene(new Scene(parentRoot));
+            currentStage.show();
 
-                    // Afficher une alerte de succès
-                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                    successAlert.setTitle("Suppression réussie");
-                    successAlert.setHeaderText(null);
-                    successAlert.setContentText("Le pack a été supprimé avec succès !");
-                    successAlert.show();
-                }
-            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

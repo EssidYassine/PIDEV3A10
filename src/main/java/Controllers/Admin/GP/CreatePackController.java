@@ -1,6 +1,8 @@
 package Controllers.Admin.GP;
 
+import Models.Locaux;
 import Models.Pack;
+import Models.Service;
 import Services.ServiceGP;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +31,10 @@ public class CreatePackController implements Initializable {
     private TextArea taDescription;
 
     @FXML
-    private ComboBox<String> cbType, cbLieu;
+    private ComboBox<String> cbType;
+
+    @FXML
+    private ComboBox<Locaux> cbLieu;
 
     @FXML
     private DatePicker dpDateEvenement;
@@ -45,35 +50,39 @@ public class CreatePackController implements Initializable {
     private Pack selectedPack;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadStaticServices();
+    public void initialize(URL url, ResourceBundle rb) {
         loadComboBoxData();
+        loadDynamicServices();
     }
 
+    private void loadDynamicServices() {
+        List<Service> services = serviceGP.getAllServices(); // Récupère tous les services depuis la base
+        System.out.println("Services récupérés : " + services.size()); // Vérifie s'ils sont bien récupérés
 
-    private void loadStaticServices() {
-        // Liste statique des services disponibles
-        String[] services = {"Décoration", "Traiteur", "Musique", "Photographie", "Transport"};
+        servicesContainer.getChildren().clear(); // Vide le VBox avant de recharger
 
-        // Ajouter les CheckBox statiques
-        for (String s : services) {
-            CheckBox checkBox = new CheckBox(s);
-            servicesContainer.getChildren().add(checkBox);
+        for (Service s : services) {
+            CheckBox checkBox = new CheckBox(s.getNom_service()); // Afficher seulement le nom
+            checkBox.setUserData(s.getId_service()); // Stocker l'ID pour l'enregistrement
+            servicesContainer.getChildren().add(checkBox); // Ajouter la CheckBox dans le VBox
+
+            System.out.println("Ajout du service : " + s.getNom_service() + " (ID: " + s.getId_service() + ")");
         }
-
     }
 
     @FXML
     private void loadComboBoxData() {
-        // Remplir les ComboBox avec des valeurs fictives (à remplacer par des données de la BDD si nécessaire)
         cbType.getItems().addAll("Fête", "Mariage", "Conférence");
-        cbLieu.getItems().addAll("Tunis", "Sousse", "Sfax", "Djerba");
+
+        List<Locaux> locaux = serviceGP.getAllLocaux();
+        cbLieu.getItems().clear();
+        cbLieu.getItems().addAll(locaux);
     }
 
     @FXML
     private void handleAddAction(ActionEvent event) {
         try {
-            // Vérification des champs vides
+            // Vérification des champs obligatoires
             if (tfNom.getText().isEmpty() || taDescription.getText().isEmpty() ||
                     tfPrix.getText().isEmpty() || tfNbreInvitesMax.getText().isEmpty() ||
                     tfBudgetPrevu.getText().isEmpty() || dpDateEvenement.getValue() == null ||
@@ -83,36 +92,38 @@ public class CreatePackController implements Initializable {
                 return;
             }
 
-            // Récupération des valeurs
+            // Récupération des valeurs du formulaire
             String nom = tfNom.getText();
             String type = cbType.getValue();
-            String lieu = cbLieu.getValue();
+            Locaux selectedLocal = cbLieu.getValue();
             LocalDate dateEvenement = dpDateEvenement.getValue();
             int nbreInvitesMax = Integer.parseInt(tfNbreInvitesMax.getText());
             BigDecimal prix = BigDecimal.valueOf(Double.parseDouble(tfPrix.getText()));
             BigDecimal budgetPrevu = BigDecimal.valueOf(Double.parseDouble(tfBudgetPrevu.getText()));
             String description = taDescription.getText();
 
-            // Récupération des services sélectionnés
-            List<String> selectedServices = new ArrayList<>();
+            // Récupération des services sélectionnés (via leur id stocké dans userData)
+            List<Integer> selectedServiceIds = new ArrayList<>();
             for (Node node : servicesContainer.getChildren()) {
                 if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
-                    selectedServices.add(checkBox.getText());
+                    selectedServiceIds.add((Integer) checkBox.getUserData());
                 }
             }
 
-            if (selectedServices.isEmpty()) {
+            if (selectedServiceIds.isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Erreur", "Veuillez sélectionner au moins un service !");
                 return;
             }
 
-            // Création et enregistrement du Pack
-            Pack newPack = new Pack(nom, type, description, prix, nbreInvitesMax, budgetPrevu, dateEvenement, lieu, "actif");
-            serviceGP.ajouter(newPack, new ArrayList<>());
+            // Création du pack – ici, on stocke dans le champ "lieu" l'adresse du local sélectionné
+            Pack newPack = new Pack(nom, type, description, prix, nbreInvitesMax, budgetPrevu, dateEvenement, selectedLocal.getAdresse(), "actif");
+
+            // Appel de la méthode d'ajout en passant le pack, la liste des services et l'id du local
+            serviceGP.ajouter(newPack, selectedServiceIds, selectedLocal.getIdLocal());
 
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Le pack a été ajouté avec succès !");
 
-            // Rediriger vers la page initiale
+            // Rediriger vers la page principale (par exemple Pack.fxml)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/Pack.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -126,7 +137,6 @@ public class CreatePackController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-
 
     private void clearForm() {
         tfNom.clear();
@@ -156,20 +166,15 @@ public class CreatePackController implements Initializable {
 
     public void setSelectedPack(Pack pack) {
         this.selectedPack = pack;
-
-        // Remplir les champs avec les données du pack sélectionné
+        // Remplir les champs si modification (logique similaire à l'ajout)
         tfNom.setText(pack.getNom());
         tfNbreInvitesMax.setText(String.valueOf(pack.getNbreInvitesMax()));
         tfPrix.setText(pack.getPrix().toString());
         tfBudgetPrevu.setText(pack.getBudgetPrevu().toString());
         taDescription.setText(pack.getDescription());
         cbType.setValue(pack.getType());
-        cbLieu.setValue(pack.getLieu());
+        // Pour le lieu, il faudrait retrouver le Locaux correspondant (selon l'adresse stockée)
         dpDateEvenement.setValue(pack.getDateEvenement());
-
-
-        // Changer le texte du bouton pour indiquer qu'on modifie un pack
         btnEnregistrer.setText("Modifier");
     }
-
 }

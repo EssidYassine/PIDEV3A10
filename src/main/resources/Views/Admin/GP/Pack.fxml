@@ -10,69 +10,70 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ScrollPane?>
-<AnchorPane prefHeight="618.0" prefWidth="917.0" stylesheets="@/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.HomeController">
-<children>
-   <BorderPane layoutX="-2.0" layoutY="-1.0" prefHeight="624.0" prefWidth="924.0">
-      <left>
-         <Pane prefHeight="624.0" prefWidth="224.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 50 0 50;" BorderPane.alignment="CENTER">
-            <children>
-               <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="210.0" prefHeight="362.0" prefWidth="224.0" spacing="20.0">
-                  <children>
-                     <Button id="BtnAjouter" mnemonicParsing="false" onAction="#handleAjouterClick" prefHeight="30.0" prefWidth="154.0" text="Ajouter" />
-                     <Button id="BtnModifier" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" text="Modifier" />
-                     <Button id="BtnConsulter" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" text="Consulter" />
-                     <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Button">
-                        <VBox.margin>
-                           <Insets top="100.0" />
-                        </VBox.margin>
-                     </Button>
-                     <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="49.0" style="-fx-background-color: ed4e00;">
-                        <graphic>
-                           <ImageView fitHeight="32.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../../Images/icons8-aide-64 (1).png" />
-                              </image>
-                           </ImageView>
-                        </graphic>
-                        <opaqueInsets>
-                           <Insets bottom="20.0" />
-                        </opaqueInsets>
-                     </Button>
-                  </children>
-               </VBox>
-               <ImageView fitHeight="238.0" fitWidth="236.0" layoutX="-6.0" layoutY="-19.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../../../Images/Blanc_non_bg.png" />
-                  </image>
-               </ImageView>
-               <Button layoutX="4.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: ed4f00;">
-                  <graphic>
-                     <ImageView fitHeight="35.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../../../Images/icons8-arrière-32.png" />
-                        </image>
-                     </ImageView>
-                  </graphic>
-               </Button>
-            </children>
-         </Pane>
-      </left>
-      <center>
-         <StackPane fx:id="mainContainer" prefHeight="602.0" prefWidth="677.0" BorderPane.alignment="CENTER">
-            <children>
-               <ScrollPane fx:id="scrollPane" prefHeight="602.0" prefWidth="677.0">
-                  <content>
-                     <GridPane fx:id="packGridPane" prefHeight="602.0" prefWidth="677.0" hgap="10" vgap="10">
-                        <!-- Les éléments de votre liste de packs viendront ici -->
-                     </GridPane>
-                  </content>
-               </ScrollPane>
-            </children>
-         </StackPane>
-      </center>
-   </BorderPane>
-</children>
+
+<AnchorPane fx:id="packVBox" prefHeight="618.0" prefWidth="917.0" stylesheets="@/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.HomeController">
+   <children>
+      <BorderPane layoutX="-2.0" layoutY="-1.0" prefHeight="624.0" prefWidth="924.0">
+         <left>
+            <Pane prefHeight="624.0" prefWidth="224.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 50 0 50;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="210.0" prefHeight="362.0" prefWidth="224.0" spacing="20.0">
+                     <children>
+                        <Button id="BtnAjouter" mnemonicParsing="false" onAction="#handleAjouterClick" prefHeight="30.0" prefWidth="154.0" text="Ajouter" />
+                        <Button id="BtnModifier" mnemonicParsing="false" onAction="#handleUpdateClick" prefHeight="30.0" prefWidth="154.0" text="Modifier" />
+                        <Button id="BtnConsulter" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" text="Consulter" />
+                        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Button">
+                           <VBox.margin>
+                              <Insets top="100.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="49.0" style="-fx-background-color: ed4e00;">
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../Images/icons8-aide-64 (1).png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets bottom="20.0" />
+                           </opaqueInsets>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="238.0" fitWidth="236.0" layoutX="-6.0" layoutY="-19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/Blanc_non_bg.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="4.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: ed4f00;">
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../Images/icons8-arrière-32.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </Pane>
+         </left>
+         <center>
+            <StackPane fx:id="mainContainer" prefHeight="602.0" prefWidth="677.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ScrollPane fx:id="scrollPane" prefHeight="602.0" prefWidth="677.0">
+                     <content>
+                        <!-- GridPane qui contiendra les cellules de pack -->
+                        <GridPane fx:id="packGridPane" prefHeight="602.0" prefWidth="677.0" hgap="10" vgap="10">
+                           <!-- Les éléments de votre liste de packs viendront ici -->
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </StackPane>
+         </center>
+      </BorderPane>
+   </children>
 </AnchorPane>

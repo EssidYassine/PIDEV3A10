@@ -5,23 +5,15 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="205.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.PackCellController">
-
-    <!-- Titre du pack -->
-    <Label alignment="TOP_CENTER" layoutX="34.0" layoutY="7.0" prefHeight="39.0" prefWidth="144.0" text="Pack" textOverrun="CENTER_ELLIPSIS">
-        <font>
-            <Font size="22.0" />
-        </font>
-    </Label>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="331.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.PackCellController">
 
     <!-- Conteneur principal -->
-    <VBox layoutX="9.0" layoutY="47.0" prefHeight="387.0" prefWidth="187.0" style="-fx-background-color: #EF4E00; -fx-background-radius: 20; -fx-padding: 15; -fx-spacing: 10; -fx-alignment: CENTER;">
-        <!-- Informations du pack -->
-        <Label fx:id="NamePack" styleClass="pack-label" text="Nom Pack" />
-        <Label fx:id="DescPack" styleClass="pack-label" text="Description" />
+    <VBox layoutX="14.0" layoutY="40.0" prefHeight="364.0" prefWidth="303.0" style="-fx-background-color: #ef4e00; -fx-background-radius: 20; -fx-padding: 15; -fx-spacing: 10; -fx-alignment: CENTER;">
+        <Label fx:id="DescPack" prefHeight="27.0" prefWidth="64.0" styleClass="pack-label" text="Description" />
         <Label fx:id="TypePack" styleClass="pack-label" text="Type Pack" />
         <Label fx:id="PrixPack" styleClass="pack-label" text="Prix" />
         <Label fx:id="BudgetPack" styleClass="pack-label" text="Budget" />
@@ -30,17 +22,36 @@
         <Label fx:id="LieuPack" styleClass="pack-label" text="Lieu" />
         <Label fx:id="ServPack" styleClass="pack-label" text="Services" />
         <Label fx:id="titleLabel" styleClass="pack-label" text="Status" />
-
-        <!-- Bouton de suppression avec l'ID corrigé -->
-        <Button fx:id="deleteButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="34.0" onAction="#handleDeleteAction" style="-fx-background-color: ef4f00;">
-            <graphic>
-                <ImageView fitHeight="24.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
+      <Pane prefHeight="0.0" prefWidth="273.0">
+         <children>
+            <Button onAction="#handleUpdateClick" layoutX="76.0" layoutY="3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="64.0" style="-fx-background-color: ef4f00;">
+               <graphic>
+                  <ImageView fitHeight="28.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Images/rafraichir.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="deleteButton" layoutX="136.0" layoutY="3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="42.0" style="-fx-background-color: ef4f00;">
+               <graphic>
+                  <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
                         <Image url="@../../../Images/poubelle.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+
     </VBox>
+
+
+     <!-- Informations du pack -->
+     <Label fx:id="NamePack" layoutX="106.0" layoutY="1.0" prefHeight="39.0" prefWidth="146.0" styleClass="pack-label" text="Nom Pack">
+      <font>
+         <Font size="27.0" />
+      </font></Label>
 
 </AnchorPane>
