@@ -22,7 +22,7 @@
             </columnConstraints>
         </GridPane>
     </ScrollPane>
-    <Button layoutX="20.0" layoutY="15.0" mnemonicParsing="false" onAction="#revenirFenetreGestionLocaux" prefHeight="38.0" prefWidth="77.0">
+    <Button layoutX="20.0" layoutY="15.0" mnemonicParsing="false" onAction="#revenirFenetreGestionLocaux" prefHeight="38.0" prefWidth="77.0" style="-fx-background: white;" >
         <graphic>
             <ImageView fitHeight="31.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../../../Images/retour1.png"/>

@@ -9,12 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,40 +26,56 @@ import java.util.ResourceBundle;
 
 public class AddLocal implements Initializable {
 
-    public ComboBox <String> CBType;
-    public ComboBox <String> CBEquipements;
+    @FXML
+    private ComboBox<String> CBType;
     @FXML
     private TextField TFAdresse, TFCapacite, TFTarifs;
-
     @FXML
     private ImageView imageViewLocal;
-
     @FXML
     private Button btnChoisirImage;
 
+    // Declare checkboxes for equipment
+    @FXML
+    private CheckBox chkWifi, chkCameras, chkEspaceTravail, chkCuisine, chkParking;
+
     private String photoPath; // Store the path of the selected image
-
     private final LocauxService locauxService = new LocauxService();
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        CBEquipements.getItems().addAll("projecteur ", "materiel Sono ", "climatiseur ", "cuisine ");
-        CBEquipements.setValue("wifi");
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialize ComboBox with types
         CBType.getItems().addAll("Salle de réunion", "Bureau", "Espace coworking", "Salle de conférence");
-        CBType.setValue("openSpace");
+        CBType.setValue("Type");
     }
+
     @FXML
     void ajouter(ActionEvent event) {
         try {
             String adresse = TFAdresse.getText();
             int capacite = Integer.parseInt(TFCapacite.getText());
-            String type = (String) CBType.getValue();;
-            String equipements = (String) CBType.getValue();
+            String type = CBType.getValue();
+
+            // Collect selected equipment as a string
+            StringBuilder equipements = new StringBuilder();
+            if (chkWifi.isSelected()) equipements.append("Wifi, ");
+            if (chkCameras.isSelected()) equipements.append("Caméras de surveillance extérieures, ");
+            if (chkEspaceTravail.isSelected()) equipements.append("Espace de travail dédié, ");
+            if (chkCuisine.isSelected()) equipements.append("Cuisine, ");
+            if (chkParking.isSelected()) equipements.append("Parking, ");
+
+            // Remove the last comma and space if there are any selected
+            if (equipements.length() > 0) {
+                equipements.delete(equipements.length() - 2, equipements.length());
+            }
+
             BigDecimal tarifs = new BigDecimal(TFTarifs.getText());
 
-            // Use the stored photoPath
-            Locaux local = new Locaux(0, 1, adresse, capacite, type, photoPath, equipements, tarifs);
+            // Create the Locaux object with selected equipment
+            Locaux local = new Locaux(0, 1, adresse, capacite, type, photoPath, equipements.toString(), tarifs);
             locauxService.add(local);
 
+            // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Succès");
             alert.setContentText("Local ajouté avec succès !");
@@ -72,7 +89,6 @@ public class AddLocal implements Initializable {
             showError("Format invalide", "Veuillez entrer des valeurs valides !");
         }
     }
-
 
     @FXML
     void choisirImage(ActionEvent event) {
