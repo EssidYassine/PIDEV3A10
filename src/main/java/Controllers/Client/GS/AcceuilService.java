@@ -3,6 +3,7 @@ package Controllers.Client.GS;
 import Models.Service;
 import Services.ServiceService;
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -125,5 +126,20 @@ public class AcceuilService {
             System.err.println("Erreur de chargement de AcceuilService.fxml !");
         }
     }
+
+    public void retourHome1(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Home1.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Gestionnaire de Services");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de AcceuilService.fxml !");
+        }
     }
+}
 

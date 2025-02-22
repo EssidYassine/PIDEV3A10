@@ -13,32 +13,33 @@
 
     <children>
         <!-- Navigation Bar -->
-        <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="941.0" spacing="30" style="-fx-alignment: center;">
+        <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="1061.0" spacing="30" style="-fx-alignment: center;">
             <children>
                 <Label prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
                 <Label prefHeight="30.0" prefWidth="176.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Reserver Matériel" />
                 <Label prefHeight="30.0" prefWidth="142.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Reserver Staff" />
                 <Label prefHeight="30.0" prefWidth="249.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Gestion des réservations" />
                 <Label prefHeight="30.0" prefWidth="122.0" style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="Réclamation" />
+            <Button fx:id="btnRetour1" onAction="#retourHome1" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Acceuil" />
             </children>
         </HBox>
 
         <!-- Liste des services dans un GridPane avec scrolling -->
-        <ScrollPane fx:id="scrollPaneServices" layoutX="50.0" layoutY="100.0" prefWidth="980.0" prefHeight="550.0" style="-fx-background: transparent; -fx-border-color: transparent;" fitToWidth="true" vbarPolicy="ALWAYS">
-            <GridPane fx:id="gridPaneServices" hgap="20" vgap="20" style="-fx-padding: 20;">
+        <ScrollPane fx:id="scrollPaneServices" fitToWidth="true" layoutX="50.0" layoutY="100.0" prefHeight="550.0" prefWidth="980.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">
+            <GridPane fx:id="gridPaneServices" hgap="20" style="-fx-padding: 20;" vgap="20">
                 <!-- Les cartes des services seront ajoutées dynamiquement ici -->
             </GridPane>
         </ScrollPane>
 
         <!-- Détails du service sélectionné (caché par défaut) -->
-        <VBox fx:id="detailsContainer" layoutX="50.0" layoutY="100.0" prefWidth="980.0" prefHeight="550.0" spacing="10" style="-fx-padding: 40; -fx-alignment: center; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" visible="false">
+        <VBox fx:id="detailsContainer" layoutX="50.0" layoutY="100.0" prefHeight="550.0" prefWidth="980.0" spacing="10" style="-fx-padding: 40; -fx-alignment: center; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" visible="false">
             <ImageView fx:id="imageService" fitHeight="200.0" fitWidth="400.0" preserveRatio="true" />
 
             <Label fx:id="labelNomService" style="-fx-font-size: 40; -fx-font-weight: bold;" />
             <Label fx:id="labelDescription" style="-fx-font-size: 20; -fx-text-fill: #666;" wrapText="true" />
             <Label fx:id="labelPrix" style="-fx-font-size: 24; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" />
 
-            <Button fx:id="btnRetour" text="Retour" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" onAction="#retourListeServices" />
+            <Button fx:id="btnRetour" onAction="#retourListeServices" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Retour" />
         </VBox>
     </children>
 </AnchorPane>
