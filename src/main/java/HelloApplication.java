@@ -8,7 +8,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/home1.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Home1.fxml"));
             Parent root = loader.load();
 
             primaryStage.setTitle("Gestion des Services");

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GS.GestionnaireS1">
+<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GS.Home1Service">
 
     <children>
         <!-- Navigation Bar -->
@@ -20,7 +20,7 @@
                 <Separator orientation="VERTICAL" prefHeight="40" />
 
                 <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="PACK" />
-                <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="SERVICE" onMouseClicked="#goToGestionnaireS" />
+                <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="SERVICE" onMouseClicked="#gotoAcceuilService" />
                 <Label style="-fx-font-size: 20px; -fx-text-fill: #333;" text="lIEUX" />
                 <Label style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="ACTUALITE" />
             </children>
