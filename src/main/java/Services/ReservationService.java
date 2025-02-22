@@ -1,8 +1,8 @@
 package Services;
 
-
-
 import Models.Reservation;
+import Models.Service;
+import Models.User;
 import Interfaces.IService;
 import Tools.DataBaseConnection;
 
@@ -14,6 +14,10 @@ import java.util.List;
 public class ReservationService implements IService<Reservation> {
     private static Connection connection;
 
+    // Dépendances pour charger les objets liés
+    private final ServiceService serviceService = new ServiceService();
+    private final UserService userService = new UserService();
+
     public ReservationService() {
         connection = DataBaseConnection.getMyDataBase().getConnection();
     }
@@ -23,18 +27,20 @@ public class ReservationService implements IService<Reservation> {
         String query = "INSERT INTO reservation (id_service, id_utilisateur, date_reservation, quantite, statut) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, reservation.getId_service());
-            ps.setInt(2, reservation.getId_utilisateur());
+            ps.setInt(1, reservation.getService().getId_service());
+            ps.setInt(2, reservation.getUtilisateur().getId_utilisateur());
             ps.setTimestamp(3, Timestamp.valueOf(reservation.getDate_reservation())); // Conversion LocalDateTime -> Timestamp
             ps.setInt(4, reservation.getQuantite());
-            ps.setString(5, reservation.getStatut().name());
+            ps.setString(5, reservation.getStatut().getValue());
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println(" Réservation ajoutée avec succès !");
+                System.out.println("✅ Réservation ajoutée avec succès !");
             } else {
-                System.out.println(" Aucune réservation ajoutée.");
+                System.out.println("❌ Aucune réservation ajoutée.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -43,19 +49,21 @@ public class ReservationService implements IService<Reservation> {
         String query = "UPDATE reservation SET id_service=?, id_utilisateur=?, date_reservation=?, quantite=?, statut=? WHERE id_reservation=?";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, reservation.getId_service());
-            ps.setInt(2, reservation.getId_utilisateur());
+            ps.setInt(1, reservation.getService().getId_service());
+            ps.setInt(2, reservation.getUtilisateur().getId_utilisateur());
             ps.setTimestamp(3, Timestamp.valueOf(reservation.getDate_reservation())); // Conversion LocalDateTime -> Timestamp
             ps.setInt(4, reservation.getQuantite());
-            ps.setString(5, reservation.getStatut().name());
+            ps.setString(5, reservation.getStatut().getValue());
             ps.setInt(6, reservation.getId_reservation());
 
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
-                System.out.println("Réservation mise à jour avec succès !");
+                System.out.println("✅ Réservation mise à jour avec succès !");
             } else {
-                System.out.println(" Aucune mise à jour effectuée.");
+                System.out.println("❌ Aucune mise à jour effectuée.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -67,10 +75,12 @@ public class ReservationService implements IService<Reservation> {
             ps.setInt(1, reservation.getId_reservation());
             int rowsDeleted = ps.executeUpdate();
             if (rowsDeleted > 0) {
-                System.out.println(" Réservation supprimée avec succès !");
+                System.out.println("✅ Réservation supprimée avec succès !");
             } else {
-                System.out.println(" Aucune réservation supprimée.");
+                System.out.println("❌ Aucune réservation supprimée.");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -83,16 +93,11 @@ public class ReservationService implements IService<Reservation> {
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
-                Reservation reservation = new Reservation(
-                        rs.getInt("id_reservation"),
-                        rs.getInt("id_service"),
-                        rs.getInt("id_utilisateur"),
-                        rs.getTimestamp("date_reservation").toLocalDateTime(), // Conversion Timestamp -> LocalDateTime
-                        rs.getInt("quantite"),
-                        Reservation.Statut.valueOf(rs.getString("statut"))
-                );
+                Reservation reservation = creerReservation(rs);
                 reservations.add(reservation);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return reservations;
     }
@@ -106,17 +111,38 @@ public class ReservationService implements IService<Reservation> {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Reservation(
-                        rs.getInt("id_reservation"),
-                        rs.getInt("id_service"),
-                        rs.getInt("id_utilisateur"),
-                        rs.getTimestamp("date_reservation").toLocalDateTime(), // Conversion Timestamp -> LocalDateTime
-                        rs.getInt("quantite"),
-                        Reservation.Statut.valueOf(rs.getString("statut"))
-                );
+                return creerReservation(rs);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
-}
 
+    /**
+     * Méthode pour créer un objet Reservation à partir d'un ResultSet
+     * @param rs ResultSet contenant les données
+     * @return Objet Reservation
+     * @throws SQLException
+     */
+    private Reservation creerReservation(ResultSet rs) throws SQLException {
+        // Récupération des objets liés (Service et User)
+        Service service = serviceService.getById(rs.getInt("id_service"));
+        User utilisateur = userService.getById(rs.getInt("id_utilisateur"));
+
+        // Récupération du statut en utilisant la méthode fromValue()
+        Reservation.Statut statut = Reservation.Statut.fromValue(rs.getString("statut"));
+
+        // Création de l'objet Reservation
+        return new Reservation(
+                rs.getInt("id_reservation"),
+                service, // Utilisation de l'objet Service
+                utilisateur, // Utilisation de l'objet User
+                rs.getTimestamp("date_reservation").toLocalDateTime(),
+                rs.getInt("quantite"),
+                statut, // Utilisation de l'énumération Statut
+                rs.getTimestamp("date_confirmation") != null ? rs.getTimestamp("date_confirmation").toLocalDateTime() : null,
+                rs.getTimestamp("date_annulation") != null ? rs.getTimestamp("date_annulation").toLocalDateTime() : null
+        );
+    }
+}
