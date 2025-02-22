@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ScrollPane?>
 
-<AnchorPane fx:id="packVBox" prefHeight="618.0" prefWidth="917.0" stylesheets="@/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.HomeController">
+<AnchorPane fx:id="packVBox" prefHeight="618.0" prefWidth="917.0" stylesheets="@/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.PackController">
    <children>
       <BorderPane layoutX="-2.0" layoutY="-1.0" prefHeight="624.0" prefWidth="924.0">
          <left>
@@ -22,8 +22,6 @@
                   <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="210.0" prefHeight="362.0" prefWidth="224.0" spacing="20.0">
                      <children>
                         <Button id="BtnAjouter" mnemonicParsing="false" onAction="#handleAjouterClick" prefHeight="30.0" prefWidth="154.0" text="Ajouter" />
-                        <Button id="BtnModifier" mnemonicParsing="false" onAction="#handleUpdateClick" prefHeight="30.0" prefWidth="154.0" text="Modifier" />
-                        <Button id="BtnConsulter" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" text="Consulter" />
                         <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Button">
                            <VBox.margin>
                               <Insets top="100.0" />
@@ -48,7 +46,7 @@
                         <Image url="@../../../Images/Blanc_non_bg.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="4.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: ed4f00;">
+                  <Button onAction="#handlBack" layoutX="4.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: ed4f00;">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>

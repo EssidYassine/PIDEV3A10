@@ -26,6 +26,8 @@ public class UpdatePackController {
     @FXML private ComboBox<Locaux> cbLieu;
     @FXML private VBox servicesContainer;
     @FXML private Button btnEnregistrer;
+    @FXML private ComboBox<String> cbStatut;
+
 
     private Pack currentPack;
     private ServiceGP serviceGP = new ServiceGP();
@@ -41,6 +43,13 @@ public class UpdatePackController {
         tfBudgetPrevu.setText(pack.getBudgetPrevu().toString());
         dpDateEvenement.setValue(pack.getDateEvenement());
         cbType.setValue(pack.getType());
+        // Initialisation du statut
+        if(cbStatut != null) {
+            cbStatut.getItems().addAll("actif", "inactif","archivé");
+            cbStatut.setValue(pack.getStatut());
+        } else {
+            System.err.println("Erreur: cbStatut n'est pas initialisé !");
+        }
 
         List<Locaux> allLocaux = serviceGP.getAllLocaux();
         cbLieu.getItems().setAll(allLocaux);
@@ -85,7 +94,7 @@ public class UpdatePackController {
             updatedPack.setLieu("");
         }
 
-        updatedPack.setStatut(currentPack.getStatut());
+        updatedPack.setStatut(cbStatut.getValue());
 
 
         List<Integer> selectedServiceIds = new ArrayList<>();

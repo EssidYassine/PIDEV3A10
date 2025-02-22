@@ -84,7 +84,15 @@
 .root {
     -fx-font-family: "Segoe UI", Arial, sans-serif;
 }
+.status-active {
+    -fx-fill: radial-gradient(radius 100%, #a8e063, #56ab2f);
+    -fx-stroke: #2b580c;
+}
 
+.status-inactive {
+    -fx-fill: radial-gradient(radius 100%, #ff6b6b, #ee5253);
+    -fx-stroke: #6b1110;
+}
 .some-class {
     -fx-transform: scale(1.2);
 }

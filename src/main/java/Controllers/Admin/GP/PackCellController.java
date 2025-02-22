@@ -13,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -40,7 +42,7 @@ public class PackCellController {
     @FXML
     private Label datePack;
     @FXML
-    private Label titleLabel;
+    private Label statusPack;
     @FXML
     private Button deleteButton;
     @FXML
@@ -65,6 +67,23 @@ public class PackCellController {
             }
         });
     }
+
+    @FXML
+    private Circle statusCircle;
+
+    // Modifier la méthode setStatus
+    public void setStatus(boolean isActive) {
+        if(statusCircle == null) return; // Sécurité
+
+        if(isActive) {
+            statusCircle.setFill(Color.LIMEGREEN);
+            statusCircle.setStroke(Color.DARKGREEN);
+        } else {
+            statusCircle.setFill(Color.TOMATO);
+            statusCircle.setStroke(Color.DARKRED);
+        }
+    }
+
 
 
     private void supprimerPack(int id) {
@@ -104,7 +123,8 @@ public class PackCellController {
             BudgetPack.setText(pack.getBudgetPrevu().toString());
             datePack.setText(pack.getDateEvenement().toString());
             LieuPack.setText(pack.getLieu());
-            titleLabel.setText(pack.getStatut());
+            setStatus(pack.isActive());
+
         } else {
             System.out.println("⚠ Aucun pack sélectionné !");
             NamePack.setText("");
@@ -115,7 +135,7 @@ public class PackCellController {
             BudgetPack.setText("");
             datePack.setText("");
             LieuPack.setText("");
-            titleLabel.setText("");
+            statusPack.setText("");
         }
     }
 

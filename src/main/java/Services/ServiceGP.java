@@ -7,7 +7,6 @@ import Models.Service;
 import Tools.DataBaseConnection;
 
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +14,8 @@ import java.util.List;
 public class ServiceGP implements IService<Pack> {
     DataBaseConnection cnx = new DataBaseConnection();
 
+
     @Override
-    public void ajouter(Pack p) {
-        // Implémentation de l'ajout si nécessaire
-    }
-
-
     public void ajouter(Pack pack, List<Integer> serviceIds, int idLocal) {
         String insertPackQuery = "INSERT INTO packevenement (nom, type, description, prix, nbre_invites_max, budget_prevu, date_evenement, lieu, statut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertPackServiceQuery = "INSERT INTO packservice (pack_id, service_id) VALUES (?, ?)";
@@ -29,10 +24,8 @@ public class ServiceGP implements IService<Pack> {
              PreparedStatement pstmt = conn.prepareStatement(insertPackQuery, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement pstmtPackService = conn.prepareStatement(insertPackServiceQuery)) {
 
-            // Début de la transaction
             conn.setAutoCommit(false);
 
-            // Préparation de l'insertion du pack
             pstmt.setString(1, pack.getNom());
             pstmt.setString(2, pack.getType());
             pstmt.setString(3, pack.getDescription());
@@ -48,7 +41,6 @@ public class ServiceGP implements IService<Pack> {
                 throw new SQLException("L'insertion du pack a échoué, aucune ligne affectée.");
             }
 
-            // Récupération de la clé générée pour le pack
             int idPack = -1;
             try (ResultSet rs = pstmt.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -59,35 +51,26 @@ public class ServiceGP implements IService<Pack> {
                 }
             }
 
-            // Insertion des services associés
             for (Integer idService : serviceIds) {
                 pstmtPackService.setInt(1, idPack);
                 pstmtPackService.setInt(2, idService);
                 pstmtPackService.executeUpdate();
             }
 
-            // Valider la transaction
             conn.commit();
             System.out.println("Pack et services enregistrés avec succès !");
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Erreur lors de l'ajout du pack et des services");
-            // Selon votre besoin, vous pouvez également tenter un rollback ici
         }
     }
 
     @Override
-    public void modifier(Pack p) {
-        // Implémentation de la modification si nécessaire
-    }
-
     public void modifier(Pack p, List<Integer> serviceIds, int idLocal) {
         String updateQuery = "UPDATE packevenement SET nom = ?, type = ?, description = ?, prix = ?, nbre_invites_max = ?, budget_prevu = ?, date_evenement = ?, lieu = ?, lieu_id = ?, statut = ? WHERE pack_id = ?";
         try (Connection connection = cnx.getConnection()) {
-            // Démarrer une transaction
             connection.setAutoCommit(false);
 
-            // Mise à jour du pack (y compris id_local)
             try (PreparedStatement pstmt = connection.prepareStatement(updateQuery)) {
                 pstmt.setString(1, p.getNom());
                 pstmt.setString(2, p.getType());
@@ -109,15 +92,12 @@ public class ServiceGP implements IService<Pack> {
                 }
             }
 
-            // Mise à jour des associations de services
-            // 1. Suppression des anciennes associations
             String deleteServicesQuery = "DELETE FROM packservice WHERE pack_id = ?";
             try (PreparedStatement deleteStmt = connection.prepareStatement(deleteServicesQuery)) {
                 deleteStmt.setInt(1, p.getId());
                 deleteStmt.executeUpdate();
             }
 
-            // 2. Insertion des nouvelles associations
             String insertServiceQuery = "INSERT INTO packservice (pack_id, service_id) VALUES (?, ?)";
             try (PreparedStatement insertStmt = connection.prepareStatement(insertServiceQuery)) {
                 for (Integer serviceId : serviceIds) {
@@ -127,11 +107,9 @@ public class ServiceGP implements IService<Pack> {
                 }
             }
 
-            // Valider la transaction
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            // En cas d'erreur, envisagez un rollback
         }
     }
 
@@ -151,7 +129,7 @@ public class ServiceGP implements IService<Pack> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1; // Retourne -1 si aucun local n'est trouvé
+        return -1;
     }
 
 
@@ -164,11 +142,9 @@ public class ServiceGP implements IService<Pack> {
              PreparedStatement psPackService = connection.prepareStatement(deletePackServiceQuery);
              PreparedStatement psPack = connection.prepareStatement(deletePackQuery)) {
 
-            // Supprimer les enregistrements enfants
             psPackService.setInt(1, id);
             psPackService.executeUpdate();
 
-            // Supprimer le pack
             psPack.setInt(1, id);
             int rowsAffected = psPack.executeUpdate();
 
@@ -185,17 +161,15 @@ public class ServiceGP implements IService<Pack> {
 
     @Override
     public Pack getOneById(int id) {
-        // Implémentation de la récupération d'un pack par son ID si nécessaire
         return null;
     }
 
     @Override
     public List<Pack> getAll() {
         List<Pack> packs = new ArrayList<>();
-        String query = "SELECT * FROM packevenement"; // Vérifiez le nom exact de la table
-
-        try (Connection conn = cnx.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query);
+        String query = "SELECT * FROM packevenement";
+        try (Connection connection = cnx.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(query);
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
@@ -257,7 +231,7 @@ public class ServiceGP implements IService<Pack> {
                 services.add(service);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Affiche l'erreur dans la console pour le débogage
+            e.printStackTrace();
         }
         return services;
     }

@@ -23,6 +23,7 @@
             <TextField fx:id="tfNom" promptText="Nom du pack" style="-fx-pref-height: 40px;" />
             <TextArea fx:id="taDescription" prefRowCount="4" promptText="Description" style="-fx-pref-height: 100px;" />
             <ComboBox fx:id="cbType" promptText="Type d'événement" style="-fx-pref-width: 250px;" />
+            <ComboBox fx:id="cbStatut" promptText="Status d'événement" style="-fx-pref-width: 250px;" />
             <ComboBox fx:id="cbLieu" promptText="Lieu" style="-fx-pref-width: 250px;" />
             <DatePicker fx:id="dpDateEvenement" promptText="Date de l'événement" style="-fx-pref-height: 40px;" />
             <VBox spacing="10">

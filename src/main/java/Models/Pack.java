@@ -67,11 +67,7 @@ public class Pack {
     }
     public String getType() {
         return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-    public String getDescription() {
+    }public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
@@ -107,16 +103,37 @@ public class Pack {
     public void setLieu(String lieu) {
         this.lieu = lieu;
     }
-    public String getStatut() {
-        return statut;
-    }
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
+    public String getStatut() { return statut; }
+    public void setStatut(String statut) { this.statut = statut; }
     public List<String> getServices() {
         return services;
     }
     public void setServices(List<String> services) {
         this.services = services;
     }
+
+    public boolean isActive() {
+        // Remplacer "active" par "actif" pour correspondre au français
+        return statut != null && statut.equalsIgnoreCase("actif");
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private boolean isValidType(String type) {
+        return type != null &&
+                (type.equals("Mariage") ||
+                        type.equals("Conférence") ||
+                        type.equals("Fête") ||
+                        type.equals("Autre"));
+    }
+
+
+    private boolean isValidStatut(String statut) {
+        return statut != null &&
+                (statut.equals("actif") ||
+                        statut.equals("inactif") ||
+                        statut.equals("archivé"));
+    }
+
 }

@@ -2,56 +2,92 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="331.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.PackCellController">
+<?import javafx.scene.shape.Circle?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="330.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.PackCellController">
 
-    <!-- Conteneur principal -->
-    <VBox layoutX="14.0" layoutY="40.0" prefHeight="364.0" prefWidth="303.0" style="-fx-background-color: #ef4e00; -fx-background-radius: 20; -fx-padding: 15; -fx-spacing: 10; -fx-alignment: CENTER;">
-        <Label fx:id="DescPack" prefHeight="27.0" prefWidth="64.0" styleClass="pack-label" text="Description" />
-        <Label fx:id="TypePack" styleClass="pack-label" text="Type Pack" />
-        <Label fx:id="PrixPack" styleClass="pack-label" text="Prix" />
-        <Label fx:id="BudgetPack" styleClass="pack-label" text="Budget" />
-        <Label fx:id="NbrInvPack" styleClass="pack-label" text="Invités" />
-        <Label fx:id="datePack" styleClass="pack-label" text="Date Événement" />
-        <Label fx:id="LieuPack" styleClass="pack-label" text="Lieu" />
-        <Label fx:id="ServPack" styleClass="pack-label" text="Services" />
-        <Label fx:id="titleLabel" styleClass="pack-label" text="Status" />
-      <Pane prefHeight="0.0" prefWidth="273.0">
-         <children>
-            <Button onAction="#handleUpdateClick" layoutX="76.0" layoutY="3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="64.0" style="-fx-background-color: ef4f00;">
-               <graphic>
-                  <ImageView fitHeight="28.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../Images/rafraichir.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+    <Pane layoutX="15.0" layoutY="20.0" prefHeight="360.0" prefWidth="300.0" style="-fx-background-radius: 25; -fx-background-color: linear-gradient(to bottom right, #f5f7fa 0%, #c3cfe2 100%);">
+        <effect>
+            <DropShadow color="rgba(0,0,0,0.15)" radius="15.0" spread="0.15" />
+        </effect>
+
+        <children>
+            <Label fx:id="statusPack" layoutX="220.0" layoutY="20.0">
+                <graphic>
+                    <!-- Retirer le Pane inutile -->
+                    <Circle fx:id="statusCircle" radius="10" fill="TRANSPARENT" strokeType="INSIDE" strokeWidth="2" />
+                </graphic>
+            </Label>
+
+            <!-- Main Content -->
+            <Label fx:id="NamePack" layoutX="25.0" layoutY="60.0" prefWidth="250.0" text="The Lotus Reading Club" textFill="#2c3e50" wrapText="true">
+                <font>
+                    <Font name="Playfair Display Bold" size="28.0" />
+                </font>
+            </Label>
+
+            <ImageView fitHeight="120.0" fitWidth="200.0" layoutX="50.0" layoutY="110.0" preserveRatio="true">
+                <image>
+                </image>
+            </ImageView>
+
+            <!-- ... autres éléments ... -->
+
+            <Label fx:id="DescPack" layoutX="23.0" layoutY="238.0" prefWidth="250.0" text="This month's pick: Klara and the Sun by Kazuo Ishiguro" textFill="#4a5568" wrapText="true">
+                <font>
+                    <Font name="Open Sans SemiBold" size="14.0" />
+                </font>
+            </Label>
+
+            <!-- Ajout du TypePack -->
+            <Label fx:id="TypePack" layoutX="109.0" layoutY="280.0" style="-fx-font-style: italic;" text="Type" textFill="#4a5568">
+                <font>
+                    <Font name="Open Sans SemiBold" size="12.0" />
+                </font>
+            </Label>
+            <!-- Ajout du TypePack -->
+            <Label fx:id="PrixPack" layoutX="194.0" layoutY="280.0" style="-fx-font-style: italic;" text="Literary Fiction" textFill="#4a5568">
+                <font>
+                    <Font name="Open Sans SemiBold" size="12.0" />
+                </font>
+            </Label>
+            <!-- Ajout du TypePack -->
+            <Label fx:id="NbrInvPack" layoutX="25.0" layoutY="280.0" style="-fx-font-style: italic;" text="Literary Fiction" textFill="#4a5568">
+                <font>
+                    <Font name="Open Sans SemiBold" size="12.0" />
+                </font>
+            </Label><!-- Ajout du TypePack -->
+            <Label fx:id="BudgetPack" layoutX="12.0" layoutY="20.0" style="-fx-font-style: italic;" text="Literary Fiction" textFill="#4a5568">
+                <font>
+                    <Font name="Open Sans SemiBold" size="12.0" />
+                </font>
+            </Label>
+
+            <!-- ... boutons ... -->
+
+            <!-- Boutons stylisés avec CSS inline -->
+            <Button fx:id="deleteButton" layoutX="25.0" layoutY="310.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-cursor: hand; -fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);" text="Delete" textFill="WHITE">
             </Button>
-            <Button fx:id="deleteButton" layoutX="136.0" layoutY="3.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="42.0" style="-fx-background-color: ef4f00;">
-               <graphic>
-                  <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../Images/poubelle.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <!-- Ajout du TypePack -->
+            <Label fx:id="datePack" layoutX="102.0" layoutY="20.0" style="-fx-font-style: italic;" text="Date" textFill="#4a5568">
+                <font>
+                    <Font name="Open Sans SemiBold" size="12.0" />
+                </font>
+            </Label>
+            <!-- Ajout du TypePack -->
+            <Label fx:id="LieuPack" layoutX="25.0" layoutY="204.0" style="-fx-font-style: italic;" text="Literary Fiction" textFill="#4a5568">
+                <font>
+                    <Font name="Open Sans SemiBold" size="12.0" />
+                </font>
+            </Label>
+
+            <Button layoutX="155.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleUpdateClick" prefHeight="40.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-cursor: hand; -fx-background-color: linear-gradient(to bottom right, #48bb78, #38a169);" text="Update" textFill="WHITE">
             </Button>
-         </children>
-      </Pane>
-
-    </VBox>
-
-
-     <!-- Informations du pack -->
-     <Label fx:id="NamePack" layoutX="106.0" layoutY="1.0" prefHeight="39.0" prefWidth="146.0" styleClass="pack-label" text="Nom Pack">
-      <font>
-         <Font size="27.0" />
-      </font></Label>
-
+        </children>
+    </Pane>
 </AnchorPane>
