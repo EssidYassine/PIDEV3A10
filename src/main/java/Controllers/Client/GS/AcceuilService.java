@@ -171,5 +171,20 @@ public class AcceuilService {
             System.err.println("Erreur de chargement de AcceuilService.fxml !");
         }
     }
+
+    public void gotoListeReservation(MouseEvent mouseEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/ListeReservationService.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Gestionnaire de Services");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de AcceuilService.fxml !");
+        }
+    }
 }
 

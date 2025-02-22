@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GS.ReservationListController">
+
+    <!-- Barre de navigation -->
+    <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="1061.0" spacing="30" style="-fx-alignment: center;">
+        <children>
+            <Label prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
+            <Label prefHeight="30.0" prefWidth="191.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Liste des réservations" />
+            <Button fx:id="btnRetour" onAction="#retourHome1" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Acceuil" />
+        </children>
+    </HBox>
+
+    <!-- Conteneur de la liste des réservations -->
+    <ScrollPane fx:id="scrollPaneReservations" fitToWidth="true" layoutX="50.0" layoutY="100.0" prefHeight="550.0" prefWidth="980.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">
+        <GridPane fx:id="gridPaneReservations" hgap="20" style="-fx-padding: 20;" vgap="20">
+            <!-- Les cartes de réservation seront ajoutées dynamiquement ici -->
+        </GridPane>
+    </ScrollPane>
+
+</AnchorPane>
