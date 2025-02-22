@@ -7,8 +7,25 @@ public class User {
     private String email;
     private String mot_de_passe;
 
+    // Constructeur avec 4 paramètres
     public User(int idUtilisateur, String nom, String prenom, String email) {
+        this.id_user = idUtilisateur;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mot_de_passe = ""; // ou null selon vos besoins
     }
+
+    // Constructeur avec 5 paramètres
+    public User(int id_user, String nom, String prenom, String email, String mot_de_passe) {
+        this.id_user = id_user;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mot_de_passe = mot_de_passe;
+    }
+
+    public User() {}
 
     public int getId_user() {
         return id_user;
@@ -50,15 +67,6 @@ public class User {
         this.mot_de_passe = mot_de_passe;
     }
 
-    public User(int id_user, String nom, String prenom, String email, String mot_de_passe) {
-        this.id_user = id_user;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.mot_de_passe = mot_de_passe;
-    }
-    public User() {}
-
     @Override
     public String toString() {
         return "User{" +
@@ -74,6 +82,3 @@ public class User {
         return id_user;
     }
 }
-
-
-

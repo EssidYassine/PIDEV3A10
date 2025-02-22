@@ -17,7 +17,9 @@ public class Service {
     private String experience;
 
     public enum TypeService {
-        Matériel, Staff
+        Matériel, Staff;
+
+
     }
 
     public Service() {}
@@ -143,4 +145,5 @@ public class Service {
                 ", experience='" + experience + '\'' +
                 '}';
     }
+
 }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.Client.GS.ReservationMaterielController">
+    <children>
+        <!-- Barre de navigation -->
+        <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="1061.0" spacing="30" style="-fx-alignment: center;">
+            <children>
+                <Label prefHeight="46.0" prefWidth="118.0"
+                       style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;"
+                       text="Eventus" />
+                <Label prefHeight="30.0" prefWidth="176.0"
+                       style="-fx-font-size: 20px; -fx-text-fill: #333;"
+                       text="Reserver Matériel" />
+                <Label prefHeight="30.0" prefWidth="142.0"
+                       style="-fx-font-size: 20px; -fx-text-fill: #333;"
+                       text="Reserver Staff" />
+                <Label prefHeight="30.0" prefWidth="249.0"
+                       style="-fx-font-size: 20px; -fx-text-fill: #333;"
+                       text="Gestion des réservations" />
+                <Label prefHeight="30.0" prefWidth="122.0"
+                       style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;"
+                       text="Réclamation" />
+                <Button fx:id="btnRetour1" onAction="#retourHome1" prefHeight="40.0" prefWidth="90.0"
+                        style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;"
+                        text="Acceuil" />
+            </children>
+        </HBox>
+
+        <!-- Formulaire d'ajout de réservation avec style CSS intégré -->
+        <VBox alignment="CENTER" spacing="20.0"
+              AnchorPane.topAnchor="100" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="100"
+              style="-fx-background-color: #a2b3dd; -fx-padding: 20px; -fx-border-color: #ffffff; -fx-border-width: 1px; -fx-border-radius: 5px;">
+            <children>
+                <Label text="Ajouter une Réservation"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+
+                <!-- Ligne Service -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5px;">
+                    <Label text="Service:" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                    <ComboBox fx:id="comboService" prefWidth="200" style="-fx-font-size: 16px;"/>
+                </HBox>
+
+                <!-- Ligne Nom de l'Utilisateur -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5px;">
+                    <Label text="Nom de l'Utilisateur:" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                    <TextField fx:id="txtUtilisateur" prefWidth="200" style="-fx-font-size: 16px;"/>
+                </HBox>
+
+                <!-- Ligne Date de Réservation -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5px;">
+                    <Label text="Date de Réservation:" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                    <DatePicker fx:id="datePicker" style="-fx-font-size: 16px;"/>
+                </HBox>
+
+                <!-- Ligne Heure -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5px;">
+                    <Label text="Heure:" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                    <TextField fx:id="timeField" promptText="HH:MM" style="-fx-font-size: 16px;"/>
+                </HBox>
+
+                <!-- Ligne Quantité -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5px;">
+                    <Label text="Quantité:" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                    <TextField fx:id="txtQuantite" style="-fx-font-size: 16px;"/>
+                </HBox>
+
+                <!-- Boutons d'action -->
+                <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10px;">
+                    <Button text="Ajouter" fx:id="btnAjouter" onAction="#handleAjouter"
+                            style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5px;"/>
+                    <Button text="Annuler" fx:id="btnAnnuler" onAction="#retourAcceuilService"
+                            style="-fx-background-color: #ed4e00; -fx-text-fill: #ffffff; -fx-font-size: 16px; -fx-background-radius: 5px;"/>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
