@@ -192,4 +192,21 @@ public class ServiceService implements IService<Service> {
             }
         }
     }
+    public void updateQuantiteAndAvailability1(int idService, int nouvelleQuantite) throws SQLException {
+        // Si la nouvelle quantité est 0 ou moins, on considère que la disponibilité devient 0, sinon 1.
+        int disponibilite = (nouvelleQuantite <= 0) ? 0 : 1;
+        String query = "UPDATE service SET quantite_materiel = ?, disponibilite = ? WHERE id_service = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, nouvelleQuantite);
+            ps.setInt(2, disponibilite);
+            ps.setInt(3, idService);
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Mise à jour effectuée : nouvelle quantité = " + nouvelleQuantite
+                        + ", disponibilité = " + disponibilite);
+            } else {
+                System.out.println("Aucune mise à jour effectuée pour le service " + idService);
+            }
+        }
+    }
 }

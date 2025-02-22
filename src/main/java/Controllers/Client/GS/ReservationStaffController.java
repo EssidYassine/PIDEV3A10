@@ -5,7 +5,6 @@ import Models.Service;
 import Models.User;
 import Services.ReservationService;
 import Services.ServiceService;
-import com.sun.javafx.collections.ElementObservableListDecorator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,9 +21,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ReservationMaterielController {
+public class ReservationStaffController {
 
     @FXML
     private Button btnRetour1;
@@ -49,26 +47,28 @@ public class ReservationMaterielController {
 
     @FXML
     private Button btnAnnuler;
-    private ReservationService reservationService = new ReservationService();
 
+    private ReservationService reservationService = new ReservationService();
+    private ServiceService serviceService = new ServiceService();
 
     /**
      * Méthode d'initialisation appelée automatiquement après le chargement du fichier FXML.
      */
     @FXML
     public void initialize() {
-        System.out.println("Initialisation du contrôleur AcceuilService");
+        System.out.println("Initialisation du contrôleur ReservationStaffController");
         try {
             // Récupération de tous les services
             List<Service> allServices = new Services.ServiceService().getAll();
-            // Filtrer uniquement les services de type "Matériel"
-            List<Service> materielServices = new ArrayList<>();
+            // Filtrer uniquement les services de type "Staff"
+            List<Service> staffServices = new ArrayList<>();
             for (Service s : allServices) {
-                if (s.getType_service() != null && s.getType_service().name().equalsIgnoreCase("Matériel")) {
-                    materielServices.add(s);}
+                if (s.getType_service() != null && s.getType_service().name().equalsIgnoreCase("Staff")) {
+                    staffServices.add(s);
+                }
             }
             // Ajouter ces services filtrés à la ComboBox
-            comboService.getItems().addAll(materielServices);
+            comboService.getItems().addAll(staffServices);
 
             // Configurez le convertisseur pour afficher uniquement le nom du service
             comboService.setConverter(new StringConverter<Service>() {
@@ -76,7 +76,6 @@ public class ReservationMaterielController {
                 public String toString(Service service) {
                     return service == null ? "" : service.getNom_service();
                 }
-
                 @Override
                 public Service fromString(String string) {
                     return null; // pas utilisé dans ce contexte
@@ -102,24 +101,22 @@ public class ReservationMaterielController {
     @FXML
     private void retourHome1(ActionEvent event) {
         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Home1.fxml"));
-        Parent root = loader.load();
-
-
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        stage.setScene(new Scene(root));
-        stage.setTitle("Gestionnaire de Services");
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-        System.err.println("Erreur de chargement de AcceuilService.fxml !");
-    }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Home1.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Gestionnaire de Services");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de Home1.fxml !");
+        }
     }
 
     /**
      * Méthode appelée lors du clic sur le bouton "Ajouter".
+     * Ajoute la réservation, décrémente la quantité du service, et met à jour la disponibilité.
+     * Puis, retourne à la vue d'accueil.
      */
     @FXML
     private void handleAjouter(ActionEvent event) {
@@ -169,51 +166,45 @@ public class ReservationMaterielController {
                 return;
             }
 
-            // Vérification de la disponibilité : la quantité demandée doit être inférieure ou égale à celle du service
-
-                if (selectedService.getQuantite_materiel() < quantite) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Quantité insuffisante");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Quantité insuffisante. Disponible : " + selectedService.getQuantite_materiel());
-                    alert.showAndWait();
-                    return;
-
+            // Vérification de la disponibilité
+            if (selectedService.getQuantite_materiel() < quantite) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Quantité insuffisante");
+                alert.setHeaderText(null);
+                alert.setContentText("Quantité insuffisante. Disponible : " + selectedService.getQuantite_materiel());
+                alert.showAndWait();
+                return;
             }
 
-            // Création d'un objet User à partir du nom saisi (en pratique, utilisez l'utilisateur connecté)
+            // Création d'un objet User (en pratique, utilisez l'utilisateur connecté)
             User user = new User(1, utilisateurName, "", "");
 
             // Définir un statut par défaut, par exemple "En attente"
             Reservation.Statut statut = Reservation.Statut.fromValue("En attente");
 
-            // Création de l'objet Reservation (id_reservation sera généré en BDD)
+            // Création de l'objet Reservation (l'ID sera généré en base)
             Reservation reservation = new Reservation(
-                    0, // id_reservation : 0 pour une nouvelle réservation
+                    0,
                     selectedService,
                     user,
                     reservationDateTime,
                     quantite,
                     statut,
-                    null, // date_confirmation par défaut
-                    null  // date_annulation par défaut
+                    null,
+                    null
             );
 
-            // Appel du service pour ajouter la réservation en base
+            // Ajout de la réservation en base
             reservationService.add(reservation);
             System.out.println("Réservation ajoutée avec succès !");
-            // Décrémenter la quantité disponible du service
+
+            // Calcul de la nouvelle quantité disponible du service
             int nouvelleQuantite = selectedService.getQuantite_materiel() - quantite;
-            ServiceService.updateQuantiteAndAvailability(selectedService.getId_service(), nouvelleQuantite);
-            System.out.println("Quantité du service mise à jour : " + nouvelleQuantite);
-// Vous pouvez mettre à jour l'objet si besoin
-            selectedService.setQuantite_materiel(nouvelleQuantite);
-
-// Utiliser la méthode updateQuantite pour mettre à jour uniquement la quantité dans la base
-            ServiceService serviceService = new ServiceService(); // ou utilisez un service déjà instancié
-            serviceService.updateQuantite(selectedService.getId_service(), nouvelleQuantite);
+            // Mise à jour de la quantité et de la disponibilité dans la base via ServiceService
+            serviceService.updateQuantiteAndAvailability1(selectedService.getId_service(), nouvelleQuantite);
             System.out.println("Quantité du service mise à jour : " + nouvelleQuantite);
 
+            // Retour à la vue d'accueil
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/AcceuilService.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -230,7 +221,6 @@ public class ReservationMaterielController {
      */
     @FXML
     private void handleAnnuler(ActionEvent event) {
-        // Logique pour annuler l'ajout de réservation
         System.out.println("Bouton Annuler cliqué");
     }
 
@@ -238,7 +228,6 @@ public class ReservationMaterielController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/AcceuilService.fxml"));
             Parent root = loader.load();
-
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Gestionnaire de Services");
@@ -247,6 +236,5 @@ public class ReservationMaterielController {
             e.printStackTrace();
             System.err.println("Erreur de chargement de AcceuilService.fxml !");
         }
-
     }
 }
