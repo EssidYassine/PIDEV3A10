@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -244,4 +245,19 @@ public class ReservationListController {
     }
 
 
+    public void gotoServiceConfirme(MouseEvent mouseEvent) {
+        try {
+            // Charger l'interface AcceuilService.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/ListeServiceConfirmer.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Liste des Services");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
