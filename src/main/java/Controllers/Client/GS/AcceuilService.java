@@ -15,7 +15,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -51,14 +54,35 @@ public class AcceuilService {
             int row = 0;
 
             for (Service service : listeDesServices) {
-                // Création de la carte pour chaque service
                 VBox carteService = new VBox(10);
-                carteService.setStyle("-fx-background-color: #FFFFFF; -fx-padding: 15; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);");
+
+                // Construire le style de base pour la carte
+                String baseStyle = "-fx-background-color: #FFFFFF; -fx-padding: 15; -fx-border-radius: 10; " +
+                        "-fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);";
+                // Si la quantité est 0, on réduit l'opacité pour assombrir la carte
+                if (service.getQuantite_materiel() == 0) {
+                    baseStyle += " -fx-opacity: 0.20;";
+                }
+                carteService.setStyle(baseStyle);
                 carteService.setPrefWidth(250);
 
-                // Image du service
+                // Création de l'indicateur de disponibilité (un cercle)
+                Circle availabilityIndicator = new Circle(7); // rayon de 7 pixels
+                if (service.getQuantite_materiel() > 0) {
+                    availabilityIndicator.setFill(Color.GREEN);
+                } else {
+                    availabilityIndicator.setFill(Color.RED);
+                }
+                // Regrouper le cercle dans un HBox (vous pouvez ajouter un label si souhaité)
+                HBox indicatorBox = new HBox(5, availabilityIndicator);
+
+                // Création de l'image du service
                 ImageView imageView = new ImageView();
-                imageView.setImage(new Image(service.getImage_url()));
+                try {
+                    imageView.setImage(new Image(service.getImage_url()));
+                } catch(Exception e) {
+                    // Si l'image ne peut être chargée, on laisse vide
+                }
                 imageView.setFitWidth(230);
                 imageView.setFitHeight(150);
 
@@ -75,8 +99,10 @@ public class AcceuilService {
                 btnDetail.setStyle("-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-background-radius: 10;");
                 btnDetail.setOnAction(event -> afficherDetails(service));
 
-                carteService.getChildren().addAll(imageView, nomService, prixService, btnDetail);
+                // Ajout des éléments dans la carte
+                carteService.getChildren().addAll(indicatorBox, imageView, nomService, prixService, btnDetail);
 
+                // Ajout de la carte dans le GridPane
                 gridPaneServices.add(carteService, column, row);
 
                 column++;
