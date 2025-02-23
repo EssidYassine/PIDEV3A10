@@ -1,18 +1,19 @@
 package Controllers.Client.GS;
 
 import Models.Reservation;
+import Models.Service;
 import Services.ReservationService;
+import Services.ServiceService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -77,11 +78,17 @@ public class ReservationListController {
                 quantite.setStyle("-fx-font-size: 14; -fx-text-fill: #666;");
 
                 // Bouton détail (optionnel)
-                Button btnDetail = new Button("Détails");
-                btnDetail.setStyle("-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-background-radius: 10;");
-                btnDetail.setOnAction(event -> afficherDetails(res));
+                Button btnSupprimer = new Button("Supprimer");
+                btnSupprimer.setStyle("-fx-background-color: #ed4e00; -fx-text-fill: white; -fx-background-radius: 10;");
+                btnSupprimer.setOnAction(event -> SpprimerReservation(res));
+                // Bouton détail (optionnel)
+                Button btnModifier = new Button("Modifier");
+                btnModifier.setStyle("-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-background-radius: 10;");
+                btnModifier.setOnAction(event -> afficherDetails(res));
+                HBox buttonsBox = new HBox(10); // 10 pixels d'espacement entre les boutons
+                buttonsBox.getChildren().addAll(btnSupprimer, btnModifier);
 
-                carteReservation.getChildren().addAll(imageView, nomService, utilisateur, dateReservation, quantite, btnDetail);
+                carteReservation.getChildren().addAll(imageView, nomService, utilisateur, dateReservation, quantite,buttonsBox);
 
                 gridPaneReservations.add(carteReservation, column, row);
                 column++;
@@ -92,6 +99,44 @@ public class ReservationListController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void SpprimerReservation(Reservation res) {// Afficher une alerte de confirmation
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirmer la suppression");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Voulez-vous vraiment supprimer cette réservation ?");
+
+        // Attendre la réponse de l'utilisateur
+        if (confirmation.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            try {
+                // Appeler le service pour supprimer la réservation
+                reservationService.delete(res);
+                System.out.println("Réservation supprimée avec succès !");
+
+                // Récupérer le service associé à la réservation
+                // Ici, res.getService() renvoie l'objet Service associé.
+                Service service = res.getService();
+                // Restaurer la quantité : on ajoute la quantité réservée à la quantité actuelle du service
+                int restoredQuantity = service.getQuantite_materiel() + res.getQuantite();
+
+                // Mettre à jour le service dans la base (utilisez votre méthode updateQuantiteAndAvailability)
+                ServiceService serviceService = new ServiceService();
+                serviceService.updateQuantiteAndAvailability3(((Models.Service) service).getId_service(), restoredQuantity);
+                System.out.println("Quantité restaurée pour le service : " + restoredQuantity);
+
+                // Rafraîchir la vue en rechargeant le FXML de la liste des réservations
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/ListeReservationService.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) gridPaneReservations.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Liste des réservations");
+                stage.show();
+
+            } catch (SQLException | IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -109,9 +154,9 @@ public class ReservationListController {
      * Retourne à la vue d'accueil.
      */
     @FXML
-    private void retourHome1(ActionEvent event) {
+    private void retourAcceuil(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Home1.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/AcceuilService.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -126,7 +171,7 @@ public class ReservationListController {
 
     public void retourHome1(javafx.event.ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Home1.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/AcceuilService.fxml"));
             Parent root = loader.load();
 
 
@@ -141,4 +186,6 @@ public class ReservationListController {
             System.err.println("Erreur de chargement de AcceuilService.fxml !");
         }
     }
+
+
 }

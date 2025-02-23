@@ -14,6 +14,7 @@
         <children>
             <Label prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
             <Label prefHeight="30.0" prefWidth="191.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Liste des réservations" />
+         <Label prefHeight="30.0" prefWidth="269.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Confirmer votre réservavtion" />
             <Button fx:id="btnRetour" onAction="#retourHome1" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Acceuil" />
         </children>
     </HBox>
