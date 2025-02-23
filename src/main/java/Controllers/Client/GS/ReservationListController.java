@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -85,8 +86,11 @@ public class ReservationListController {
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setStyle("-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-background-radius: 10;");
                 btnModifier.setOnAction(event -> modifierReservation(res));
+                Button btnConfirmer = new Button("Confirmer");
+                btnConfirmer.setStyle("-fx-background-color: #28a745; -fx-text-fill: white; -fx-background-radius: 10;");
+                btnConfirmer.setOnAction(event -> confirmerReservation(res));
                 HBox buttonsBox = new HBox(10); // 10 pixels d'espacement entre les boutons
-                buttonsBox.getChildren().addAll(btnSupprimer, btnModifier);
+                buttonsBox.getChildren().addAll(btnSupprimer, btnModifier,btnConfirmer);
 
                 carteReservation.getChildren().addAll(imageView, nomService, utilisateur, dateReservation, quantite,buttonsBox);
 
@@ -99,6 +103,36 @@ public class ReservationListController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void confirmerReservation(Reservation res) {
+        try {
+            // Définir la date de confirmation à l'heure actuelle
+            res.setDate_confirmation(LocalDateTime.now());
+            // Mettre à jour le statut (par exemple "Confirmée")
+            res.setStatut(Reservation.Statut.fromValue("Confirmée"));
+
+            // Mettre à jour la réservation en base (votre méthode update doit prendre en compte date_confirmation)
+            reservationService.update(res);
+            System.out.println("Réservation confirmée avec succès !");
+
+            // Afficher une alerte d'information
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Votre réservation est confirmée avec succès !");
+            alert.showAndWait();
+
+            // Recharger la vue de la liste des réservations
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/ListeReservationService.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) gridPaneReservations.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Liste des réservations");
+            stage.show();
+        } catch (SQLException | IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -134,6 +168,7 @@ public class ReservationListController {
             try {
                 // Appeler le service pour supprimer la réservation
                 reservationService.delete(res);
+                res.setStatut(Reservation.Statut.fromValue("Annulée"));
                 System.out.println("Réservation supprimée avec succès !");
 
                 // Récupérer le service associé à la réservation
