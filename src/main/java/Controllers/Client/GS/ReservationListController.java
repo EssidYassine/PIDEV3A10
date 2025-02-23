@@ -77,14 +77,14 @@ public class ReservationListController {
                 Label quantite = new Label("Quantité: " + res.getQuantite());
                 quantite.setStyle("-fx-font-size: 14; -fx-text-fill: #666;");
 
-                // Bouton détail (optionnel)
+                // Bouton Supprimer (optionnel)
                 Button btnSupprimer = new Button("Supprimer");
                 btnSupprimer.setStyle("-fx-background-color: #ed4e00; -fx-text-fill: white; -fx-background-radius: 10;");
                 btnSupprimer.setOnAction(event -> SpprimerReservation(res));
-                // Bouton détail (optionnel)
+                // Bouton Modifier (optionnel)
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setStyle("-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-background-radius: 10;");
-                btnModifier.setOnAction(event -> afficherDetails(res));
+                btnModifier.setOnAction(event -> modifierReservation(res));
                 HBox buttonsBox = new HBox(10); // 10 pixels d'espacement entre les boutons
                 buttonsBox.getChildren().addAll(btnSupprimer, btnModifier);
 
@@ -99,6 +99,27 @@ public class ReservationListController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void modifierReservation(Reservation res) {
+        try {
+            // Charger le FXML de la fenêtre de modification
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/ModifierReservation.fxml"));
+            Parent root = loader.load();
+
+            // Obtenir le contrôleur de modification pour lui passer la réservation à modifier
+            ModifierReservationController controller = loader.getController();
+            controller.setReservation(res); // Assurez-vous que cette méthode existe dans ModifierReservationController
+
+            // Récupérer le stage actuel et définir la nouvelle scène
+            Stage stage = (Stage) gridPaneReservations.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier Réservation");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de ModifierReservation.fxml !");
         }
     }
 
