@@ -20,6 +20,10 @@ public class UserDetails {
     private ImageView backflech;
     @FXML
     private ImageView editpage;
+
+    @FXML
+    private ImageView editpwd;
+
     @FXML
     private ImageView logout;
 
@@ -40,14 +44,15 @@ public class UserDetails {
 
     @FXML
     public void initialize() {
-        backflech.setOnMouseClicked(event -> gotodetails());
+        backflech.setOnMouseClicked(event -> gotohome());
+        editpwd.setOnMouseClicked(event -> gotoeditpwd());
         editpage.setOnMouseClicked(event -> gotoedit());
         loadUserDetails(Session.getUser());
         logout.setOnMouseClicked(event -> confirmLogout());
         loadUserDetails(Session.getUser());
 
 
-        User currentUser = Session.getUser();
+        User currentUser = Session.getInstance().getUser();
         System.out.println(currentUser);
 
         if (currentUser != null) {
@@ -61,7 +66,7 @@ public class UserDetails {
         }
     }
 
-    private void gotodetails() {
+    private void gotohome() {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/Home1.fxml"));
@@ -81,6 +86,22 @@ public class UserDetails {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/EditProfile.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) editpage.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Edit User");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur de chargement FXML !");
+        }
+    }
+
+    private void gotoeditpwd() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/EditPassword.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) editpage.getScene().getWindow();

@@ -104,26 +104,35 @@ public class LoginController {
         User user = userService.findUserByEmailAndPassword2(email, motDePasse);
 
         if (user != null) {
-            user.setPassword(motDePasse);
-            Session.setUser(user);
-            Session.afficherSession();
+            if (user.getIsActive().equals("active")) {
+                user.setPassword(motDePasse);
+                Session.setUser(user);
+                Session.afficherSession();
 
-            System.out.println("Login effectué en tant que " + user.getRole());
+                System.out.println("Login effectué en tant que " + user.getRole());
 
-            try {
-                String fxmlFile = determineFxmlFile(user.getRole());
-                if (fxmlFile != null) {
-                    Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
-                    Scene scene = new Scene(root);
-                    Stage currentStage = (Stage) mailid.getScene().getWindow();
-                    currentStage.setScene(scene);
-                    currentStage.show();
-                } else {
-                    showAlert("Erreur", "Rôle non reconnu.");
+                try {
+                    String fxmlFile = determineFxmlFile(user.getRole());
+                    if (fxmlFile != null) {
+                        Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+                        Scene scene = new Scene(root);
+                        Stage currentStage = (Stage) mailid.getScene().getWindow();
+                        currentStage.setScene(scene);
+                        currentStage.show();
+                    } else {
+                        showAlert("Erreur", "Rôle non reconnu.");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showAlert("Erreur", "Erreur lors du chargement de la vue.");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-                showAlert("Erreur", "Erreur lors du chargement de la vue.");
+            } else {
+                // Compte désactivé → afficher une alerte
+                showAlert("Erreur", "Votre compte est désactivé. Veuillez contacter l'administrateur pour l'activer.");
+                mailid.clear(); // Vider le champ email
+                passeid.clear(); // Vider le champ mot de passe
+                errorEmailLabel.setText(""); // Vider le label d'erreur d'email
+                errorPasswordLabel.setText(""); // Vider le label d'erreur de mot de passe
             }
         } else {
             // Connexion échouée → afficher une alerte et vider les labels/champs

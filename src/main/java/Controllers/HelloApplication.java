@@ -27,7 +27,7 @@ public class HelloApplication extends Application {
             stage.centerOnScreen();
 
             // ✅ Prevent resizing if necessary
-            stage.setResizable(false);
+            stage.setResizable(true);
 
             stage.show();
         } catch (IOException e) {

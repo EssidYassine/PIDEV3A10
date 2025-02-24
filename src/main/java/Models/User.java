@@ -37,6 +37,14 @@ public class User {
         this.numTel = numTel;
         this.dateDeNaissance = dateDeNaissance;
     }
+    public User(String username, String email, String role, String isActive, int numTel, Date dateDeNaissance) {
+        this.username = username;
+        this.email = email;
+        this.role = role;
+        this.isActive = isActive;
+        this.numTel = numTel;
+        this.dateDeNaissance = dateDeNaissance;
+    }
     public User() {
 
     }

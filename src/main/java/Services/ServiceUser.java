@@ -5,7 +5,6 @@ import Models.User;
 import Tools.DataBaseConnection;
 import javafx.application.Platform;
 import org.mindrot.jbcrypt.BCrypt;
-
 import java.sql.*;
 import java.sql.Date;
 import java.util.HashSet;
@@ -51,7 +50,6 @@ public class ServiceUser implements IService<User> {
         return null;
     }
 
-
     public User findUserByEmailAndPassword2(String email, String password) {
         try (PreparedStatement pstmt = cnx.prepareStatement("SELECT * FROM user WHERE email = ?")) {
             pstmt.setString(1, email);
@@ -76,7 +74,6 @@ public class ServiceUser implements IService<User> {
         }
         return null;
     }
-
 
     @Override
     public void ajouter(User p) {
@@ -141,7 +138,7 @@ public class ServiceUser implements IService<User> {
         return null;
     }
 
-
+///////////////suppression
     public void supprimer(int id) {
         String sql = "DELETE FROM user WHERE id = ?"; // Requête SQL pour la suppression
 
@@ -160,6 +157,33 @@ public class ServiceUser implements IService<User> {
         }
     }
 
+
+    ///////////////mettre ajour le status
+
+    public void updateIsActive(int userId, String status) {
+        // Vérifier si le statut est valide ("active" ou "desactive")
+        if (!status.equalsIgnoreCase("active") && !status.equalsIgnoreCase("desactive")) {
+            System.out.println("Erreur : Le statut doit être 'active' ou 'desactive'.");
+            return;
+        }
+
+        String sql = "UPDATE user SET is_active = ? WHERE id = ?";
+
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
+            pstmt.setString(1, status);
+            pstmt.setInt(2, userId);
+
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Mise à jour réussie : is_active mis à jour pour l'utilisateur avec ID " + userId);
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec cet ID.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise à jour de is_active : " + e.getMessage());
+        }
+    }
+
     /////////////////////////////
     @Override
     public User getOneById(int id) {
@@ -169,35 +193,34 @@ public class ServiceUser implements IService<User> {
     /////////////////////////////
     @Override
     public void modifier(User p) {
-        String sql = "UPDATE user SET username = ?, email = ?, password = ?, role = ?, is_active = ?, num_tel = ?, date_de_naissance = ? WHERE id = ?";
+        String sql = "UPDATE user SET username = ?, email = ?,role = ?, is_active = ?, num_tel = ?, date_de_naissance = ? WHERE id = ?";
 
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setString(1, p.getUsername());
             pstmt.setString(2, p.getEmail());
-            pstmt.setString(3, p.getPassword());
-            pstmt.setString(4, p.getRole());
-            pstmt.setString(5, p.getIsActive());
+            pstmt.setString(3, p.getRole());
+            pstmt.setString(4, p.getIsActive());
 
             // Gestion du numéro de téléphone
             if (p.getNumTel() != 0) {
-                pstmt.setInt(6, p.getNumTel());
+                pstmt.setInt(5, p.getNumTel());
             } else {
-                pstmt.setNull(6, java.sql.Types.INTEGER);
+                pstmt.setNull(5, java.sql.Types.INTEGER);
             }
 
             // Gestion de la date de naissance
             if (p.getDateDeNaissance() != null) {
-                pstmt.setDate(7, new java.sql.Date(p.getDateDeNaissance().getTime())); // Conversion correcte
+                pstmt.setDate(6, new java.sql.Date(p.getDateDeNaissance().getTime())); // Conversion correcte
             } else {
-                pstmt.setNull(7, java.sql.Types.DATE);
+                pstmt.setNull(6, java.sql.Types.DATE);
             }
 
-            pstmt.setInt(8, p.getId()); // Paramètre pour l'ID
+            pstmt.setInt(7, p.getId()); // Paramètre pour l'ID
 
             int rowsAffected = pstmt.executeUpdate(); // Exécution de la mise à jour
 
             if (rowsAffected > 0) {
-                System.out.println("Utilisateur modifié avec succès !");
+                System.out.println("Utilisateur modifié avec succès sans modification de mot de passe!");
             } else {
                 System.out.println("Aucun utilisateur trouvé avec cet ID.");
             }
@@ -211,19 +234,17 @@ public class ServiceUser implements IService<User> {
         String sql = "UPDATE user SET password = ? WHERE email = ?";
 
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
-            pstmt.setString(1, newPassword); // Nouveau mot de passe
-            pstmt.setString(2, email); // Adresse e-mail de l'utilisateur
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, email);
 
-            int rowsAffected = pstmt.executeUpdate(); // Exécution de la mise à jour
+            int rowsAffected = pstmt.executeUpdate();
 
-            return rowsAffected > 0; // Retourne vrai si l'utilisateur a été modifié
+            return rowsAffected > 0;
         } catch (SQLException e) {
             System.out.println("Erreur lors de la mise à jour du mot de passe : " + e.getMessage());
             return false;
         }
     }
-
-
 
     public boolean emailExists(String email) {
         String sql = "SELECT COUNT(*) FROM user WHERE email = ?";
@@ -239,7 +260,6 @@ public class ServiceUser implements IService<User> {
         }
         return false;
     }
-
 
     @Override
     public Set<User> getAll() {

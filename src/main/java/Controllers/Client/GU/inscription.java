@@ -69,7 +69,6 @@ public class inscription {
     @FXML
     public void initialize() {
         backflech.setOnMouseClicked(event -> gotodetails());
-
         prenomid.textProperty().addListener((obs, oldVal, newVal) -> validateUsername());
         mailid.textProperty().addListener((obs, oldVal, newVal) -> validateEmail());
         passeid.textProperty().addListener((obs, oldVal, newVal) -> validatePassword());
@@ -195,7 +194,6 @@ public class inscription {
         LocalDate dateNaissance = dateid.getValue();
 
         try {
-            // Vérifier si l'email existe déjà
             if (serviceUser.emailExists(email)) {
                 mailid.clear(); // Vider le champ email
                 showAlert(AlertType.ERROR, "Erreur", "L'adresse e-mail existe déjà.");
@@ -205,13 +203,11 @@ public class inscription {
             int numTel = Integer.parseInt(telStr);
             Date sqlDate = Date.valueOf(dateNaissance);
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-            User newUser = new User(username, email, hashedPassword, "user", "nok", numTel, sqlDate);
+            User newUser = new User(username, email, hashedPassword, "user", "desactive", numTel, sqlDate);
 
             serviceUser.ajouter(newUser);
             showAlert(AlertType.INFORMATION, "Succès", "Utilisateur ajouté avec succès !");
-            clearFields(); // Effacer les champs après une inscription réussie
-
-            // Redirection vers la page de connexion
+            clearFields();
             redirectToLogin(event);
 
         } catch (NumberFormatException e) {
@@ -220,7 +216,6 @@ public class inscription {
             showAlert(AlertType.ERROR, "Erreur", "Impossible d'ajouter l'utilisateur : " + e.getMessage());
         }
     }
-
     private void redirectToLogin(ActionEvent event) {
         try {
             // Charger le fichier FXML de la page de connexion
@@ -244,7 +239,6 @@ public class inscription {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
     private void clearFields() {
         prenomid.clear();
         mailid.clear();

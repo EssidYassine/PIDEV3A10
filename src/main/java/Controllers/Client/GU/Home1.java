@@ -1,7 +1,6 @@
 package Controllers.Client.GU;
 
 import Models.Session;
-import Models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,20 +15,21 @@ public class Home1 {
     @FXML
     private ImageView userIcon;
     private Session session;
+
     @FXML
     void initialize() {
-        userIcon.setOnMouseClicked(event -> gotodetails());
+        userIcon.setOnMouseClicked(event -> goToDetails());
         session.afficherSession();
     }
-    private void gotodetails() {
 
+    private void goToDetails() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/UserDetails.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) userIcon.getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Accueil");
+            stage.setTitle("Détails de l'utilisateur");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,6 +37,21 @@ public class Home1 {
         }
     }
 
+    @FXML
+    private void goToChat() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/ChatBot.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) userIcon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("ChatBot");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Erreur de chargement de la page de chat !");
+        }
+    }
 
     @FXML
     private void showAlert(String title, String message) {
@@ -46,6 +61,4 @@ public class Home1 {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
 }

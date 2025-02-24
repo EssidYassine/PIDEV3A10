@@ -97,7 +97,7 @@ public class ForgotPassword {
 
     private void redirectToChangePasswordPage(String email) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/changepwd.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/changepwd.fxml")); // Mettez à jour le chemin vers votre fichier FXML
             Parent root = loader.load();
             ChangePasswordController controller = loader.getController();
             controller.setEmail(email);
@@ -106,7 +106,6 @@ public class ForgotPassword {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace(); // Ajoutez cette ligne pour imprimer la trace de l'erreur
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page de changement de mot de passe.");
         }
     }

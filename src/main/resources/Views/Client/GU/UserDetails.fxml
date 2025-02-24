@@ -67,9 +67,17 @@
                   <Font name="Calibri" size="26.0" />
                </font>
             </Label>
-            <ImageView fx:id="editpage" fitHeight="87.0" fitWidth="84.0" layoutX="744.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="editpage" fitHeight="87.0" fitWidth="84.0" layoutX="755.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../Images/paper.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="editpwd"  fitHeight="62.0" fitWidth="62.0" layoutX="766.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/6357048-removebg-preview.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />

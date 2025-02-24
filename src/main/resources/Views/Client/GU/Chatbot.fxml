@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.ChatBotController">
+    <children>
+
+        <!-- Champ de saisie du message -->
+        <TextField fx:id="txtInput" layoutX="198.0" layoutY="590.0" prefHeight="59.0" prefWidth="700.0" promptText="Écrire votre message ici" style="-fx-border-color: #1e0fc6;" />
+
+        <!-- Bouton retour -->
+        <ImageView fx:id="btnBack" fitHeight="59.0" fitWidth="87.0" layoutX="35.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../Images/back-removebg-preview.png" />
+            </image>
+        </ImageView>
+
+        <!-- Bouton envoyer -->
+        <ImageView fx:id="btnSend" fitHeight="62.0" fitWidth="53.0" layoutX="907.0" layoutY="594.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../Images/images-removebg-preview.png" />
+            </image>
+        </ImageView>
+        <ScrollPane fx:id="scrollPaneMessages" hbarPolicy="NEVER" layoutX="198.0" layoutY="110.0" prefHeight="468.0" prefWidth="700.0" style="-fx-border-width: 2; -fx-border-color: #1e0fc6;" vbarPolicy="NEVER">
+            <content>
+                <VBox fx:id="vboxMessages" prefHeight="458.0" prefWidth="685.0" spacing="10.0" />
+            </content>
+        </ScrollPane>
+        <ImageView fx:id="btnBack1" fitHeight="106.0" fitWidth="103.0" layoutX="515.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/8943377-removebg-preview.png" />
+         </image>
+      </ImageView>
+
+    </children>
+</AnchorPane>

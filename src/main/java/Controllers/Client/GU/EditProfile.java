@@ -29,8 +29,6 @@ public class EditProfile {
     @FXML
     private TextField mailid;
     @FXML
-    private PasswordField passeid;
-    @FXML
     private TextField telid;
     @FXML
     private DatePicker dateid;
@@ -38,8 +36,6 @@ public class EditProfile {
     private Label erusername;
     @FXML
     private Label eremail;
-    @FXML
-    private Label ermotdepasse;
     @FXML
     private Label ertel;
     @FXML
@@ -52,11 +48,11 @@ public class EditProfile {
     public void initialize() {
         backflech.setOnMouseClicked(event -> gotodetails());
         User currentUser = Session.getUser();
+        System.out.println(currentUser.getPassword());
 
         if (currentUser != null) {
             prenomid.setText(currentUser.getUsername());
             mailid.setText(currentUser.getEmail());
-            passeid.setText(currentUser.getPassword());
             telid.setText(String.valueOf(currentUser.getNumTel()));
 
             if (currentUser.getDateDeNaissance() != null) {
@@ -66,7 +62,6 @@ public class EditProfile {
 
             prenomid.textProperty().addListener((obs, oldVal, newVal) -> validateUsername());
             mailid.textProperty().addListener((obs, oldVal, newVal) -> validateEmail());
-            passeid.textProperty().addListener((obs, oldVal, newVal) -> validatePassword());
             telid.textProperty().addListener((obs, oldVal, newVal) -> validatePhone());
             dateid.valueProperty().addListener((obs, oldVal, newVal) -> validateDate());
         } else {
@@ -91,12 +86,12 @@ public class EditProfile {
     public void handleEditUser(ActionEvent event) {
         validateUsername();
         validateEmail();
-        validatePassword();
+
         validatePhone();
         validateDate();
 
         if (!erusername.getText().isEmpty() || !eremail.getText().isEmpty() ||
-                !ermotdepasse.getText().isEmpty() || !ertel.getText().isEmpty() ||
+                 !ertel.getText().isEmpty() ||
                 !erdate.getText().isEmpty()) {
             showAlert(AlertType.ERROR, "Erreur", "Veuillez corriger les erreurs avant de continuer.");
             return;
@@ -104,14 +99,12 @@ public class EditProfile {
 
         String username = prenomid.getText().trim();
         String email = mailid.getText().trim();
-        String password = passeid.getText().trim();
         String telStr = telid.getText().trim();
         LocalDate dateNaissance = dateid.getValue();
 
         try {
             int numTel = Integer.parseInt(telStr);
             Date sqlDate = Date.valueOf(dateNaissance);
-            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
             User currentUser = Session.getUser();
             String currentEmail = currentUser.getEmail();
@@ -122,14 +115,13 @@ public class EditProfile {
                 return;
             }
 
-            User updatedUser = new User(username, email, hashedPassword, "user", "active", numTel, sqlDate);
+            User updatedUser = new User(username,  email, "user", "active", numTel, sqlDate);
             updatedUser.setId(currentUser.getId());
             serviceUser.modifier(updatedUser);
-            updatedUser.setPassword(password);
+            updatedUser.setPassword(currentUser.getPassword());
             Session.setUser(updatedUser);
             showAlert(AlertType.INFORMATION, "Succès", "Utilisateur modifié avec succès !");
             redirectToUserDetails();
-            clearFields();
 
         } catch (NumberFormatException e) {
             ertel.setText("Numéro de téléphone invalide.");
@@ -165,16 +157,6 @@ public class EditProfile {
         }
     }
 
-    private void validatePassword() {
-        String password = passeid.getText().trim();
-        if (password.isEmpty()) {
-            ermotdepasse.setText("Le mot de passe ne peut pas être vide.");
-        } else if (password.length() < 8) {
-            ermotdepasse.setText("Le mot de passe doit contenir au moins 8 caractères.");
-        } else {
-            ermotdepasse.setText("");
-        }
-    }
 
     private void validatePhone() {
         String telStr = telid.getText().trim();
@@ -219,12 +201,10 @@ public class EditProfile {
     private void clearFields() {
         prenomid.clear();
         mailid.clear();
-        passeid.clear();
         telid.clear();
         dateid.setValue(null);
         erusername.setText("");
         eremail.setText("");
-        ermotdepasse.setText("");
         ertel.setText("");
         erdate.setText("");
     }
@@ -234,7 +214,7 @@ public class EditProfile {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/UserDetails.fxml"));
             Parent root = loader.load();
             UserDetails controller = loader.getController(); // Récupérer le contrôleur de la page de détails
-            controller.loadUserDetails(Session.getUser()); // Passer l'utilisateur mis à jour au contrôleur
+            controller.loadUserDetails(Session.getUser());
 
             Stage stage = (Stage) validerid.getScene().getWindow();
             stage.setScene(new Scene(root));
