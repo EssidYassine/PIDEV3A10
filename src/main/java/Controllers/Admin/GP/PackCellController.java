@@ -71,9 +71,8 @@ public class PackCellController {
     @FXML
     private Circle statusCircle;
 
-    // Modifier la méthode setStatus
     public void setStatus(boolean isActive) {
-        if(statusCircle == null) return; // Sécurité
+        if(statusCircle == null) return;
 
         if(isActive) {
             statusCircle.setFill(Color.LIMEGREEN);
@@ -83,8 +82,6 @@ public class PackCellController {
             statusCircle.setStroke(Color.DARKRED);
         }
     }
-
-
 
     private void supprimerPack(int id) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

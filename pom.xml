@@ -66,6 +66,23 @@
                 <artifactId>jfoenix</artifactId>
                 <version>9.0.10</version> <!-- Vérifiez la dernière version -->
             </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>17.0.8</version> <!-- Version correspondant à votre JDK -->
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,0 +1,49 @@
+/* Carte de base */
+.card {
+    -fx-background-color: #ffffff;
+    -fx-padding: 15;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 5);
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease;
+}
+
+/* Effet sur le survol */
+.card-hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0, 0, 10);
+    -fx-translate-y: -5;
+}
+
+/* Titres */
+.card-title {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Autres textes */
+.card-desc,
+.card-type,
+.card-lieu,
+.card-invite {
+    -fx-font-size: 14;
+    -fx-text-fill: #666;
+}
+
+/* Prix */
+.card-price {
+    -fx-font-size: 16;
+    -fx-text-fill: #1e0fc6;
+    -fx-font-weight: bold;
+}
+
+/* Bouton */
+.card-button {
+    -fx-background-color: #1e0fc6;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 8 15;
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+}

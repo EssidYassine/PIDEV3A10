@@ -96,3 +96,62 @@
 .some-class {
     -fx-transform: scale(1.2);
 }
+
+
+/* Style général */
+.root {
+    -fx-font-family: 'Segoe UI';
+    -fx-font-size: 14px;
+}
+
+/* Boutons principaux */
+.primary-btn {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #ED4E00;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+}
+
+.primary-btn:hover {
+    -fx-background-color: #F8F8F8;
+    -fx-cursor: hand;
+}
+
+/* Cartes de pack */
+.pack-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);
+    -fx-padding: 15;
+}
+
+.pack-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.pack-desc {
+    -fx-text-fill: #666666;
+    -fx-wrap-text: true;
+}
+
+/* Boutons d'action */
+.action-btn {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+}
+
+.danger-btn {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+}
+
+/* Effets de survol */
+.button:hover {
+    -fx-opacity: 0.9;
+    -fx-cursor: hand;
+}

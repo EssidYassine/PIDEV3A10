@@ -14,10 +14,10 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage){
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Views/Admin/GP/Home.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Views/Client/GP/Home1.fxml"));
         Scene scene = null;
         try {
-            scene = new Scene(fxmlLoader.load(), 943, 618);
+            scene = new Scene(fxmlLoader.load(), 1086, 711);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

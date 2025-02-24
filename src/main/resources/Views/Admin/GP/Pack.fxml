@@ -2,22 +2,21 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.ScrollPane?>
 
 <AnchorPane fx:id="packVBox" prefHeight="618.0" prefWidth="917.0" stylesheets="@/Styles/fullpackstyling.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.PackController">
    <children>
       <BorderPane layoutX="-2.0" layoutY="-1.0" prefHeight="624.0" prefWidth="924.0">
          <left>
-            <Pane prefHeight="624.0" prefWidth="224.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 50 0 50;" BorderPane.alignment="CENTER">
+            <Pane prefHeight="624.0" prefWidth="224.0" style="-fx-background-color: ED1ef4E00; -fx-background-radius: 0 50 0 50;" BorderPane.alignment="CENTER">
                <children>
                   <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="210.0" prefHeight="362.0" prefWidth="224.0" spacing="20.0">
                      <children>
@@ -46,7 +45,7 @@
                         <Image url="@../../../Images/Blanc_non_bg.png" />
                      </image>
                   </ImageView>
-                  <Button onAction="#handlBack" layoutX="4.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: ed4f00;">
+                  <Button layoutX="4.0" layoutY="14.0" mnemonicParsing="false" onAction="#handlBack" style="-fx-background-color: ed4f00;">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -64,7 +63,7 @@
                   <ScrollPane fx:id="scrollPane" prefHeight="602.0" prefWidth="677.0">
                      <content>
                         <!-- GridPane qui contiendra les cellules de pack -->
-                        <GridPane fx:id="packGridPane" prefHeight="602.0" prefWidth="677.0" hgap="10" vgap="10">
+                        <GridPane fx:id="packGridPane" hgap="10" prefHeight="602.0" prefWidth="677.0" vgap="10">
                            <!-- Les éléments de votre liste de packs viendront ici -->
                         </GridPane>
                      </content>

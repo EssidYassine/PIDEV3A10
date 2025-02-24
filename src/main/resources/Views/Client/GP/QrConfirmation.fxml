@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.Client.GP.QrConfirmationController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <ImageView fx:id="qrImageView" layoutX="50.0" layoutY="50.0" fitWidth="200.0" fitHeight="200.0"/>
+        <Label fx:id="qrCodeLabel" layoutX="50.0" layoutY="270.0" text="QR Code Data" />
+        <Button layoutX="50.0" layoutY="320.0" text="Save QR Code" onAction="#handleSaveButton"/>
+    </children>
+</AnchorPane>

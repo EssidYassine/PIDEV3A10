@@ -15,7 +15,6 @@ public class ServiceGP implements IService<Pack> {
     DataBaseConnection cnx = new DataBaseConnection();
 
 
-    @Override
     public void ajouter(Pack pack, List<Integer> serviceIds, int idLocal) {
         String insertPackQuery = "INSERT INTO packevenement (nom, type, description, prix, nbre_invites_max, budget_prevu, date_evenement, lieu, statut) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String insertPackServiceQuery = "INSERT INTO packservice (pack_id, service_id) VALUES (?, ?)";
@@ -65,7 +64,6 @@ public class ServiceGP implements IService<Pack> {
         }
     }
 
-    @Override
     public void modifier(Pack p, List<Integer> serviceIds, int idLocal) {
         String updateQuery = "UPDATE packevenement SET nom = ?, type = ?, description = ?, prix = ?, nbre_invites_max = ?, budget_prevu = ?, date_evenement = ?, lieu = ?, lieu_id = ?, statut = ? WHERE pack_id = ?";
         try (Connection connection = cnx.getConnection()) {
@@ -159,9 +157,23 @@ public class ServiceGP implements IService<Pack> {
     }
 
 
-    @Override
     public Pack getOneById(int id) {
         return null;
+    }
+
+    @Override
+    public void add(Pack pack) throws SQLException {
+
+    }
+
+    @Override
+    public void update(Pack pack) throws SQLException {
+
+    }
+
+    @Override
+    public void delete(Pack pack) throws SQLException {
+
     }
 
     @Override
@@ -192,6 +204,11 @@ public class ServiceGP implements IService<Pack> {
         return packs;
     }
 
+    @Override
+    public Pack getById(int id) throws SQLException {
+        return null;
+    }
+
     public List<Locaux> getAllLocaux() {
         List<Locaux> locaux = new ArrayList<>();
         String query = "SELECT id_local, Adresse FROM locaux";
@@ -212,6 +229,23 @@ public class ServiceGP implements IService<Pack> {
         }
         return locaux;
     }
+
+    // Dans votre classe ReservationGP
+
+    public Locaux getLocauxByName(String lieuNom) throws SQLException {
+        // Appel de getAllLocaux pour obtenir tous les lieux
+        List<Locaux> tousLesLocaux = getAllLocaux();
+
+        // Parcourir la liste pour trouver le lieu correspondant
+        for (Locaux local : tousLesLocaux) {
+            if (local.getAdresse().equalsIgnoreCase(lieuNom)) {
+                return local; // Retourner le lieu si une correspondance est trouvée
+            }
+        }
+
+        return null; // Retourner null si aucun lieu n'est trouvé
+    }
+
 
 
     public List<Service> getAllServices() {
