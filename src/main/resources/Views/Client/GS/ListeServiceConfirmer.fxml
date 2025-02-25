@@ -14,7 +14,7 @@
         <children>
             <Label prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
 
-            <Label prefHeight="40.0" prefWidth="290.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Liste des réservations confirmée" />
+            <Label prefHeight="40.0" prefWidth="290.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Veuilez valides votre Panier " />
             <Button fx:id="btnRetour"  prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Acceuil" />
         </children>
     </HBox>
@@ -24,6 +24,14 @@
         <GridPane fx:id="gridPaneReservations" hgap="20" style="-fx-padding: 20;" vgap="20">
             <!-- Les cartes de réservation seront ajoutées dynamiquement ici -->
         </GridPane>
+
     </ScrollPane>
 
+    <!-- Bouton Valider Panier -->
+    <Button fx:id="btnValiderPanier"
+            layoutX="870.0" layoutY="660.0"
+            prefHeight="40.0" prefWidth="160.0"
+            style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;"
+            text="Valider Panier"
+            onAction="#validerPanier"/>
 </AnchorPane>

@@ -25,6 +25,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import javafx.scene.control.Alert;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+
+
 public class ListeServiceConfirmer {
 
     @FXML
@@ -38,6 +52,8 @@ public class ListeServiceConfirmer {
 
     private final ReservationService reservationService = new ReservationService();
     private List<Reservation> listeDesReservations;
+    @FXML
+    private Button btnValiderPanier;
 
     @FXML
     public void initialize() {
@@ -129,4 +145,56 @@ public class ListeServiceConfirmer {
             System.err.println("Erreur de chargement de Home1.fxml !");
         }
     }
+    @FXML
+    private void validerPanier() {
+        genererContratPDF();
+    }
+
+    private void genererContratPDF() {
+        Document document = new Document();
+        try {
+            // Chemin vers le dossier "Documents" de l'utilisateur
+            String cheminDocuments = System.getProperty("user.home") + "/Documents/contrat_reservations.pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(cheminDocuments));
+
+            document.open();
+            document.add(new Paragraph("Contrat de Réservation"));
+            document.add(new Paragraph("Date de génération : " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))));
+            document.add(new Paragraph(" "));
+
+            // Création du tableau PDF
+            PdfPTable table = new PdfPTable(4); // 4 colonnes
+            table.addCell("Service");
+            table.addCell("Utilisateur");
+            table.addCell("Date");
+            table.addCell("Quantité");
+
+            for (Reservation res : listeDesReservations) {
+                // Vérification du statut pour s'assurer que la réservation est bien confirmée
+                if (res.getStatut().getValue().equalsIgnoreCase("Confirmée")) {
+                    table.addCell(res.getService().getNom_service());
+                    table.addCell(res.getUtilisateur().getNom());
+                    table.addCell(res.getDate_reservation().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+                    table.addCell(String.valueOf(res.getQuantite()));
+                }
+            }
+
+            document.add(table);
+            document.add(new Paragraph(" "));
+            document.add(new Paragraph("Signature : _____________________"));
+            document.close();
+
+            // Alerte de confirmation
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("PDF Généré");
+            alert.setHeaderText(null);
+            alert.setContentText("Le contrat a été généré avec succès !");
+            alert.showAndWait();
+
+            System.out.println("PDF généré avec succès !");
+        } catch (DocumentException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

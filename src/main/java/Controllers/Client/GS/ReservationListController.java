@@ -87,7 +87,7 @@ public class ReservationListController {
                 Button btnModifier = new Button("Modifier");
                 btnModifier.setStyle("-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-background-radius: 10;");
                 btnModifier.setOnAction(event -> modifierReservation(res));
-                Button btnConfirmer = new Button("Confirmer");
+                Button btnConfirmer = new Button("Ajouter au panier");
                 btnConfirmer.setStyle("-fx-background-color: #28a745; -fx-text-fill: white; -fx-background-radius: 10;");
                 btnConfirmer.setOnAction(event -> confirmerReservation(res));
                 HBox buttonsBox = new HBox(10); // 10 pixels d'espacement entre les boutons
