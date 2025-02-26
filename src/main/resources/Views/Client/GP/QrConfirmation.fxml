@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<VBox spacing="20" xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Controllers.Client.GP.QrConfirmationController"
-      style="-fx-padding: 20; -fx-background-color: white;">
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
 
-    <Label text="QR Code de Réservation" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+<VBox prefHeight="150.0" prefWidth="230.0" spacing="20" style="-fx-padding: 20; -fx-background-color: white;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GP.QrConfirmationController">
 
-    <ImageView fx:id="qrImageView" fitWidth="300" fitHeight="300">
+    <Label prefHeight="26.0" prefWidth="220.0" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Scanner pour Suivre toujours Votre réseravtion" />
+
+    <ImageView fx:id="qrImageView" fitHeight="171.0" fitWidth="186.0">
         <VBox.margin>
-            <Insets top="10" bottom="20"/>
+            <Insets bottom="20" top="10" />
         </VBox.margin>
     </ImageView>
 
-    <Label fx:id="detailsLabel" wrapText="true" style="-fx-font-size: 14;"/>
+    <Hyperlink fx:id="urlLink" style="-fx-font-size: 12; -fx-text-fill: #2A5DB0;" text="Voir les détails complets" />
 
-    <Hyperlink fx:id="urlLink" text="Voir les détails complets"
-               style="-fx-font-size: 12; -fx-text-fill: #2A5DB0;"/>
+    <Label fx:id="detailsLabel" prefHeight="20.0" prefWidth="81.0" style="-fx-font-size: 14;" wrapText="true" />
 </VBox>

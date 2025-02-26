@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1086" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GP.ReservationController">
 
@@ -11,47 +18,53 @@
     <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="1061.0" spacing="30" style="-fx-alignment: center;">
         <children>
             <Label prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
-            <Label prefHeight="30.0" prefWidth="122.0" style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="Réclamation" />
+            <Label prefHeight="25.0" prefWidth="120.0" style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="Réclamation">
+            <font>
+               <Font size="11.0" />
+            </font></Label>
             <Button fx:id="btnRetour1" onAction="#retourHome1" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Acceuil" />
         </children>
     </HBox>
 
     <!-- Formulaire de Réservation -->
-    <VBox layoutX="50.0" layoutY="100.0" prefHeight="550.0" prefWidth="980.0" spacing="10" style="-fx-padding: 40; -fx-alignment: center; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
-        <Label text="Formulaire de Réservation" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;"/>
+    <VBox layoutX="226.0" layoutY="100.0" prefHeight="550.0" prefWidth="634.0" spacing="10" style="-fx-padding: 40; -fx-alignment: center; -fx-background-color: #c3c3d5; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+        <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Réserver Votre Evenement">
+         <VBox.margin>
+            <Insets bottom="35.0" />
+         </VBox.margin></Label>
 
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Email Utilisateur:" style="-fx-min-width: 150;"/>
-            <TextField fx:id="userEmailField" style="-fx-pref-width: 300;"/>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label style="-fx-min-width: 150;" text="Email Utilisateur:" />
+            <TextField fx:id="userEmailField" style="-fx-pref-width: 300;" />
         </HBox>
 
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Nombre d'Invités:" style="-fx-min-width: 150;"/>
-            <TextField fx:id="nbreInvitesField" style="-fx-pref-width: 100;"/>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label style="-fx-min-width: 150;" text="Nombre d'Invités:" />
+            <TextField fx:id="nbreInvitesField" style="-fx-pref-width: 100;" />
         </HBox>
 
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Budget Alloué:" style="-fx-min-width: 150;"/>
-            <TextField fx:id="budgetField" style="-fx-pref-width: 200;"/>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label style="-fx-min-width: 150;" text="Budget Alloué:" />
+            <TextField fx:id="budgetField" style="-fx-pref-width: 200;" />
         </HBox>
 
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Date Réservation:" style="-fx-min-width: 150;"/>
-            <DatePicker fx:id="dateReservationField" style="-fx-pref-width: 200;"/>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label style="-fx-min-width: 150;" text="Date Réservation:" />
+            <DatePicker fx:id="dateReservationField" style="-fx-pref-width: 200;" />
         </HBox>
 
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Lieu:" style="-fx-min-width: 150;"/>
-            <ComboBox fx:id="lieuField" style="-fx-pref-width: 300;"/>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label style="-fx-min-width: 150;" text="Lieu:" />
+            <ComboBox fx:id="lieuField" style="-fx-pref-width: 300;" />
         </HBox>
 
         <VBox fx:id="servicesContainer" spacing="10" />
 
         <VBox spacing="5">
-            <Label text="Commentaires:" style="-fx-font-weight: bold;"/>
-            <TextArea fx:id="commentaireField" prefHeight="80" style="-fx-border-color: #ccc;"/>
+            <Label style="-fx-font-weight: bold;" text="Commentaires:" />
+            <TextArea fx:id="commentaireField" prefHeight="122.0" prefWidth="502.0" style="-fx-border-color: #ccc;" />
         </VBox>
 
-        <Button text="Confirmer la Réservation" onAction="#handleAddReservation"  style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;"/>
+        <Button onAction="#handleAddReservation" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;" text="Confirmer la Réservation" />
     </VBox>
 </AnchorPane>
