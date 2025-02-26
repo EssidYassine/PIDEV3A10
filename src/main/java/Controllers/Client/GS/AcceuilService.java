@@ -212,5 +212,21 @@ public class AcceuilService {
             System.err.println("Erreur de chargement de AcceuilService.fxml !");
         }
     }
+
+    public void gotoHome(MouseEvent mouseEvent) {
+        try {
+            // Charger l'interface AcceuilService.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Home1.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Home");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

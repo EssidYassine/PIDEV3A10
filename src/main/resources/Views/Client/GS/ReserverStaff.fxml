@@ -18,16 +18,16 @@
             <children>
                 <Label prefHeight="46.0" prefWidth="118.0"
                        style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;"
-                       text="Eventus" />
+                       text="Eventus" 	onMouseClicked="#gotoHome"/>
                 <Label prefHeight="30.0" prefWidth="176.0"
                        style="-fx-font-size: 20px; -fx-text-fill: #333;"
-                       text="Reserver Matériel" />
+                       text="Reserver Matériel" 	onMouseClicked="#gotoReserverMateriel"/>
                 <Label prefHeight="30.0" prefWidth="142.0"
                        style="-fx-font-size: 20px; -fx-text-fill: #333;"
                        text="Reserver Staff" />
                 <Label prefHeight="30.0" prefWidth="249.0"
                        style="-fx-font-size: 20px; -fx-text-fill: #333;"
-                       text="Liste des réservations" />
+                       text="Liste des réservations" 	onMouseClicked="#gotoListeReservation"/>
                 <Label prefHeight="30.0" prefWidth="122.0"
                        style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;"
                        text="Réclamation" />

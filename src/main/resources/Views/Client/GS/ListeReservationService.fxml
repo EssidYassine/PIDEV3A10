@@ -12,7 +12,7 @@
     <!-- Barre de navigation -->
     <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="1061.0" spacing="30" style="-fx-alignment: center;">
         <children>
-            <Label prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
+            <Label prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" onMouseClicked="#gotoHome"/>
 
          <Label prefHeight="40.0" prefWidth="290.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Liste des réservations confirmée" onMouseClicked="#gotoServiceConfirme"/>
             <Button fx:id="btnRetour" onAction="#retourHome1" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Acceuil" />

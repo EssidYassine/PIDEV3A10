@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -246,6 +247,55 @@ public class ReservationMaterielController {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Erreur de chargement de AcceuilService.fxml !");
+        }
+
+    }
+
+    public void gotoReservationStaff(MouseEvent mouseEvent) {
+        try {
+            // Charger l'interface AcceuilService.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/ReserverStaff.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Reserver staff");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void gotolisteReservation(MouseEvent mouseEvent) {
+        try {
+            // Charger l'interface AcceuilService.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/ListeReservationService.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Liste Reservation");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void gotoHome(MouseEvent mouseEvent) {
+        try {
+            // Charger l'interface AcceuilService.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GS/Home1.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer la scène actuelle
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Home");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
