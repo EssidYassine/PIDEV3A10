@@ -9,22 +9,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 
 import javafx.event.ActionEvent;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.EventObject;
+import java.util.List;
 
 public class ServiceController {
 
@@ -52,15 +50,26 @@ public class ServiceController {
     @FXML
     private ImageView imageView;
 
-    private String imageUrl = null; // Par défaut, aucune image sélectionnée
+    @FXML
+    private GridPane gridPaneServices;  // GridPane pour afficher les services
+
+    private String imageUrl = null;
 
     private final ServiceService serviceService = new ServiceService();
 
     @FXML
     public void initialize() {
         typeServiceCombo.getItems().setAll(Service.TypeService.values());
+        try {
+            chargerServices();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * Méthode pour choisir une image depuis le système de fichiers
+     */
     @FXML
     private void choisirImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -72,34 +81,12 @@ public class ServiceController {
         }
     }
 
-    @FXML
-    private void decrementerQuantite(ActionEvent event) {
-        try {
-            int quantite = Integer.parseInt(quantiteMaterielField.getText());
-            if (quantite > 1) {
-                quantite--;
-                quantiteMaterielField.setText(String.valueOf(quantite));
-            }
-        } catch (NumberFormatException e) {
-            quantiteMaterielField.setText("1"); // Valeur par défaut en cas d'erreur
-        }
-    }
-
-    @FXML
-    private void incrementerQuantite(ActionEvent event) {
-        try {
-            int quantite = Integer.parseInt(quantiteMaterielField.getText());
-            quantite++;
-            quantiteMaterielField.setText(String.valueOf(quantite));
-        } catch (NumberFormatException e) {
-            quantiteMaterielField.setText("1"); // Valeur par défaut en cas d'erreur
-        }
-    }
-
+    /**
+     * Méthode pour ajouter un nouveau service
+     */
     @FXML
     private void ajouterService(ActionEvent event) {
         try {
-            // Récupération des valeurs des champs
             String nomService = nomServiceField.getText().trim();
             String description = descriptionField.getText().trim();
             String prixText = prixField.getText().trim();
@@ -108,102 +95,111 @@ public class ServiceController {
             String roleStaff = roleStaffField.getText().trim();
             String experience = experienceField.getText().trim();
 
-            // Simulation de l'utilisateur connecté (à remplacer par le système de session)
-            User utilisateur = new User(1, "Dupont", "Jean", "jean.dupont@example.com","emna");
+            User utilisateur = new User(1, "Dupont", "Jean", "jean.dupont@example.com", "emna");
 
-            // Validation des entrées
             if (nomService.isEmpty() || description.isEmpty() || typeService == null) {
                 showErrorAlert("Champs obligatoires", "Veuillez remplir tous les champs requis.");
                 return;
             }
 
-            // Vérification du nom du service (Pas de caractères spéciaux)
-            if (!nomService.matches("[a-zA-Z0-9 ]+")) {
-                showErrorAlert("Nom invalide", "Le nom du service ne doit pas contenir de caractères spéciaux.");
-                return;
-            }
+            int prix = Integer.parseInt(prixText);
+            int quantiteMateriel = Integer.parseInt(quantiteMaterielText);
 
-            // Vérification de la longueur de la description
-            if (description.length() < 10) {
-                showErrorAlert("Description trop courte", "La description doit contenir au moins 10 caractères.");
-                return;
-            }
-
-            // Vérification du prix (Nombre positif)
-            int prix;
-            try {
-                prix = Integer.parseInt(prixText);
-                if (prix <= 0) {
-                    showErrorAlert("Prix invalide", "Le prix doit être un nombre positif.");
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                showErrorAlert("Prix invalide", "Veuillez entrer un nombre valide pour le prix.");
-                return;
-            }
-
-            // Vérification de la quantité de matériel (Nombre entier positif)
-            int quantiteMateriel;
-            try {
-                quantiteMateriel = Integer.parseInt(quantiteMaterielText);
-                if (quantiteMateriel < 0) {
-                    showErrorAlert("Quantité invalide", "La quantité de matériel ne peut pas être négative.");
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                showErrorAlert("Quantité invalide", "Veuillez entrer un nombre entier pour la quantité de matériel.");
-                return;
-            }
-
-            // Par défaut, on force `disponibilite = 1` lors de l'ajout
             int disponibilite = 1;
 
-            // Création du service avec l'objet Utilisateur
             Service service = new Service(0, nomService, description, prix, typeService, disponibilite, utilisateur, imageUrl, quantiteMateriel, roleStaff, experience);
 
-            // Ajout du service via ServiceService
             serviceService.add(service);
 
-            // Affichage d'une alerte de succès
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Succès");
             alert.setHeaderText(null);
             alert.setContentText("Service ajouté avec succès !");
             alert.showAndWait();
 
-            // Redirection vers la liste des services
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/GetService.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) nomServiceField.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            chargerServices();
+            resetForm();
 
         } catch (SQLException e) {
             e.printStackTrace();
             showErrorAlert("Erreur SQL", "Impossible d'ajouter le service : " + e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-            showErrorAlert("Erreur", "Impossible de charger la page des services.");
-        }
-    }
-    public void revenirFenetreGestion(ActionEvent actionEvent) {
-
-        try {
-            // Charger l'interface Service.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/GestionnaireS.fxml"));
-            Parent root = loader.load();
-
-            // Récupérer la scène actuelle
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("gestionnaire");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Erreur de chargement de GestionnaireS.fxml !");
         }
     }
 
+    /**
+     * Méthode pour charger et afficher les services dans le GridPane
+     */
+    private void chargerServices() throws SQLException {
+        gridPaneServices.getChildren().clear();
+        List<Service> services = serviceService.getAll();
+        int row = 0;
+        int column = 0;
+
+        for (Service service : services) {
+            VBox card = new VBox();
+            card.setSpacing(10);
+            card.setStyle("-fx-background-color: #1f2c50; -fx-padding: 10; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+            // Image du service
+            ImageView imgView = new ImageView();
+            imgView.setFitWidth(150);
+            imgView.setFitHeight(100);
+            imgView.setPreserveRatio(true);
+
+            try {
+                if (service.getImageUrl() != null && !service.getImageUrl().isEmpty()) {
+                    Image image = new Image((String) service.getImageUrl(), true);
+                    if (image.getException() == null) {
+                        imgView.setImage(image);
+                    } else {
+                        throw image.getException();
+                    }
+                } else {
+                    imgView.setImage(new Image("default-image-url.png", true));
+                }
+            } catch (Exception e) {
+                System.err.println("Erreur de chargement de l'image : " + e.getMessage());
+                imgView.setImage(new Image("default-image-url.png", true));
+            }
+
+            card.getChildren().add(imgView);
+
+            // Nom du service
+            Label nomLabel = new Label(service.getNom());
+            nomLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+            card.getChildren().add(nomLabel);
+
+            // Prix du service
+            Label prixLabel = new Label("Prix : " + service.getPrix() + " €");
+            card.getChildren().add(prixLabel);
+
+            gridPaneServices.add(card, column, row);
+            column++;
+            if (column == 2) {
+                column = 0;
+                row++;
+            }
+        }
+    }
+
+    /**
+     * Réinitialisation du formulaire
+     */
+    private void resetForm() {
+        nomServiceField.clear();
+        descriptionField.clear();
+        prixField.clear();
+        typeServiceCombo.setValue(null);
+        quantiteMaterielField.clear();
+        roleStaffField.clear();
+        experienceField.clear();
+        imageView.setImage(null);
+        imageUrl = null;
+    }
+
+    /**
+     * Affichage d'une alerte d'erreur
+     */
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -212,6 +208,18 @@ public class ServiceController {
         alert.showAndWait();
     }
 
+    public void revenirFenetreHome(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/Home.fxml"));
+            Parent root = loader.load();
 
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Gestionnaire de Services");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de AcceuilService.fxml !");
+        }
     }
-
+}

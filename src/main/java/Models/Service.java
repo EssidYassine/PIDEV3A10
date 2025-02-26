@@ -10,21 +10,21 @@ public class Service {
     private int prix;
     private TypeService type_service;
     private int disponibilite;
-    private User utilisateur; // Remplacement par un objet
+    private User utilisateur;
     private String image_url;
     private int quantite_materiel;
     private String role_staff;
     private String experience;
 
+    // Enum pour le type de service
     public enum TypeService {
         Matériel, Staff;
-
-
     }
 
+    // Constructeur vide
     public Service() {}
 
-    // Constructeur complet avec Utilisateur
+    // Constructeur complet
     public Service(int id_service, String nom_service, String description, int prix, TypeService type_service,
                    int disponibilite, User utilisateur, String image_url, int quantite_materiel,
                    String role_staff, String experience) {
@@ -40,6 +40,8 @@ public class Service {
         this.role_staff = role_staff;
         this.experience = experience;
     }
+
+    // Getters et Setters
 
     public int getId_service() {
         return id_service;
@@ -97,6 +99,7 @@ public class Service {
         this.utilisateur = utilisateur;
     }
 
+    // Correction du getter pour l'URL de l'image
     public String getImage_url() {
         return image_url;
     }
@@ -129,6 +132,16 @@ public class Service {
         this.experience = experience;
     }
 
+    // Getter pour le nom du service (utilisé dans le contrôleur)
+    public String getNom() {
+        return nom_service;
+    }
+
+    // Getter pour l'URL de l'image (utilisé dans le contrôleur)
+    public String getImageUrl() {
+        return image_url;
+    }
+
     @Override
     public String toString() {
         return "Service{" +
@@ -145,5 +158,4 @@ public class Service {
                 ", experience='" + experience + '\'' +
                 '}';
     }
-
 }
