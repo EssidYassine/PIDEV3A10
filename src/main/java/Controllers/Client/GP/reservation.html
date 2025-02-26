@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmationnnnnn Réservation</title>
+  <style>
+    /* Style global pour le body */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    /* Conteneur centré avec ombre et bordures arrondies */
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+    }
+    /* Style du titre */
+    h2 {
+      color: #007BFF;
+      text-align: center;
+    }
+    /* Style du paragraphe de détails */
+    #details {
+      line-height: 1.6;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Détails de la réservation</h2>
+  <p id="details"></p>
+</div>
+
+<script>
+  function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return Object.fromEntries(params.entries());
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const details = getQueryParams();
+    if (details.id) {
+      // Utilisation de innerHTML pour pouvoir insérer des balises <br>
+      document.getElementById("details").innerHTML = `
+          <strong>Réservation #${details.id}</strong><br>
+          Pack: ${details.pack}<br>
+          Date: ${details.date}<br>
+          Invités: ${details.invites}<br>
+          Budget: ${details.budget}€<br>
+          Lieu: ${details.lieu}<br>
+          Services: ${details.services}
+        `;
+    } else {
+      document.getElementById("details").innerText = "Aucune réservation trouvée.";
+    }
+  });
+</script>
+</body>
+</html>

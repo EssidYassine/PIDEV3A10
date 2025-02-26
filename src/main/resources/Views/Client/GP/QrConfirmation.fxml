@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.*?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.Client.GP.QrConfirmationController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.Insets?>
+<VBox spacing="20" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controllers.Client.GP.QrConfirmationController"
+      style="-fx-padding: 20; -fx-background-color: white;">
 
-    <children>
-        <ImageView fx:id="qrImageView" layoutX="50.0" layoutY="50.0" fitWidth="200.0" fitHeight="200.0"/>
-        <Label fx:id="qrCodeLabel" layoutX="50.0" layoutY="270.0" text="QR Code Data" />
-        <Button layoutX="50.0" layoutY="320.0" text="Save QR Code" onAction="#handleSaveButton"/>
-    </children>
-</AnchorPane>
+    <Label text="QR Code de Réservation" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+
+    <ImageView fx:id="qrImageView" fitWidth="300" fitHeight="300">
+        <VBox.margin>
+            <Insets top="10" bottom="20"/>
+        </VBox.margin>
+    </ImageView>
+
+    <Label fx:id="detailsLabel" wrapText="true" style="-fx-font-size: 14;"/>
+
+    <Hyperlink fx:id="urlLink" text="Voir les détails complets"
+               style="-fx-font-size: 12; -fx-text-fill: #2A5DB0;"/>
+</VBox>

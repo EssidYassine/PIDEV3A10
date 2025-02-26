@@ -7,60 +7,129 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class QrConfirmationController {
 
-    private BitMatrix bitMatrix; // Ajouter cette variable membre
+    @FXML private ImageView qrImageView;
+    @FXML private Label detailsLabel;
+    @FXML private Hyperlink urlLink;
 
-    @FXML
-    private ImageView qrImageView;
-    @FXML
-    private Label qrCodeLabel;
+    private static final String BASE_URL = "https://bright-kashata-88b9ac.netlify.app/reservation.html";
 
-    public void setQrCode(String qrData) {
+    // Dans QrConfirmationController.java
+
+    public void setQrData(Map<String, String> reservationDetails) {
+        if (reservationDetails == null) {
+            throw new IllegalArgumentException("Reservation details cannot be null");
+        }
+
+        String qrContent;
+        // Si "qrContent" est présent, on l'utilise directement
+        if (reservationDetails.containsKey("qrContent") && !reservationDetails.get("qrContent").isEmpty()) {
+            qrContent = reservationDetails.get("qrContent");
+        } else {
+            qrContent = generateReservationUrl(reservationDetails);
+        }
+
+        BufferedImage qrImage = generateQrImage(qrContent);
+
+        if (qrImage != null) {
+            qrImageView.setImage(SwingFXUtils.toFXImage(qrImage, null));
+        } else {
+            // Chargement de l'image par défaut via les ressources
+            Image defaultImage = new Image(getClass().getResourceAsStream("/Images/icons8-sortie-48 (1).png"));
+            qrImageView.setImage(defaultImage);
+        }
+
+        detailsLabel.setText("Scannez le QR Code ou cliquez sur le lien ci-dessous.");
+        urlLink.setText(qrContent);
+        urlLink.setOnAction(e -> openBrowser(qrContent));
+    }
+
+
+    private String generateReservationUrl(Map<String, String> details) {
+        // Si la map contient la clé "qrContent", on retourne sa valeur
+        if (details.containsKey("qrContent") && details.get("qrContent") != null && !details.get("qrContent").isEmpty()) {
+            return details.get("qrContent");
+        }
         try {
-            QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            bitMatrix = qrCodeWriter.encode(qrData, BarcodeFormat.QR_CODE, 200, 200); // Stocker le BitMatrix
+            // Pour chaque détail, si la valeur est nulle, on utilise une chaîne vide
+            String id = details.get("id") != null ? details.get("id") : "";
+            String pack = details.get("pack") != null ? details.get("pack") : "";
+            String date = details.get("date") != null ? details.get("date") : "";
+            String invites = details.get("invites") != null ? details.get("invites") : "";
+            String budget = details.get("budget") != null ? details.get("budget") : "";
+            String lieu = details.get("lieu") != null ? details.get("lieu") : "";
+            String services = details.get("services") != null ? details.get("services") : "";
 
-            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
-            Image qrImage = SwingFXUtils.toFXImage(bufferedImage, null);
+            return BASE_URL + "?" +
+                    "id=" + URLEncoder.encode(id, StandardCharsets.UTF_8.name()) +
+                    "&pack=" + URLEncoder.encode(pack, StandardCharsets.UTF_8.name()) +
+                    "&date=" + URLEncoder.encode(date, StandardCharsets.UTF_8.name()) +
+                    "&invites=" + URLEncoder.encode(invites, StandardCharsets.UTF_8.name()) +
+                    "&budget=" + URLEncoder.encode(budget, StandardCharsets.UTF_8.name()) +
+                    "&lieu=" + URLEncoder.encode(lieu, StandardCharsets.UTF_8.name()) +
+                    "&services=" + URLEncoder.encode(services, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return BASE_URL;
+        }
+    }
 
-            qrImageView.setImage(qrImage);
-            qrCodeLabel.setText(qrData);
-
+    private BufferedImage generateQrImage(String qrData) {
+        try {
+            QRCodeWriter writer = new QRCodeWriter();
+            BitMatrix matrix = writer.encode(qrData, BarcodeFormat.QR_CODE, 300, 300);
+            return MatrixToImageWriter.toBufferedImage(matrix);
         } catch (WriterException e) {
-            handleQrError(qrData, e);
+            return null;
         }
     }
 
-    // Méthode corrigée pour utiliser BitMatrix
-    public void saveQrCode(String filename) {
+    private void openBrowser(String url) {
         try {
-            MatrixToImageWriter.writeToPath(
-                    bitMatrix, // Utiliser le BitMatrix stocké
-                    "PNG",
-                    java.nio.file.Paths.get(filename)
-            );
-        } catch (Exception e) {
+            String os = System.getProperty("os.name").toLowerCase();
+            ProcessBuilder processBuilder;
+
+            if (os.contains("win")) {
+                // Windows
+                processBuilder = new ProcessBuilder("cmd", "/c", "start", url);
+            } else if (os.contains("mac")) {
+                // macOS
+                processBuilder = new ProcessBuilder("open", url);
+            } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+                // Linux/Unix
+                processBuilder = new ProcessBuilder("xdg-open", url);
+            } else {
+                throw new UnsupportedOperationException("Système d'exploitation non supporté : " + os);
+            }
+
+            processBuilder.start();
+        } catch (IOException e) {
             e.printStackTrace();
+            showAlert(Alert.AlertType.INFORMATION, "Erreur lors de l'ouverture du navigateur : " , e.getMessage());
+        } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.INFORMATION,"", e.getMessage());
         }
     }
-
-    private void handleQrError(String qrData, Exception e) {
-        e.printStackTrace();
-        qrCodeLabel.setText("Erreur de génération: " + qrData);
-        qrImageView.setVisible(false);
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
-
-    // Méthode pratique pour déclencher la sauvegarde
-    public void handleSaveButton() {
-        saveQrCode("qrcode_" + System.currentTimeMillis() + ".png");
-    }
-
 
 }

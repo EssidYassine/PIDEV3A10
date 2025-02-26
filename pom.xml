@@ -83,6 +83,15 @@
             <version>17.0.8</version> <!-- Version correspondant à votre JDK -->
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version> <!-- Vérifiez la dernière version -->
+        </dependency>
+
+
+
+
     </dependencies>
 
     <build>

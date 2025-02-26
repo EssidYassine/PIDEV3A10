@@ -4,7 +4,6 @@ import Interfaces.IService;
 import Models.Reservation;
 import Tools.DataBaseConnection;
 import Models.Locaux;
-import Models.Pack;
 import Models.Service;
 
 import java.sql.Connection;
@@ -15,10 +14,14 @@ import java.util.*;
 
 public class ReservationGP implements IService<Reservation> {
 
+    private static Connection connection;
     DataBaseConnection cnx = new DataBaseConnection();
 
-    private final ServiceGP serviceService = new ServiceGP();
-    private final UserService userService = new UserService();
+
+    public ReservationGP() {
+        connection = DataBaseConnection.getConnection();
+    }
+
 
     public String addR(Reservation reservation) throws SQLException {
         Connection conn = null;
@@ -28,8 +31,8 @@ public class ReservationGP implements IService<Reservation> {
             conn.setAutoCommit(false);
 
             String reservationQuery = "INSERT INTO reservationpack (pack_id, user_id, nbre_invites, "
-                    + "budget_alloue, date_reservation, statut_reservation, commentaire, qr_code_url) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; // Suppression de lieu_id
+                    + "budget_alloue, date_reservation, statut_reservation, commentaire, qr_code_url,lieu_id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement stmt = conn.prepareStatement(reservationQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 // Génération QR Code
@@ -43,6 +46,8 @@ public class ReservationGP implements IService<Reservation> {
                 stmt.setString(6, "en attente"); // Correction ici pour correspondre à l'énum
                 stmt.setString(7, reservation.getCommentaire());
                 stmt.setString(8, qrCode); // Ajustement pour correspondre aux colonnes
+                stmt.setInt(9, reservation.getLieu().getIdLocal()); // Ajustement pour correspondre aux colonnes
+
 
                 stmt.executeUpdate();
 
@@ -143,32 +148,6 @@ public class ReservationGP implements IService<Reservation> {
         return null; // Retourner null si aucun lieu n'est trouvé
     }
 
-    public List<Service> getServicesByNames(List<String> serviceNames) throws SQLException {
-        List<Service> services = new ArrayList<>();
-        if (serviceNames.isEmpty()) return services;
-
-        String query = "SELECT id_service, nom_service FROM service WHERE nom_service IN ("
-                + String.join(",", Collections.nCopies(serviceNames.size(), "?"))
-                + ")";
-
-        try (Connection conn = cnx.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            for (int i = 0; i < serviceNames.size(); i++) {
-                stmt.setString(i + 1, serviceNames.get(i));
-            }
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Service service = new Service();
-                service.setId_service(rs.getInt("id_service"));
-                service.setNom_service(rs.getString("nom_service"));
-                services.add(service);
-            }
-        }
-        return services;
-    }
-
 
     public Locaux getDefaultLieuByPackId(int packId) throws SQLException {
         String query = "SELECT lieu_id FROM packevenement WHERE pack_id = ?";
@@ -205,21 +184,6 @@ public class ReservationGP implements IService<Reservation> {
             }
         }
         return null;
-    }
-
-    private void insertReservationServices(int reservationId, List<Service> services) throws SQLException {
-        String query = "INSERT INTO reservationservice (reservation_id, service_id) VALUES (?, ?)";
-
-        try (Connection conn = cnx.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            for (Service service : services) {
-                stmt.setInt(1, reservationId);
-                stmt.setInt(2, service.getId_service());
-                stmt.addBatch();
-            }
-            stmt.executeBatch();
-        }
     }
 
 
