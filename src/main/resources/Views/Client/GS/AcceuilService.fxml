@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.TextField?>
 <AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GS.AcceuilService">
 
     <children>
@@ -23,23 +24,46 @@
             <Button fx:id="btnRetour1" onAction="#retourHome1" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Acceuil" />
             </children>
         </HBox>
+        <HBox layoutX="30.0" layoutY="70.0" spacing="0" style="-fx-alignment: center;">
+            <!-- Champ de texte pour la recherche -->
+            <TextField fx:id="searchBar" promptText="Rechercher un service..." onKeyReleased="#filtrerServices"
+                       style="-fx-background-color: white; -fx-background-radius: 30 0 0 30; -fx-font-size: 18px; -fx-padding: 10; -fx-border-color: transparent; -fx-border-radius: 30;" />
 
+            <!-- Bouton de recherche -->
+            <Button fx:id="searchButton" onAction="#filtrerServices"
+                    style="-fx-background-color: #ed4e00; -fx-background-radius: 0 30 30 0; -fx-text-fill: white; -fx-padding: 20; -fx-min-width: 50;" >
+                <graphic>
+                    <Label text="🔍" style="-fx-font-size: 18px; -fx-text-fill: white;" />
+                </graphic>
+            </Button>
+
+        </HBox>
         <!-- Liste des services dans un GridPane avec scrolling -->
-        <ScrollPane fx:id="scrollPaneServices" fitToWidth="true" layoutX="50.0" layoutY="100.0" prefHeight="550.0" prefWidth="980.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">
+        <ScrollPane fx:id="scrollPaneServices" fitToWidth="true" layoutX="50.0" layoutY="150.0" prefHeight="550.0" prefWidth="980.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">
             <GridPane fx:id="gridPaneServices" hgap="20" style="-fx-padding: 20;" vgap="20">
                 <!-- Les cartes des services seront ajoutées dynamiquement ici -->
             </GridPane>
         </ScrollPane>
 
         <!-- Détails du service sélectionné (caché par défaut) -->
-        <VBox fx:id="detailsContainer" layoutX="50.0" layoutY="100.0" prefHeight="550.0" prefWidth="980.0" spacing="10" style="-fx-padding: 40; -fx-alignment: center; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" visible="false">
-            <ImageView fx:id="imageService" fitHeight="200.0" fitWidth="400.0" preserveRatio="true" />
+        <VBox fx:id="detailsContainer" layoutX="50.0" layoutY="150.0" prefWidth="980.0" spacing="20"
+              style="-fx-padding: 40; -fx-alignment: center; -fx-background-color: #FFFFFF;
+             -fx-border-radius: 10; -fx-background-radius: 10;
+             -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);"
+              alignment="CENTER" visible="false">
 
-            <Label fx:id="labelNomService" style="-fx-font-size: 40; -fx-font-weight: bold;" />
-            <Label fx:id="labelDescription" style="-fx-font-size: 20; -fx-text-fill: #666;" wrapText="true" />
+            <ImageView fx:id="imageService" fitHeight="300.0" fitWidth="400.0" preserveRatio="true"
+                       style="-fx-border-color: transparent; -fx-border-radius: 10;" />
+
+            <Label fx:id="labelNomService" style="-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: #333;" />
+            <Label fx:id="labelDescription" style="-fx-font-size: 20; -fx-text-fill: #666;" wrapText="true" textAlignment="CENTER" />
             <Label fx:id="labelPrix" style="-fx-font-size: 24; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" />
 
-            <Button fx:id="btnRetour" onAction="#retourListeServices" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Retour" />
+            <Button fx:id="btnRetour" onAction="#retourListeServices"
+                    style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;"
+                    text="Retour" />
         </VBox>
+
+
     </children>
 </AnchorPane>

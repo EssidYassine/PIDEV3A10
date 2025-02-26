@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -40,6 +41,8 @@ public class AcceuilService {
     private Label labelDescription;
     @FXML
     private Label labelPrix;
+    @FXML
+    private TextField searchBar;
 
     private final ServiceService serviceService = new ServiceService();
     private List<Service> listeDesServices;
@@ -96,7 +99,7 @@ public class AcceuilService {
 
                 // Bouton Détail
                 Button btnDetail = new Button("Détail");
-                btnDetail.setStyle("-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-background-radius: 10;");
+                btnDetail.setStyle("-fx-background-color: #ed4e00; -fx-text-fill: white; -fx-background-radius: 10;");
                 btnDetail.setOnAction(event -> afficherDetails(service));
 
                 // Ajout des éléments dans la carte
@@ -228,5 +231,80 @@ public class AcceuilService {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void filtrerServices() {
+        // Récupérer le texte de recherche
+        String texteRecherche = searchBar.getText().toLowerCase();
+
+        // Vider le GridPane avant de le re-remplir
+        gridPaneServices.getChildren().clear();
+
+        int column = 0;
+        int row = 0;
+
+        // Parcourir tous les services
+        for (Service service : listeDesServices) {
+            // Si le nom du service contient le texte recherché, on l'affiche
+            if (service.getNom_service().toLowerCase().contains(texteRecherche)) {
+                VBox carteService = new VBox(10);
+
+                String baseStyle = "-fx-background-color: #FFFFFF; -fx-padding: 15; -fx-border-radius: 10; " +
+                        "-fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);";
+
+                if (service.getQuantite_materiel() == 0) {
+                    baseStyle += " -fx-opacity: 0.20;";
+                }
+
+                carteService.setStyle(baseStyle);
+                carteService.setPrefWidth(250);
+
+                // Création de l'indicateur de disponibilité (un cercle)
+                Circle availabilityIndicator = new Circle(7);
+                if (service.getQuantite_materiel() > 0) {
+                    availabilityIndicator.setFill(Color.GREEN);
+                } else {
+                    availabilityIndicator.setFill(Color.RED);
+                }
+
+                HBox indicatorBox = new HBox(5, availabilityIndicator);
+
+                // Création de l'image du service
+                ImageView imageView = new ImageView();
+                try {
+                    imageView.setImage(new Image(service.getImage_url()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                imageView.setFitWidth(230);
+                imageView.setFitHeight(150);
+
+                // Nom du service
+                Label nomService = new Label(service.getNom_service());
+                nomService.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #333;");
+
+                // Prix du service
+                Label prixService = new Label(service.getPrix() + " DT");
+                prixService.setStyle("-fx-font-size: 16; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;");
+
+                // Bouton Détail
+                Button btnDetail = new Button("Détail");
+                btnDetail.setStyle("-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-background-radius: 10;");
+                btnDetail.setOnAction(event -> afficherDetails(service));
+
+                // Ajout des éléments dans la carte
+                carteService.getChildren().addAll(indicatorBox, imageView, nomService, prixService, btnDetail);
+
+                // Ajout de la carte dans le GridPane
+                gridPaneServices.add(carteService, column, row);
+
+                column++;
+                if (column == 3) {
+                    column = 0;
+                    row++;
+                }
+            }
+        }
+    }
+
 }
 
