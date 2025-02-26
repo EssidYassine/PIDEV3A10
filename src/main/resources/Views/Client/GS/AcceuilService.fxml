@@ -58,6 +58,20 @@
             <Label fx:id="labelNomService" style="-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: #333;" />
             <Label fx:id="labelDescription" style="-fx-font-size: 20; -fx-text-fill: #666;" wrapText="true" textAlignment="CENTER" />
             <Label fx:id="labelPrix" style="-fx-font-size: 24; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" />
+            <!-- Affichage de la note moyenne -->
+            <HBox fx:id="ratingDisplayBox" spacing="5" style="-fx-alignment: center;">
+                <Label text="Note moyenne :" style="-fx-font-size: 18; -fx-text-fill: #333;" />
+                <Label fx:id="moyenneRating" style="-fx-font-size: 20; -fx-text-fill: gold; -fx-font-weight: bold;" />
+            </HBox>
+
+            <!-- Étoiles pour laisser un rating -->
+            <HBox fx:id="ratingBox" spacing="5" style="-fx-alignment: center;">
+                <Label fx:id="star1" text="☆" onMouseClicked="#rate1" style="-fx-font-size: 30; -fx-cursor: hand;" />
+                <Label fx:id="star2" text="☆" onMouseClicked="#rate2" style="-fx-font-size: 30; -fx-cursor: hand;" />
+                <Label fx:id="star3" text="☆" onMouseClicked="#rate3" style="-fx-font-size: 30; -fx-cursor: hand;" />
+                <Label fx:id="star4" text="☆" onMouseClicked="#rate4" style="-fx-font-size: 30; -fx-cursor: hand;" />
+                <Label fx:id="star5" text="☆" onMouseClicked="#rate5" style="-fx-font-size: 30; -fx-cursor: hand;" />
+            </HBox>
 
             <Button fx:id="btnRetour" onAction="#retourListeServices"
                     style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;"

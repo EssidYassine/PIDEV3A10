@@ -2,6 +2,7 @@ package Controllers.Client.GS;
 
 import Models.Service;
 import Services.ServiceService;
+import Tools.DataBaseConnection;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,7 +25,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class AcceuilService {
@@ -43,6 +44,25 @@ public class AcceuilService {
     private Label labelPrix;
     @FXML
     private TextField searchBar;
+    @FXML
+    private Label star1, star2, star3, star4, star5;
+    @FXML
+    private Label moyenneRating;
+    @FXML
+    public void rate1() { updateRating(1); }
+    @FXML
+    public void rate2() { updateRating(2); }
+    @FXML
+    public void rate3() { updateRating(3); }
+    @FXML
+    public void rate4() { updateRating(4); }
+    @FXML
+    public void rate5() { updateRating(5); }
+
+
+
+    private int currentRating = 0;
+    private Service serviceSelectionne;
 
     private final ServiceService serviceService = new ServiceService();
     private List<Service> listeDesServices;
@@ -96,6 +116,11 @@ public class AcceuilService {
                 // Prix du service
                 Label prixService = new Label(service.getPrix() + " DT");
                 prixService.setStyle("-fx-font-size: 16; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;");
+// Calcul et affichage de la moyenne des ratings pour chaque service
+                double moyenne = calculerMoyenne(service);
+                Label moyenneRatingListe = new Label(String.format("%.1f ★", moyenne));
+                moyenneRatingListe.setStyle("-fx-font-size: 14; -fx-text-fill: gold; -fx-font-weight: bold;");
+
 
                 // Bouton Détail
                 Button btnDetail = new Button("Détail");
@@ -103,7 +128,7 @@ public class AcceuilService {
                 btnDetail.setOnAction(event -> afficherDetails(service));
 
                 // Ajout des éléments dans la carte
-                carteService.getChildren().addAll(indicatorBox, imageView, nomService, prixService, btnDetail);
+                carteService.getChildren().addAll(indicatorBox, imageView, nomService, prixService,moyenneRatingListe, btnDetail);
 
                 // Ajout de la carte dans le GridPane
                 gridPaneServices.add(carteService, column, row);
@@ -122,12 +147,17 @@ public class AcceuilService {
     private void afficherDetails(Service service) {
         gridPaneServices.setVisible(false);
         detailsContainer.setVisible(true);
-
+        serviceSelectionne = service;
         labelNomService.setText(service.getNom_service());
         labelDescription.setText(service.getDescription());
         labelPrix.setText(service.getPrix() + " DT");
         imageService.setImage(new Image(service.getImage_url()));
+        // Charger la note moyenne
+        double moyenne = calculerMoyenne(service);
+        moyenneRating.setText(String.format("%.1f ★", moyenne));
 
+        // Activer le rating pour l'utilisateur
+        updateRating((int) moyenne);
         // Animation de transition
         FadeTransition fadeIn = new FadeTransition(Duration.millis(300), detailsContainer);
         fadeIn.setFromValue(0.0);
@@ -305,6 +335,61 @@ public class AcceuilService {
             }
         }
     }
+    private double calculerMoyenne(Service service) {
+        double moyenne = 0;
+        try {
+            Connection conn = DataBaseConnection.getMyDataBase().getConnection();
+            String sql = "SELECT AVG(rating) AS moyenne FROM rating WHERE service_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, service.getId_service());
+            ResultSet rs = stmt.executeQuery();
 
-}
+            if (rs.next()) {
+                moyenne = rs.getDouble("moyenne");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return moyenne;
+    }
+    private void updateRating(int rating) {
+        currentRating = rating;
+        Label[] stars = { star1, star2, star3, star4, star5 };
+
+        for (int i = 0; i < stars.length; i++) {
+            if (i < rating) {
+                stars[i].setText("★");
+                stars[i].setStyle("-fx-text-fill: gold;");
+            } else {
+                stars[i].setText("☆");
+                stars[i].setStyle("-fx-text-fill: gray;");
+            }
+        }
+        enregistrerEvaluation(rating);
+
+        }
+
+
+    private void enregistrerEvaluation(int rating) {
+        try {
+            Connection conn = DataBaseConnection.getMyDataBase().getConnection();
+            String sql = "INSERT INTO rating (user_id, service_id, rating) VALUES (?, ?, ?) " +
+                    "ON DUPLICATE KEY UPDATE rating = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, 1); // Utilisateur statique
+            stmt.setInt(2, serviceSelectionne.getId_service());
+            stmt.setInt(3, rating);
+            stmt.setInt(4, rating);
+            stmt.executeUpdate();
+
+            double nouvelleMoyenne = calculerMoyenne(serviceSelectionne);
+            moyenneRating.setText(String.format("%.1f ★", nouvelleMoyenne));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    }
+
+
+
 
