@@ -1,45 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ComboBox?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GL.ShowLocalController">
+<AnchorPane prefHeight="618.0" prefWidth="943.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GL.ShowLocalController">
 
     <children>
         <!-- Title -->
-        <Label layoutX="350.0" layoutY="20.0" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Liste des Locaux" />
+        <Label layoutX="451.0" layoutY="33.0" prefHeight="58.0" prefWidth="282.0" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Liste des Locaux" textFill="#1b050b" />
 
         <!-- Search Field -->
-        <HBox spacing="5" layoutX="20.0" layoutY="50.0">
-            <TextField fx:id="searchField" promptText="Rechercher un local..." />
-        </HBox>
+        <HBox layoutX="20.0" layoutY="50.0" spacing="5" />
 
         <!-- Sorting ComboBox -->
-        <HBox spacing="10" layoutX="20.0" layoutY="100.0">
-            <Label text="Trier par:" style="-fx-font-size: 14px; -fx-text-fill: #333;" />
+        <HBox layoutX="20.0" layoutY="100.0" spacing="10">
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #333;" text="Trier par:" />
             <ComboBox fx:id="sortComboBox" promptText="Choisir un tri">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Tarifs: Ascending" />
-                        <String fx:value="Tarifs: Descending" />
+                        <String fx:value=" Ascending" />
+                        <String fx:value="Descending" />
                     </FXCollections>
                 </items>
             </ComboBox>
         </HBox>
 
         <!-- ScrollPane containing the GridPane -->
-        <ScrollPane layoutX="20.0" layoutY="150.0" prefHeight="600.0" prefWidth="860.0" style="-fx-background: white; -fx-border-color: #ccc; -fx-border-radius: 10;">
+        <ScrollPane layoutX="20.0" layoutY="150.0" prefHeight="900.0" prefWidth="1800.0" style="-fx-background: white; -fx-border-color: #ccc; -fx-border-radius: 10;">
             <GridPane fx:id="gridPane" hgap="20" style="-fx-background-color: #f4f4f4; -fx-padding: 15px; -fx-border-radius: 10;" vgap="20">
                 <columnConstraints>
                     <ColumnConstraints prefWidth="200.0" />
@@ -48,5 +44,7 @@
                 </columnConstraints>
             </GridPane>
         </ScrollPane>
+         <TextField fx:id="searchField" layoutX="229.0" layoutY="99.0" promptText="Rechercher un local..." />
+      <Button layoutX="32.0" layoutY="33.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="55.0" text="Return " textFill="#e41616" onAction="#retour1" />
     </children>
 </AnchorPane>

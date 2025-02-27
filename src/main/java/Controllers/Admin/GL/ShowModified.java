@@ -1,6 +1,5 @@
 package Controllers.Admin.GL;
 
-
 import Models.Locaux;
 import Services.LocauxService;
 import javafx.event.ActionEvent;
@@ -34,17 +33,21 @@ public class ShowModified implements Initializable {
 
     private final LocauxService locauxService = new LocauxService();
 
-    @FXML
-    private void retourVersAjoutLocal() {
+    private void reloadScene(ActionEvent actionEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/Add_Local.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/Show_Local.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) gridPane.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            stage.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("Erreur de rechargement de la scène !");
         }
+    }
+
+    @FXML
+    private void retourVersAjoutLocal(ActionEvent actionEvent) {
+        reloadScene(actionEvent);
     }
 
     @Override
@@ -78,21 +81,18 @@ public class ShowModified implements Initializable {
         localBox.setStyle("-fx-background-color: white; -fx-padding: 10px; -fx-border-radius: 10; -fx-border-color: #1f2c50; -fx-alignment: center;");
         localBox.setPrefWidth(200);
 
-        // Image du local
         ImageView localImage;
         if (local.getPhoto() != null && !local.getPhoto().isEmpty()) {
             localImage = new ImageView(new Image(local.getPhoto()));
         } else {
-            localImage = new ImageView(new Image(getClass().getResourceAsStream("/icons/default_local.png"))); // Image par défaut
+            localImage = new ImageView(new Image(getClass().getResourceAsStream("/icons/default_local.png")));
         }
         localImage.setFitWidth(150);
         localImage.setFitHeight(100);
 
-        // Adresse du local
         Label adresseLabel = new Label(local.getAdresse());
         adresseLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;");
 
-        // Tarifs du local
         Label tarifLabel = new Label(local.getTarifs() + " DT");
         tarifLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #555;");
 
@@ -100,13 +100,12 @@ public class ShowModified implements Initializable {
         modifierButton.setStyle("-fx-background-color: #ed4e00; -fx-text-fill: white; -fx-padding: 5px 10px; -fx-border-radius: 5;");
         modifierButton.setOnAction(event -> afficherModifier(local));
 
-        // Icône de suppression
         ImageView deleteIcon;
         try {
             deleteIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/pngtree-vector-trash-icon-png-image_865253.jpg"))));
         } catch (NullPointerException e) {
             System.err.println("Delete icon not found!");
-            deleteIcon = new ImageView(); // Empty ImageView
+            deleteIcon = new ImageView();
         }
         deleteIcon.setFitWidth(20);
         deleteIcon.setFitHeight(20);
@@ -142,36 +141,21 @@ public class ShowModified implements Initializable {
 
     private void afficherModifier(Locaux local) {
         try {
-            // Charger le FXML du formulaire de modification
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/Modify.fxml"));
             Parent detailsPane = loader.load();
 
-            // Récupérer le contrôleur et envoyer les données
             CrudModify controller = loader.getController();
             controller.setLocal(local);
 
-            // Remplacer le contenu du GridPane
             gridPane.getChildren().clear();
-            gridPane.add(detailsPane, 0, 0, 3, 3); // Sur 3 colonnes et 3 lignes
-
+            gridPane.add(detailsPane, 0, 0, 3, 3);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void revenirFenetreGestionLocaux(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/Show_Local.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Gestion des Locaux");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Erreur de chargement de Show_Local.fxml !");
-        }
+    @FXML
+    private void revenirFenetreGestionLocaux(ActionEvent actionEvent) {
+        reloadScene(actionEvent);
     }
 }
-

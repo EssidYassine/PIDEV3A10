@@ -8,47 +8,39 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.EventObject;
 
 public class CrudLocauxContr {
 
-    // Reusable method to switch scenes
-    private void switchScene(ActionEvent actionEvent, String fxmlFile, String title) {
+    // Method to reload the current scene or load a new one if specified
+    private void loadScene(ActionEvent actionEvent, String fxmlFile) {
         try {
+            // Get the current stage
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent root = loader.load();
 
-            // Get the current stage and set the new scene
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle(title);
-            stage.show();
+            // Set the updated content to the existing scene
+            stage.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Erreur de chargement de " + fxmlFile + " !");
         }
     }
 
-/*
-    @FXML
-    public void afficherGestionnaire(ActionEvent actionEvent) {
-        switchScene(actionEvent, "/Views/Admin/GL/CrudLocaux.fxml", "Gestionnaire des Locaux");
-    }*/
-
     @FXML
     private void ajouterLocaux(ActionEvent actionEvent) {
-        switchScene(actionEvent, "/Views/Admin/GL/Add_Local.fxml", "Ajouter un Local");
+        loadScene(actionEvent, "/Views/Admin/GL/Add_Local.fxml");  // Load Add_Local.fxml
     }
 
     public void consulterLocaux(ActionEvent actionEvent) {
-        switchScene(actionEvent, "/Views/Admin/GL/Show_Local.fxml", "Liste des Locaux");
+        loadScene(actionEvent, "/Views/Admin/GL/Show_Local.fxml");  // Load Show_Local.fxml
     }
 
-    public void revenirFenetreHome(ActionEvent actionEvent) throws IOException {
-        switchScene(actionEvent, "/Views/Admin/GL/Home.fxml", "Home ");
-
+    public void revenirFenetreHome(ActionEvent actionEvent) {
+        loadScene(actionEvent, "/Views/Admin/GL/Home.fxml");  // Load Home.fxml
     }
-        public void consultermodifier(ActionEvent actionEvent) {
-        switchScene(actionEvent, "/Views/Admin/GL/Show_Modify.fxml", "Consultation et Modification");
+
+    public void consultermodifier(ActionEvent actionEvent) {
+        loadScene(actionEvent, "/Views/Admin/GL/Show_Modify.fxml");  // Load Show_Modify.fxml
     }
 }

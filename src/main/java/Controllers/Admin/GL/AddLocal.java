@@ -6,17 +6,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
-
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -34,17 +31,14 @@ public class AddLocal implements Initializable {
     private ImageView imageViewLocal;
     @FXML
     private Button btnChoisirImage;
-
-    // Declare checkboxes for equipment
     @FXML
     private CheckBox chkWifi, chkCameras, chkEspaceTravail, chkCuisine, chkParking;
 
-    private String photoPath; // Store the path of the selected image
+    private String photoPath;
     private final LocauxService locauxService = new LocauxService();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialize ComboBox with types
         CBType.getItems().addAll("Salle de réunion", "Bureau", "Espace coworking", "Salle de conférence");
         CBType.setValue("Type");
     }
@@ -56,7 +50,6 @@ public class AddLocal implements Initializable {
             int capacite = Integer.parseInt(TFCapacite.getText());
             String type = CBType.getValue();
 
-            // Collect selected equipment as a string
             StringBuilder equipements = new StringBuilder();
             if (chkWifi.isSelected()) equipements.append("Wifi, ");
             if (chkCameras.isSelected()) equipements.append("Caméras de surveillance extérieures, ");
@@ -64,24 +57,26 @@ public class AddLocal implements Initializable {
             if (chkCuisine.isSelected()) equipements.append("Cuisine, ");
             if (chkParking.isSelected()) equipements.append("Parking, ");
 
-            // Remove the last comma and space if there are any selected
+            if (capacite < 0) {
+                showError("Valeur invalide", "La capacité ne peut pas être négative !");
+                return;
+            }
+
             if (equipements.length() > 0) {
                 equipements.delete(equipements.length() - 2, equipements.length());
             }
 
             BigDecimal tarifs = new BigDecimal(TFTarifs.getText());
 
-            // Create the Locaux object with selected equipment
             Locaux local = new Locaux(0, 1, adresse, capacite, type, photoPath, equipements.toString(), tarifs);
             locauxService.add(local);
 
-            // Show success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Succès");
             alert.setContentText("Local ajouté avec succès !");
             alert.showAndWait();
 
-            chargerShowLocal();
+            rafraichirShowLocal();
 
         } catch (SQLException e) {
             showError("Erreur SQL", e.getMessage());
@@ -94,33 +89,29 @@ public class AddLocal implements Initializable {
     void choisirImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir une image");
-
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg")
-        );
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
 
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            photoPath = selectedFile.toURI().toString(); // Store the photo path
+            photoPath = selectedFile.toURI().toString();
             Image image = new Image(photoPath);
             imageViewLocal.setImage(image);
         }
     }
 
-    private void chargerShowLocal() {
+    private void rafraichirShowLocal() {
         try {
+            // Get the current window's stage
+            Stage stage = (Stage) TFAdresse.getScene().getWindow();
+
+            // Load the Show_Local.fxml into the same window
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/Show_Local.fxml"));
-            Scene scene = new Scene(loader.load());
+            Parent root = loader.load();
 
-            Stage newStage = new Stage(); // Create a new window
-            newStage.setScene(scene);
-            newStage.setTitle("Liste des Locaux");
-            newStage.show();
-
-            // Optional: Close the current window
-            Stage currentStage = (Stage) TFAdresse.getScene().getWindow();
-            currentStage.close();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Liste des Locaux");
+            stage.show();
 
         } catch (IOException e) {
             showError("Erreur de chargement", "Impossible d'ouvrir Show_Local.fxml");
@@ -133,4 +124,24 @@ public class AddLocal implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public void retour1(javafx.event.ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/CrudLocaux.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("DashBoard ");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de AcceuilService.fxml !");
+        }
+    }
+
+
+
+
 }

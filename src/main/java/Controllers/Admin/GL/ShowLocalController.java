@@ -4,12 +4,10 @@ import Models.Locaux;
 import Services.LocauxService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -43,7 +41,7 @@ public class ShowLocalController {
             filteredLocaux = allLocaux;
             afficherLocaux();
 
-            sortComboBox.getItems().addAll("Tarifs: Ascending", "Tarifs: Descending");
+            sortComboBox.getItems().addAll();
 
             sortComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
                 if (newVal != null) {
@@ -76,13 +74,12 @@ public class ShowLocalController {
     }
 
     private void afficherLocaux() throws SQLException {
-        List<Locaux> locauxList = locauxService.getAll();
-        gridPane.getChildren().clear();
+        gridPane.getChildren().clear(); // Clear previous content
 
         int column = 0;
         int row = 0;
 
-        for (Locaux local : locauxList) {
+        for (Locaux local : filteredLocaux) { // Use filteredLocaux instead of fetching again
             VBox localBox = creerLocalBox(local);
             gridPane.add(localBox, column, row);
 
@@ -176,40 +173,64 @@ public class ShowLocalController {
     }
 
     private void supprimerLocal(Locaux local) {
-        // Logic to delete the local
-        try {
-            locauxService.delete(local); // Use getIdLocal() instead of getId()
-            afficherLocaux(); // Refresh the list
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }/*
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation de suppression");
+        confirmationAlert.setHeaderText("Voulez-vous vraiment supprimer ce local ?");
+        confirmationAlert.setContentText("Cette action est irréversible.");
+
+        ButtonType buttonYes = new ButtonType("Oui", ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonNo = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmationAlert.getButtonTypes().setAll(buttonYes, buttonNo);
+
+        confirmationAlert.showAndWait().ifPresent(response -> {
+            if (response == buttonYes) {
+                try {
+                    locauxService.delete(local);
+                    afficherLocaux(); // Refresh the list after deletion
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     private void sortLocaux(String sortOrder) {
         try {
-            if (sortOrder.equals("Tarifs: Ascending")) {
-                filteredLocaux.sort((loc1, loc2) -> loc1.getTarifs().compareTo(loc2.getTarifs()));
-            } else if (sortOrder.equals("Tarifs: Descending")) {
-                filteredLocaux.sort((loc1, loc2) -> loc2.getTarifs().compareTo(loc1.getTarifs()));
+            if (sortOrder.equals("Tarifs: Ascendant")) {
+                filteredLocaux = locauxService.getAllSorted("Tarifs: Ascending");
+            } else if (sortOrder.equals("Tarifs: Descendant")) {
+                filteredLocaux = locauxService.getAllSorted("Tarifs: Descending");
+            } else {
+                filteredLocaux = locauxService.getAll(); // Default unsorted list
             }
 
-            afficherLocaux(); // Refresh the grid with sorted locaux
+            // Debug: Print sorted results
+            System.out.println("Sorted Locaux:");
+            for (Locaux loc : filteredLocaux) {
+                System.out.println(loc.getAdresse() + " - " + loc.getTarifs());
+            }
 
+            afficherLocaux(); // Refresh UI
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle the SQLException here, maybe display an error message to the user
         }
-    }*/
+    }
+    public void retour1(javafx.event.ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/CrudLocaux.fxml"));
+            Parent root = loader.load();
 
-        private void sortLocaux(String sortOrder) {
-            try {
-                // Get sorted locaux from the service based on selected sort order
-                filteredLocaux = locauxService.getAllSorted(sortOrder);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-                afficherLocaux();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            stage.setScene(new Scene(root));
+            stage.setTitle("DashBoard ");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de AcceuilService.fxml !");
         }
+    }
+
+
 
 }
