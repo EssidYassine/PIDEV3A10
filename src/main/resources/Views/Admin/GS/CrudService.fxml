@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="727.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.ServiceController">
+<AnchorPane prefHeight="727.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.CrudService">
 
     <HBox layoutX="10.0" layoutY="10.0" prefHeight="700.0" prefWidth="1123.0" spacing="20">
 
@@ -29,9 +29,9 @@
                 </ImageView>
 
                 <!-- Boutons de navigation -->
-                <Button layoutX="34.0" layoutY="180.0" mnemonicParsing="false" onAction="#revenirFenetreHome" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Home" textFill="WHITE" />
+                <Button layoutX="34.0" layoutY="180.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Home" textFill="WHITE" onAction="#gotohome" />
                 <Button layoutX="33.0" layoutY="230.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Gérer service" textFill="WHITE" />
-                <Button layoutX="34.0" layoutY="280.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Consulter" textFill="WHITE" />
+                <Button layoutX="34.0" layoutY="280.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Consulter" textFill="WHITE" onAction="#retourAfficherService"/>
                 <Button layoutX="34.0" layoutY="330.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Statistique" textFill="WHITE" />
                 <Button layoutX="52.0" layoutY="396.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #1F2C50FF;" text="Logout" textFill="WHITE" />
             </children>
@@ -40,24 +40,24 @@
         <!-- Formulaire d'ajout de service -->
         <VBox alignment="TOP_CENTER" prefHeight="665.0" prefWidth="422.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #7490d5, 10, 0.5, 0, 0);">
             <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Ajouter un Service" />
-         <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Nom du service :" />
+            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Nom du service :" />
             <TextField fx:id="nomServiceField" promptText="Nom du service" />
-         <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Description du service :" />
+            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Description du service :" />
             <TextArea fx:id="descriptionField" prefHeight="100.0" promptText="Description" wrapText="true" />
-         <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Prix du service :" />
+            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Prix du service :" />
             <TextField fx:id="prixField" promptText="Prix" />
-         <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="D' ecrire ton role :" />
+            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="D' ecrire ton role :" />
             <TextField fx:id="roleStaffField" promptText="Rôle du staff" />
-         <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Parlez-nous de votre experience :" />
+            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Parlez-nous de votre experience :" />
             <TextField fx:id="experienceField" promptText="Expérience" />
             <HBox spacing="10">
                 <ComboBox fx:id="typeServiceCombo" promptText="Type de service" />
-            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="118.0" text="Quantite du service:" />
+                <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="118.0" text="Quantite du service:" />
                 <TextField fx:id="quantiteMaterielField" promptText="Quantité" />
             </HBox>
             <ImageView fx:id="imageView" fitHeight="150" fitWidth="200" preserveRatio="true" style="-fx-border-color: gray; -fx-border-width: 1;" />
-            <Button onAction="#choisirImage" style="-fx-background-color: #1f2c50; -fx-text-fill: white;" text="Choisir une image" />
-            <Button onAction="#ajouterService" style="-fx-background-color: #ed4e00; -fx-text-fill: white;" text="Ajouter Service" />
+            <Button  style="-fx-background-color: #1f2c50; -fx-text-fill: white;" text="Choisir une image" onAction="#choisirImage" />
+            <Button  style="-fx-background-color: #ed4e00; -fx-text-fill: white;" text="Ajouter Service"  onAction="#ajouterService" />
         </VBox>
 
         <!-- Liste des services dans un GridPane avec scrolling -->

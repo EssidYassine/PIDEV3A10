@@ -1,7 +1,6 @@
 package Models;
 
 // Import de la classe Utilisateur
-import Models.User;
 
 public class Service {
     private int id_service;
@@ -15,6 +14,13 @@ public class Service {
     private int quantite_materiel;
     private String role_staff;
     private String experience;
+
+    public Service(int idService, String nomService, String description, int prix, TypeService typeService, int disponibilite, int idUtilisateur, String imageUrl, int quantiteMateriel, String roleStaff, String experience) {
+    }
+
+    public void setUtilisateurId(int userId) {
+        this.id_service = userId;
+    }
 
     // Enum pour le type de service
     public enum TypeService {

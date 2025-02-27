@@ -3,7 +3,7 @@ package Controllers.Admin.GS;
 import Models.Service;
 import Models.User;
 import Services.ServiceService;
-
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,14 +17,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javafx.event.ActionEvent;
-
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ServiceController {
+public class CrudService {
 
     @FXML
     private TextField nomServiceField;
@@ -51,7 +50,7 @@ public class ServiceController {
     private ImageView imageView;
 
     @FXML
-    private GridPane gridPaneServices;  // GridPane pour afficher les services
+    private GridPane gridPaneServices;
 
     private String imageUrl = null;
 
@@ -64,17 +63,20 @@ public class ServiceController {
             chargerServices();
         } catch (SQLException e) {
             e.printStackTrace();
+            showErrorAlert("Erreur SQL", "Impossible de charger les services : " + e.getMessage());
         }
     }
 
     /**
-     * Méthode pour choisir une image depuis le système de fichiers
+     * Méthode pour choisir une image depuis le système de fichiers.
      */
     @FXML
     private void choisirImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
-        File file = fileChooser.showOpenDialog(null);
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
+        // Utilisation de la fenêtre parent pour une meilleure intégration
+        File file = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
         if (file != null) {
             imageUrl = file.toURI().toString();
             imageView.setImage(new Image(imageUrl));
@@ -82,7 +84,7 @@ public class ServiceController {
     }
 
     /**
-     * Méthode pour ajouter un nouveau service
+     * Méthode pour ajouter un nouveau service.
      */
     @FXML
     private void ajouterService(ActionEvent event) {
@@ -95,19 +97,21 @@ public class ServiceController {
             String roleStaff = roleStaffField.getText().trim();
             String experience = experienceField.getText().trim();
 
+            // Exemple d'utilisateur (à remplacer par l'utilisateur connecté)
             User utilisateur = new User(1, "Dupont", "Jean", "jean.dupont@example.com", "emna");
 
-            if (nomService.isEmpty() || description.isEmpty() || typeService == null) {
+            if (nomService.isEmpty() || description.isEmpty() || typeService == null ||
+                    prixText.isEmpty() || quantiteMaterielText.isEmpty()) {
                 showErrorAlert("Champs obligatoires", "Veuillez remplir tous les champs requis.");
                 return;
             }
 
             int prix = Integer.parseInt(prixText);
             int quantiteMateriel = Integer.parseInt(quantiteMaterielText);
-
             int disponibilite = 1;
 
-            Service service = new Service(0, nomService, description, prix, typeService, disponibilite, utilisateur, imageUrl, quantiteMateriel, roleStaff, experience);
+            Service service = new Service(0, nomService, description, prix, typeService, disponibilite,
+                    utilisateur, imageUrl, quantiteMateriel, roleStaff, experience);
 
             serviceService.add(service);
 
@@ -120,6 +124,8 @@ public class ServiceController {
             chargerServices();
             resetForm();
 
+        } catch (NumberFormatException nfe) {
+            showErrorAlert("Erreur de format", "Veuillez saisir des valeurs numériques valides pour le prix et la quantité.");
         } catch (SQLException e) {
             e.printStackTrace();
             showErrorAlert("Erreur SQL", "Impossible d'ajouter le service : " + e.getMessage());
@@ -127,7 +133,7 @@ public class ServiceController {
     }
 
     /**
-     * Méthode pour charger et afficher les services dans le GridPane
+     * Méthode pour charger et afficher les services dans le GridPane.
      */
     private void chargerServices() throws SQLException {
         gridPaneServices.getChildren().clear();
@@ -147,25 +153,46 @@ public class ServiceController {
             imgView.setPreserveRatio(true);
 
             try {
-                if (service.getImageUrl() != null && !service.getImageUrl().isEmpty()) {
-                    Image image = new Image((String) service.getImageUrl(), true);
+                String serviceImageUrl = service.getImageUrl();
+                if (serviceImageUrl != null && !serviceImageUrl.isEmpty()) {
+                    // Si l'URL ne commence pas par "http:" ou "file:", on ajoute "file:///" et on remplace les antislashs par des slashs
+                    if (!serviceImageUrl.startsWith("http") && !serviceImageUrl.startsWith("file:")) {
+                        serviceImageUrl = "file:///" + serviceImageUrl.replace("\\", "/");
+                    }
+                    Image image = new Image(serviceImageUrl, true);
                     if (image.getException() == null) {
                         imgView.setImage(image);
                     } else {
                         throw image.getException();
                     }
                 } else {
-                    imgView.setImage(new Image("default-image-url.png", true));
+                    // Chargement de l'image par défaut depuis les ressources
+                    String defaultImagePath = "/Images/default.png";
+                    URL defaultUrl = getClass().getResource(defaultImagePath);
+                    if (defaultUrl != null) {
+                        String defaultImageUrl = defaultUrl.toExternalForm();
+                        imgView.setImage(new Image(defaultImageUrl, true));
+                    } else {
+                        System.err.println("Default image resource not found: " + defaultImagePath);
+                    }
                 }
             } catch (Exception e) {
                 System.err.println("Erreur de chargement de l'image : " + e.getMessage());
-                imgView.setImage(new Image("default-image-url.png", true));
+                // Tentative de charger l'image par défaut si une erreur survient
+                String defaultImagePath = "/Images/default.png";
+                URL defaultUrl = getClass().getResource(defaultImagePath);
+                if (defaultUrl != null) {
+                    String defaultImageUrl = defaultUrl.toExternalForm();
+                    imgView.setImage(new Image(defaultImageUrl, true));
+                } else {
+                    System.err.println("Default image resource not found: " + defaultImagePath);
+                }
             }
 
             card.getChildren().add(imgView);
 
-            // Nom du service
-            Label nomLabel = new Label(service.getNom());
+            // Nom du service (utilisation du getter adapté, ici getNom_service())
+            Label nomLabel = new Label(service.getNom_service());
             nomLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
             card.getChildren().add(nomLabel);
 
@@ -183,7 +210,7 @@ public class ServiceController {
     }
 
     /**
-     * Réinitialisation du formulaire
+     * Réinitialisation du formulaire.
      */
     private void resetForm() {
         nomServiceField.clear();
@@ -198,7 +225,7 @@ public class ServiceController {
     }
 
     /**
-     * Affichage d'une alerte d'erreur
+     * Affichage d'une alerte d'erreur.
      */
     private void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -208,7 +235,38 @@ public class ServiceController {
         alert.showAndWait();
     }
 
+    /**
+     * Navigation vers la fenêtre d'accueil.
+     */
     public void revenirFenetreHome(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/Home.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Home");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de Home.fxml !");
+        }
+    }
+
+    public void retourAfficherService(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/AfficherService.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Gestionnaire de Services");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de Home.fxml !");
+        }
+    }
+
+    public void gotohome(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/Home.fxml"));
             Parent root = loader.load();

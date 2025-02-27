@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="791.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.ModifierService">
+    <children>
+        <!-- Pane de navigation à gauche -->
+        <Pane layoutX="-8.0" prefHeight="819.0" prefWidth="200.0" style="-fx-background-color: #ed4e00; -fx-background-radius: 0 30 0 30;">
+            <children>
+                <!-- Logo en haut -->
+                <ImageView fitHeight="120.0" fitWidth="150.0" layoutX="25.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Images/Blanc_non_bg.png" />
+                    </image>
+                </ImageView>
+                <!-- Boutons de navigation -->
+                <Button layoutX="34.0" layoutY="180.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Home" textFill="WHITE" onAction="#gotohome"/>
+                <Button layoutX="33.0" layoutY="230.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Gérer service" textFill="WHITE" onAction="#gotocrudservice"/>
+                <Button layoutX="34.0" layoutY="280.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Consulter" textFill="WHITE" onAction="#gotoafficherservice" />
+                <Button layoutX="34.0" layoutY="330.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Statistique" textFill="WHITE" />
+                <Button layoutX="52.0" layoutY="396.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #1F2C50FF;" text="Logout" textFill="WHITE" />
+            </children>
+        </Pane>
+        <!-- Formulaire de modification à droite -->
+        <VBox layoutX="219.0" prefHeight="819.0" prefWidth="875.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #7490d5, 10, 0.5, 0, 0);">
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Modifier un Service" />
+            <Label text="Nom du service :" />
+            <TextField fx:id="nomServiceField" promptText="Nom du service" />
+            <Label text="Description du service :" />
+            <TextArea fx:id="descriptionField" prefHeight="100.0" promptText="Description" wrapText="true" />
+            <Label text="Prix du service :" />
+            <TextField fx:id="prixField" promptText="Prix" />
+            <Label text="Rôle du staff :" />
+            <TextField fx:id="roleStaffField" promptText="Rôle du staff" />
+            <Label text="Expérience :" />
+            <TextField fx:id="experienceField" promptText="Expérience" />
+            <HBox spacing="10">
+                <ComboBox fx:id="typeServiceCombo" promptText="Type de service" />
+                <Label text="Quantité :" />
+                <TextField fx:id="quantiteMaterielField" promptText="Quantité" />
+            </HBox>
+            <ImageView fx:id="imageView" fitHeight="150" fitWidth="200" preserveRatio="true" style="-fx-border-color: gray; -fx-border-width: 1;" />
+            <Button onAction="#choisirImage" style="-fx-background-color: #1f2c50; -fx-text-fill: white;" text="Choisir une image" />
+            <Button onAction="#modifierService" style="-fx-background-color: #ed4e00; -fx-text-fill: white;" text="Modifier Service" />
+        </VBox>
+    </children>
+</AnchorPane>

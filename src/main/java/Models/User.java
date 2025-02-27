@@ -81,4 +81,8 @@ public class User {
     public int getId_utilisateur() {
         return id_user;
     }
+
+    public void setId_utilisateur(int userId) {
+        this.id_user = userId;
+    }
 }
