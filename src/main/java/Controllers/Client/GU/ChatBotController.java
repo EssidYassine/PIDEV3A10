@@ -68,6 +68,8 @@ public class ChatBotController {
         this.serviceReclamation = new ServiceReclamation();
     }
 
+
+
     @FXML
     public void initialize() {
         backflech.setOnMouseClicked(event -> BACK());
