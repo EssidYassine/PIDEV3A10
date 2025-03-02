@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import mailling.SendEmail;
+import Tools.AppUtils;
 
 import java.io.IOException;
 import java.util.Optional;

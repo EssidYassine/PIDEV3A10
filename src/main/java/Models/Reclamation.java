@@ -7,6 +7,10 @@ public class Reclamation {
     private String userMessage;
     private String chatResponse;
 
+
+
+
+
     public Reclamation(int userId, String userMessage, String chatResponse) {
         this.userId = userId;
         this.userMessage = userMessage;

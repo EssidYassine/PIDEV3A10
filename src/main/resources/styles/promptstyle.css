@@ -1,0 +1,29 @@
+/* Style de la boîte de dialogue */
+.dialog-pane {
+    -fx-background-color: white; /* Fond blanc */
+}
+
+/* Style de l'en-tête de la boîte de dialogue */
+.dialog-pane .header-panel {
+    -fx-background-color: orange; /* Fond orange */
+    -fx-text-fill: white; /* Texte blanc */
+}
+
+/* Style du contenu de la boîte de dialogue */
+.dialog-pane .content {
+    -fx-background-color: white; /* Fond blanc */
+    -fx-text-fill: black; /* Texte noir */
+    -fx-font-size: 14px;
+}
+
+/* Style des boutons */
+.dialog-pane .button {
+    -fx-background-color: orange; /* Fond orange */
+    -fx-text-fill: white; /* Texte blanc */
+    -fx-font-weight: bold;
+}
+
+/* Style des boutons au survol */
+.dialog-pane .button:hover {
+    -fx-background-color: darkorange; /* Fond orange foncé au survol */
+}

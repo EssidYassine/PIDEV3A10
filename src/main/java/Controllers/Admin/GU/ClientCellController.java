@@ -5,14 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import mailling.SendEmail;
 
 import java.util.Optional;
 
@@ -28,10 +26,13 @@ public class ClientCellController {
     private Circle circle;
     private ServiceUser userService;
     private User currentUser;
+    private ListUsers listUsersController;
 
+    public void setListUsersController(ListUsers controller) {
+        this.listUsersController = controller;
+    }
     public void initialize() {
         userService = new ServiceUser();
-
         deleteButton.setOnAction(event -> {
             if (currentUser != null) {
                 supprimerUtilisateur(currentUser.getId());
@@ -45,36 +46,103 @@ public class ClientCellController {
         });
     }
 
-    /**
-     * Change le statut de l'utilisateur entre "active" et "desactive"
-     */
+
     private void toggleUserStatus() {
         if (currentUser == null) return;
 
         String newStatus = "active".equalsIgnoreCase(currentUser.getIsActive()) ? "desactive" : "active";
 
-        userService.updateIsActive(currentUser.getId(), newStatus);
+        // Demander confirmation avant de désactiver un compte
+        if ("desactive".equalsIgnoreCase(newStatus)) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Voulez-vous vraiment désactiver ce compte ?");
+            alert.setContentText("Une notification par email sera envoyée à l'utilisateur.");
 
-        // Mettre à jour le statut localement
-        currentUser.setIsActive(newStatus);
-        isActiveLabel.setText(newStatus);
+            // Charger le fichier CSS pour l'Alert
+            alert.getDialogPane().getStylesheets().add(
+                    getClass().getResource("/styles/promptstyle.css").toExternalForm()
+            );
 
-        // Mettre à jour l'affichage
-        updateActiveButtonText();
-        updateStatusColor();
+            ButtonType yesButton = new ButtonType("Oui", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("Non", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().setAll(yesButton, noButton);
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == yesButton) {
+                    Dialog<String> dialog = new Dialog<>();
+                    dialog.setTitle("Rédaction du mail");
+                    dialog.setHeaderText("Ajoutez un message pour l'utilisateur (optionnel)");
+
+                    // Charger le fichier CSS pour la boîte de dialogue personnalisée
+                    dialog.getDialogPane().getStylesheets().add(
+                            getClass().getResource("/styles/promptstyle.css").toExternalForm()
+                    );
+
+                    // Créer un TextArea pour le message
+                    TextArea textArea = new TextArea();
+                    textArea.setPromptText("Entrez votre message ici...");
+                    textArea.setWrapText(true); // Activer le retour à la ligne
+                    textArea.setPrefRowCount(5); // Définir la hauteur du TextArea
+
+                    // Ajouter le TextArea à la boîte de dialogue
+                    dialog.getDialogPane().setContent(textArea);
+
+                    // Ajouter les boutons "Envoyer" et "Annuler"
+                    ButtonType sendButton = new ButtonType("Envoyer", ButtonBar.ButtonData.OK_DONE);
+                    dialog.getDialogPane().getButtonTypes().addAll(sendButton, ButtonType.CANCEL);
+
+                    // Récupérer le texte saisi lorsque l'utilisateur clique sur "Envoyer"
+                    dialog.setResultConverter(buttonType -> {
+                        if (buttonType == sendButton) {
+                            return textArea.getText();
+                        }
+                        return null;
+                    });
+
+                    // Afficher la boîte de dialogue et traiter la réponse
+                    dialog.showAndWait().ifPresent(customMessage -> {
+                        userService.updateIsActive(currentUser.getId(), newStatus);
+                        currentUser.setIsActive(newStatus);
+                        isActiveLabel.setText(newStatus);
+                        updateActiveButtonText();
+                        updateStatusColor();
+                        if (listUsersController != null) {
+                            listUsersController.refreshChart();
+                        }
+
+                        // Envoyer l'email avec le message personnalisé
+                        SendEmail.sendAccountStatusEmail(currentUser.getEmail(), newStatus, customMessage);
+                    });
+                }
+            });
+        } else {
+            // Activation directe sans confirmation
+            userService.updateIsActive(currentUser.getId(), newStatus);
+            currentUser.setIsActive(newStatus);
+            isActiveLabel.setText(newStatus);
+            updateActiveButtonText();
+            updateStatusColor();
+            if (listUsersController != null) {
+                listUsersController.refreshChart();
+            }
+            SendEmail.sendAccountStatusEmail(currentUser.getEmail(), newStatus, "");
+        }
     }
 
-    /**
-     * Met à jour le texte du bouton selon le statut de l'utilisateur
-     */
+
+
+
     private void updateActiveButtonText() {
         if (currentUser != null) {
             activebutton.setText("active".equalsIgnoreCase(currentUser.getIsActive()) ? "Désactiver" : "Activer");
         }
     }
+    public User getUserData() {
+        return currentUser; // Renvoie les données de l'utilisateur
+    }
 
     /**
-     * Met à jour la couleur du Pane en fonction du statut de l'utilisateur
      */
     private void updateStatusColor() {
         if (currentUser != null) {

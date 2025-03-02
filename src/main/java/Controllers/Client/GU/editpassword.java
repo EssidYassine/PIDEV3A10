@@ -14,6 +14,7 @@ import javafx.scene.paint.Color; // Importer Color pour changer la couleur des t
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import java.io.IOException;
+import Tools.AppUtils;
 
 public class editpassword {
 
@@ -41,8 +42,6 @@ public class editpassword {
         User a = Session.getUser();
         System.out.println(a.getPassword());
         backflech.setOnMouseClicked(event -> gotodetails());
-
-        // Ajout de listeners pour le contrôle de saisie en temps réel
         passeid11.textProperty().addListener((observable, oldValue, newValue) -> validateOldPassword(newValue));
         nouvellemdp.textProperty().addListener((observable, oldValue, newValue) -> validateNewPassword(newValue));
         confirmernvmotdepasse.textProperty().addListener((observable, oldValue, newValue) -> validateConfirmPassword(newValue));
@@ -131,8 +130,6 @@ public class editpassword {
             afficherAlerte(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la page !");
         }
     }
-
-    // Méthodes de validation pour le contrôle de saisie en temps réel
     private void validateOldPassword(String oldPassword) {
         User user = Session.getUser();
         if (user != null && !oldPassword.equals(user.getPassword())) {

@@ -27,3 +27,12 @@
     -fx-background-color: #2d75e8;
     -fx-text-fill: #ffffff;
 }
+
+.root {
+    -fx-background-color: white;
+}
+
+.pane {
+    -fx-min-width: 1086px;
+    -fx-min-height: 700px;
+}

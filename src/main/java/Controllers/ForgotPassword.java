@@ -6,6 +6,7 @@ import Services.ServiceUser;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import mailling.SendEmail;
 import javafx.beans.value.ChangeListener;
@@ -21,6 +22,9 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 public class ForgotPassword {
+
+    @FXML
+    private ImageView backflech;
 
     @FXML
     private TextField mailid;
@@ -43,7 +47,27 @@ public class ForgotPassword {
         });
 
         envoyermail.setDisable(true);
+        backflech.setOnMouseClicked(event -> gotohome());
+
     }
+    private void gotohome() {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Login.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) backflech.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Accueil");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur de chargement FXML !");
+        }
+    }
+
+
+
 
     @FXML
     private void handleSendEmail(ActionEvent event) {

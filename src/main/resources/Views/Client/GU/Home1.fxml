@@ -12,14 +12,15 @@
 
     <children>
         <!-- Navigation Bar -->
-        <HBox layoutX="297.0" layoutY="23.0" prefHeight="60.0" prefWidth="603.0" spacing="30" style="-fx-alignment: center;">
+        <HBox layoutX="223.0" layoutY="23.0" prefHeight="60.0" prefWidth="677.0" spacing="30" style="-fx-alignment: center;">
             <children>
 
                 <Label style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="PACK" />
                 <Label style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="SERVICE" />
                 <Label style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="lIEUX" />
                 <Label style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold;" text="ACTUALITE" />
-            <Label style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold; cursor: hand;" onMouseClicked="#goToChat" text="RECLAMATION" />
+            <Label onMouseClicked="#goToChat" style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold; cursor: hand;" text="CHATBOT" />
+            <Label onMouseClicked="#gotoreclamation" style="-fx-font-size: 20px; -fx-text-fill: #1e0fc6; -fx-font-weight: bold; cursor: hand;" text="RECLAMATION" />
             </children>
         </HBox>
 

@@ -14,10 +14,10 @@ public class ServiceReclamation {
 
     private final Connection cnx = DataBaseConnection.getDatabaseConnection().getConnection();
 
-    // Méthode pour ajouter une réclamation
+
+
     public void ajouter(Reclamation reclamation) {
         String sql = "INSERT INTO reclamation (user_id, user_message, chat_response) VALUES (?, ?, ?)";
-
         try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
             pstmt.setInt(1, reclamation.getUserId());
             pstmt.setString(2, reclamation.getUserMessage());
@@ -30,7 +30,6 @@ public class ServiceReclamation {
         }
     }
 
-    // Méthode pour supprimer une réclamation par ID
     public void supprimer(int id) {
         String sql = "DELETE FROM reclamation WHERE id = ?";
 
@@ -49,7 +48,6 @@ public class ServiceReclamation {
         }
     }
 
-    // Méthode pour récupérer l'historique des messages d'un utilisateur
     public List<Reclamation> getUserChatHistory(int userId) {
         List<Reclamation> chatHistory = new ArrayList<>();
         String sql = "SELECT user_message, chat_response FROM reclamation WHERE user_id = ? ORDER BY id ASC";

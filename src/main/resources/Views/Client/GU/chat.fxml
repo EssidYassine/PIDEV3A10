@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GU.chatbot">
+    <WebView fx:id="affichage" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+   <ImageView id="backflech" fx:id="backflech" fitHeight="82.0" fitWidth="83.0" layoutX="-2.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../Images/back-removebg-preview.png" />
+      </image>
+      <cursor>
+         <Cursor fx:constant="OPEN_HAND" />
+      </cursor>
+   </ImageView>
+</AnchorPane>
+

@@ -1,0 +1,35 @@
+        
+        Eventus est une plateforme de gestion d’événements qui permet aux utilisateurs de planifier et suivre leurs événements en temps réel.
+Elle prend en charge trois types d’utilisateurs : internaute, utilisateur simple et administrateur.
+
+
+### 📀 Utilisation d'Eventus
+
+1️⃣ **Passer une réclamation**  
+   - Retourne à la **Home Page**.  
+   - Dans la barre de navigation ou en bas de la page, clique sur le **bouton "Réclamation"**.  
+   - Accède à la page et soumets ta réclamation.  
+
+2️⃣ **Réserver un événement**  
+   - Retourne à la **Home Page**.  
+   - Dans la barre de navigation ou en bas de la page, clique sur le **bouton "Événements"**.  
+   - Sélectionne et réserve l’événement de ton choix.  
+
+3️⃣ **Accéder aux services**  
+   - Retourne à la **Home Page**.  
+   - Dans la barre de navigation ou en bas de la page, clique sur le **bouton "Services"**.  
+   - Réserve le service souhaité.  
+
+4️⃣ **Consulter et réserver un local disponible**  
+   - Retourne à la **Home Page**.  
+   - Dans la barre de navigation ou en bas de la page, clique sur le **bouton "Locaux"**.  
+   - Consulte les locaux disponibles et réserve celui qui te convient.  
+
+5️⃣ **Consulter les actualités et interagir**  
+   - Retourne à la **Home Page**.  
+   - Dans la barre de navigation ou en bas de la page, clique sur le **bouton "Actualités"**.  
+   - Consulte les actualités disponibles et interagis avec des **likes, dislikes et commentaires**.  
+
+💡 **Besoin d'autres améliorations ?** 🚀
+
+        

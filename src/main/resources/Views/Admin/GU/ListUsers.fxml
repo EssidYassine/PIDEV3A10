@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,14 +11,14 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GU.ListUsers">
     <children>
-        <Pane layoutX="-1.0" prefHeight="700.0" prefWidth="180.0" style="-fx-background-color: ED4E00; -fx-background-radius: 30 30 30 30;">
+        <Pane layoutX="-1.0" prefHeight="700.0" prefWidth="182.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: ED4E00; -fx-border-width: 5;">
             <children>
                 <ImageView fitHeight="149.0" fitWidth="139.0" layoutX="24.0" layoutY="548.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../Images/user-interface.png" />
                     </image>
                 </ImageView>
-
+      
             <ImageView fx:id="backflech" fitHeight="82.0" fitWidth="83.0" layoutX="59.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../Images/back-removebg-preview.png" />
@@ -24,8 +26,19 @@
             </ImageView>
             </children>
         </Pane>
-        <ScrollPane fx:id="scroll" layoutX="182.0" layoutY="365.0" prefHeight="334.0" prefWidth="894.0" style="-fx-border-color: transparent;">
+        <ScrollPane fx:id="scroll" layoutX="182.0" layoutY="365.0" prefHeight="335.0" prefWidth="902.0" style="-fx-border-color: ED4E00; -fx-border-width: 3;">
             <content><VBox fx:id="container" spacing="10" />  </content>
         </ScrollPane>
+      <TextField fx:id="Recherche" layoutX="611.0" layoutY="324.0" prefHeight="38.0" prefWidth="471.0" promptText="Recherche" style="-fx-background-color: #F4F1EA; -fx-font-family: 'Georgia', serif; -fx-border-width: 3; -fx-border-color: ED4E00; -fx-border-radius: 30;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </TextField>
+      <ImageView fx:id="pdf" fitHeight="85.0" fitWidth="78.0" layoutX="994.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Images/10007105-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="graph" layoutX="182.0" prefHeight="363.0" prefWidth="424.0" style="-fx-border-color: ED4E00; -fx-border-width: 3; -fx-border-radius: 30;" />
     </children>
 </AnchorPane>

@@ -190,6 +190,23 @@ public class ServiceUser implements IService<User> {
         return null;
     }
 
+
+    public int countUsersByStatus(String status) {
+        String sql = "SELECT COUNT(*) FROM user WHERE is_active = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(sql)) {
+            pstmt.setString(1, status);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // Retourne le nombre d'utilisateurs avec le statut donné
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors du comptage des utilisateurs : " + e.getMessage());
+        }
+        return 0; // Retourne 0 en cas d'erreur
+    }
+
+
     /////////////////////////////
     @Override
     public void modifier(User p) {

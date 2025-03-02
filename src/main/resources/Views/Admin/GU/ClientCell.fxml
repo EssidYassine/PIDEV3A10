@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="50.0" prefWidth="893.0" style="-fx-background-color: white; -fx-border-radius: 90; -fx-border-color: ED4E00;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GU.ClientCellController">
+<AnchorPane prefHeight="50.0" prefWidth="880.0" style="-fx-background-color: white; -fx-border-radius: 90; -fx-border-color: ED4E00;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GU.ClientCellController">
    <children>
       <Button fx:id="deleteButton" layoutX="776.0" layoutY="6.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" style="-fx-background-color: transparent; -fx-border-color: ED4E00; -fx-border-radius: 10;" text="Supprimer" textFill="#ed4e00">
          <font>
@@ -20,23 +20,23 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label fx:id="emailLabel" layoutX="118.0" layoutY="16.0" text="Email">
+      <Label fx:id="emailLabel" layoutX="120.0" layoutY="16.0" text="Email">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label fx:id="roleLabel" layoutX="292.0" layoutY="16.0" text="Role">
+      <Label fx:id="roleLabel" layoutX="507.0" layoutY="16.0" text="Role">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label fx:id="isActiveLabel" layoutX="564.0" layoutY="15.0" text="Is active">
+      <Label fx:id="isActiveLabel" layoutX="564.0" layoutY="16.0" text="Is active">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label fx:id="numTelLabel" layoutX="479.0" layoutY="16.0" text="num_tel">
+      <Label fx:id="numTelLabel" layoutX="275.0" layoutY="16.0" text="num_tel">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label fx:id="dateNaissanceLabel" layoutX="334.0" layoutY="16.0" text="Date_de_naissance">
+      <Label fx:id="dateNaissanceLabel" layoutX="379.0" layoutY="16.0" text="Date_de_naissance">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>

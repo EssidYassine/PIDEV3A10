@@ -40,7 +40,22 @@ public class Home1 {
     @FXML
     private void goToChat() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/ChatBot.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/chat.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) userIcon.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("ChatBot");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Erreur de chargement de la page de chat !");
+        }
+    }
+    @FXML
+    private void gotoreclamation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GU/Chatbot.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) userIcon.getScene().getWindow();
