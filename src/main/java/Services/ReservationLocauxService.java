@@ -8,6 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ReservationLocauxService implements IService<ReservationLocaux> {
     private Connection connection;
 
@@ -102,6 +103,7 @@ public class ReservationLocauxService implements IService<ReservationLocaux> {
         return reservations;
     }
 
+
     @Override
     public ReservationLocaux getById(int id) throws SQLException {
         String query = "SELECT * FROM reservation_locaux WHERE id_reservation = ?";
@@ -122,5 +124,34 @@ public class ReservationLocauxService implements IService<ReservationLocaux> {
         }
         return null;
     }
+
+    public List<ReservationLocaux> getAllUserReservations(int userId) throws SQLException {
+        List<ReservationLocaux> reservations = new ArrayList<>();
+        String query = "SELECT * FROM reservation_locaux  WHERE id_user = ?"; // Fix column name
+
+        System.out.println("Executing query: " + query + " with id_user : " + userId);
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                reservations.add(new ReservationLocaux(
+                        resultSet.getInt("id_reservation"),
+                        resultSet.getInt("id_local"),
+                        resultSet.getInt("id_user"), // Ensure column name is correct
+                        resultSet.getTimestamp("date_debut").toLocalDateTime(),
+                        resultSet.getTimestamp("date_fin").toLocalDateTime(),
+                        resultSet.getString("statut")
+                ));
+            }
+        }
+
+        System.out.println("Fetched " + reservations.size() + " reservations for user ID: " + userId);
+        return reservations;
+    }
+
+
+
 }
 

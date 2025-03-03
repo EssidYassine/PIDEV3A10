@@ -13,9 +13,9 @@ public class HelloApplication extends Application {
 
 
         public void start(Stage stage) throws Exception {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/CrudLocaux.fxml"));
+            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/CrudLocaux.fxml"));
 
-            //FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GL/Home1.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GL/Home1.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             Scene scene = new Scene(root);
 

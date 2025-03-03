@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.Client.GL.ModifierReservationLocauxController">
+    <children>
+        <!-- Barre de navigation -->
+        <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="1061.0" spacing="30" style="-fx-alignment: center;">
+            <children>
+                <Label prefHeight="46.0" prefWidth="118.0"
+                       style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;"
+                       text="Eventus" />
+                <Label prefHeight="30.0" prefWidth="249.0"
+                       style="-fx-font-size: 20px; -fx-text-fill: #333;"
+                       text="Modifier Réservation Locaux" />
+                <Button fx:id="btnRetour" onAction="#retourListeLocaux" prefHeight="40.0" prefWidth="90.0"
+                        style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;"
+                        text="Acceuil" />
+            </children>
+        </HBox>
+
+        <!-- Formulaire de modification de réservation -->
+        <VBox alignment="CENTER" spacing="20.0"
+              AnchorPane.topAnchor="100" AnchorPane.leftAnchor="100" AnchorPane.rightAnchor="100"
+              style="-fx-background-color: #a2b3dd; -fx-padding: 20px; -fx-border-color: #ffffff; -fx-border-width: 1px; -fx-border-radius: 5px;">
+            <children>
+                <Label text="Modifier une Réservation de Local"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+
+                <!-- Ligne Date de Début -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5px;">
+                    <Label text="Date de Début:" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                    <DatePicker fx:id="dateDebut" style="-fx-font-size: 16px;"/>
+                </HBox>
+
+                <!-- Ligne Date de Fin -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5px;">
+                    <Label text="Date de Fin:" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                    <DatePicker fx:id="dateFin" style="-fx-font-size: 16px;"/>
+                </HBox>
+
+                <!-- Ligne Statut -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5px;">
+                    <Label text="Statut:" style="-fx-font-size: 16px; -fx-text-fill: #333;"/>
+                    <ComboBox fx:id="statutCombo" prefWidth="200" style="-fx-font-size: 16px;"/>
+                </HBox>
+
+                <!-- Boutons d'action -->
+                <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10px;">
+                    <Button text="Modifier" fx:id="btnModifier" onAction="#modifierReservation"
+                            style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5px;"/>
+                    <Button text="Annuler" fx:id="btnAnnuler" onAction="#annulerModification"
+                            style="-fx-background-color: #ed4e00; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5px;"/>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

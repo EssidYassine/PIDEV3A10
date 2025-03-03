@@ -139,4 +139,5 @@ public class LocauxService implements IService<Locaux> {
 
         return locauxList;
     }
+
 }
