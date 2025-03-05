@@ -6,7 +6,9 @@ import Tools.DataBaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class LocauxService implements IService<Locaux> {
@@ -138,6 +140,18 @@ public class LocauxService implements IService<Locaux> {
         }
 
         return locauxList;
+    }
+    public Map<String, Integer> getLocauxCountByType() throws SQLException {
+        Map<String, Integer> result = new HashMap<>();
+        String query = "SELECT type, COUNT(*) FROM locaux GROUP BY type";
+
+        try (PreparedStatement ps = connection.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                result.put(rs.getString(1), rs.getInt(2));
+            }
+        }
+        return result;
     }
 
 }

@@ -1,62 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="617.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GL.CrudLocauxContr">
-    <children>
-        <Pane layoutX="-1.0" prefHeight="628.0" prefWidth="199.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 30 0 30;">
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.CheckBox?>
+<AnchorPane prefHeight="727.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GL.CrudLocaux">
+
+    <HBox layoutX="10.0" layoutY="10.0" prefHeight="700.0" prefWidth="1123.0" spacing="20">
+
+        <!-- Pane de navigation à gauche -->
+        <Pane prefHeight="711.0" prefWidth="191.0" style="-fx-background-color: #ed4e00; -fx-background-radius: 0 30 0 30;">
             <children>
-                <ImageView fitHeight="268.0" fitWidth="282.0" layoutX="-21.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
+                <!-- Logo en haut -->
+                <ImageView fitHeight="120.0" fitWidth="150.0" layoutX="25.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../Images/Blanc_non_bg.png" />
                     </image>
                 </ImageView>
-                <Button layoutX="33.0" layoutY="249.0" mnemonicParsing="false" onAction="#ajouterLocaux" prefHeight="45.0" prefWidth="132.0" text="Ajouter_Local" />
-                <Button layoutX="33.0" layoutY="294.0" mnemonicParsing="false" onAction="#consultermodifier" prefHeight="45.0" prefWidth="132.0" text="Modifier" />
-                <Button layoutX="34.0" layoutY="339.0" mnemonicParsing="false" onAction="#consulterLocaux" prefHeight="45.0" prefWidth="132.0" text="Consulter" />
-                <Button layoutX="12.0" layoutY="36.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="45.0" />
-                <Button layoutX="12.0" layoutY="36.0" mnemonicParsing="false" onAction="#revenirFenetreHome" prefHeight="35.0" prefWidth="45.0">
-                    <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../Images/retour1.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button layoutX="76.0" layoutY="502.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="45.0">
-                    <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../Images/para1.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+
+                <!-- Boutons de navigation -->
+                <Button layoutX="34.0" layoutY="180.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Home" textFill="WHITE" onAction="#gotohome" />
+                <Button layoutX="33.0" layoutY="230.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Gérer Locaux" textFill="WHITE" />
+                <Button layoutX="34.0" layoutY="280.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Consulter" textFill="WHITE" onAction="#retourAfficherLocaux"/>
+                <Button layoutX="34.0" layoutY="330.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Statistique" textFill="WHITE" />
+                <Button layoutX="52.0" layoutY="396.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #1F2C50FF;" text="Logout" textFill="WHITE" />
             </children>
         </Pane>
-        <Pane layoutX="400.0" layoutY="216.0" prefHeight="389.0" prefWidth="666.0">
-            <children>
-                <ImageView fitHeight="399.0" fitWidth="666.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../Images/picAcceuil.jpg" />
-                    </image>
-                </ImageView>
-            </children>
-        </Pane>
-        <Text fill="blue" layoutX="386.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Réservez, gérez et louez vos locaux en toute simplicité pour des événements parfaitement organisés" textAlignment="CENTER" wrappingWidth="407.74">
-            <font>
-                <Font name="Arial Bold Italic" size="17.0" />
-            </font>
-            <style>
-                -fx-effect: dropshadow(gaussian, rgba(0,0,255,0.5), 10, 0, 2, 2);
-            </style>
-        </Text>
-    </children>
+
+        <!-- Formulaire d'ajout de locaux -->
+        <VBox alignment="TOP_CENTER" prefHeight="665.0" prefWidth="422.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #7490d5, 10, 0.5, 0, 0);">
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Ajouter un Local" />
+            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Nom du local :" />
+            <TextField fx:id="TFAdresse" promptText="Nom du local" />
+            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Capacité :" />
+            <TextField fx:id="TFCapacite" promptText="Capacité" />
+            <Label contentDisplay="TOP" prefHeight="18.0" prefWidth="374.0" text="Tarif (DT) :" />
+            <TextField fx:id="TFTarifs" promptText="Tarif" />
+            <HBox spacing="10">
+                <ComboBox fx:id="CBType" promptText="Type de Local" />
+            </HBox>
+            <VBox fx:id="EquipementsContainer" alignment="TOP_LEFT" spacing="10">
+                <children>
+                    <Label style="-fx-font-weight: bold;" text="Équipements disponibles:" />
+                    <FlowPane hgap="15" vgap="10">
+                        <children>
+                            <CheckBox fx:id="chkWifi" text="Wifi" />
+                            <CheckBox fx:id="chkCameras" text="Caméras de surveillance extérieures" />
+                            <CheckBox fx:id="chkEspaceTravail" text="Espace de travail dédié" />
+                            <CheckBox fx:id="chkCuisine" text="Cuisine" />
+                            <CheckBox fx:id="chkParking" text="Parking" />
+                        </children>
+                    </FlowPane>
+                </children>
+            </VBox>
+            <ImageView fx:id="imageViewLocal" fitHeight="150" fitWidth="200" preserveRatio="true" style="-fx-border-color: gray; -fx-border-width: 1;" />
+            <Button  style="-fx-background-color: #1f2c50; -fx-text-fill: white;" text="Choisir une image" onAction="#choisirImage" />
+            <Button  style="-fx-background-color: #ed4e00; -fx-text-fill: white;" text="Ajouter Local"  onAction="#ajouterLocal" />
+        </VBox>
+
+        <!-- Liste des locaux dans un GridPane avec scrolling -->
+        <ScrollPane fx:id="scrollPaneLocaux" fitToWidth="true" prefHeight="700.0" prefWidth="479.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">
+            <GridPane fx:id="gridPaneLocaux" hgap="20" style="-fx-padding: 20;" vgap="20">
+                <!-- Les cartes des locaux seront ajoutées dynamiquement ici -->
+            </GridPane>
+        </ScrollPane>
+    </HBox>
+
 </AnchorPane>

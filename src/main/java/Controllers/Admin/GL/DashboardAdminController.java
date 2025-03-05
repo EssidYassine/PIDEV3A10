@@ -63,7 +63,7 @@ public class DashboardAdminController {
     private void gererLocaux(ActionEvent event)
     {
         try{
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Admin/GL/CrudLocaux.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Views/Admin/GL/GestionnaireLocaux.fxml")));
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Welcome to dashboard ");

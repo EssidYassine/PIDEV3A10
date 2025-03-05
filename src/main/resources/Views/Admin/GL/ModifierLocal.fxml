@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.control.CheckBox?>
+<AnchorPane prefHeight="791.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GL.ModifierLocal">
+    <children>
+        <!-- Left Navigation Pane -->
+        <Pane layoutX="-8.0" prefHeight="819.0" prefWidth="200.0" style="-fx-background-color: #ed4e00; -fx-background-radius: 0 30 0 30;">
+            <children>
+                <!-- Logo -->
+                <ImageView fitHeight="120.0" fitWidth="150.0" layoutX="25.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Images/Blanc_non_bg.png" />
+                    </image>
+                </ImageView>
+                <!-- Navigation Buttons -->
+                <Button layoutX="34.0" layoutY="180.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0"
+                        style="-fx-background-color: #1F2C50FF;" text="Home" textFill="WHITE" onAction="#gotohome"/>
+                <Button layoutX="33.0" layoutY="230.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0"
+                        style="-fx-background-color: #1F2C50FF;" text="Gérer Locaux" textFill="WHITE" onAction="#gotocrudLocaux"/>
+                <Button layoutX="34.0" layoutY="280.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0"
+                        style="-fx-background-color: #1F2C50FF;" text="Consulter" textFill="WHITE" onAction="#gotoafficherLocaux" />
+                <Button layoutX="34.0" layoutY="330.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0"
+                        style="-fx-background-color: #1F2C50FF;" text="Statistique" textFill="WHITE" />
+                <Button layoutX="52.0" layoutY="396.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0"
+                        style="-fx-background-color: #1F2C50FF;" text="Logout" textFill="WHITE" />
+            </children>
+        </Pane>
+
+        <!-- Right Modification Form -->
+        <VBox layoutX="219.0" prefHeight="819.0" prefWidth="875.0" spacing="15"
+              style="-fx-padding: 20; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #7490d5, 10, 0.5, 0, 0);">
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Modifier un Local" />
+
+            <Label text="Adresse du local :" />
+            <TextField fx:id="TFAdresse" promptText="Adresse du local" />
+
+            <Label text="Capacité du local :" />
+            <TextField fx:id="TFCapacite" promptText="Capacité" />
+
+            <Label text="Type du local :" />
+            <ComboBox fx:id="CBType" promptText="Type de local">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="both " />
+                        <String fx:value="Open Space " />
+                        <String fx:value="closed Space " />
+
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <Label text="Équipements disponibles :" />
+            <VBox spacing="10">
+                <CheckBox fx:id="chkWifi" text="Wifi" />
+                <CheckBox fx:id="chkCameras" text="Caméras de surveillance extérieures" />
+                <CheckBox fx:id="chkEspaceTravail" text="Espace de travail dédié" />
+                <CheckBox fx:id="chkCuisine" text="Cuisine" />
+                <CheckBox fx:id="chkParking" text="Parking" />
+            </VBox>
+
+
+            <Label text="Tarifs :" />
+            <TextField fx:id="TFTarifs" promptText="Tarif en DT" />
+
+            <ImageView fx:id="imageViewLocal" fitHeight="150" fitWidth="200" preserveRatio="true"
+                       style="-fx-border-color: gray; -fx-border-width: 1;" />
+            <Button fx:id="btnChoisirImage" onAction="#choisirImage" style="-fx-background-color: #1f2c50; -fx-text-fill: white;" text="Choisir une image" />
+            <Button onAction="#saveChanges" style="-fx-background-color: #ed4e00; -fx-text-fill: white;" text="Modifier Local" />
+            <Button onAction="#cancelChanges" style="-fx-background-color: gray; -fx-text-fill: white;" text="Annuler" />
+
+        </VBox>
+    </children>
+</AnchorPane>

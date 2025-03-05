@@ -76,7 +76,6 @@ public class AcceuilLocaux {
                             local.getType().toLowerCase().contains(searchText))
                     .collect(Collectors.toList()));
         }
-
         displayLocaux(filteredLocaux);
     }
     @FXML

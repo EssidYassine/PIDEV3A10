@@ -2,15 +2,18 @@ package Controllers.Admin.GL;
 
 import Models.Locaux;
 import Services.LocauxService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,13 +24,16 @@ import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class CrudModify implements Initializable {
+public class ModifierLocal implements Initializable {
 
     @FXML
     private TextField TFAdresse, TFCapacite, TFTarifs;
 
     @FXML
-    private ComboBox<String> CBType, CBEquipements;
+    private ComboBox<String> CBType;
+
+    @FXML
+    private CheckBox chkWifi, chkCameras, chkEspaceTravail, chkCuisine, chkParking;
 
     @FXML
     private ImageView imageViewLocal;
@@ -41,12 +47,15 @@ public class CrudModify implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        CBEquipements.getItems().addAll("projecteur", "matériel Sono", "climatiseur", "cuisine");
         CBType.getItems().addAll("Salle de réunion", "Bureau", "Espace coworking", "Salle de conférence");
 
-        btnChoisirImage.setOnAction(event -> choisirImage());
-        btnSave.setOnAction(event -> saveChanges());
-        btnCancel.setOnAction(event -> cancelChanges());
+        if (btnChoisirImage != null) {
+            btnChoisirImage.setOnAction(event -> choisirImage());
+        } else {
+            System.err.println("btnChoisirImage is NULL! Check FXML binding.");
+        }
+
+
     }
 
     public void setLocal(Locaux local) {
@@ -55,7 +64,6 @@ public class CrudModify implements Initializable {
         TFCapacite.setText(String.valueOf(local.getCapacite()));
         TFTarifs.setText(local.getTarifs().toString());
         CBType.setValue(local.getType());
-        CBEquipements.setValue(local.getEquipement());
         this.photoPath = local.getPhoto();
 
         if (photoPath != null && !photoPath.isEmpty()) {
@@ -63,7 +71,18 @@ public class CrudModify implements Initializable {
         } else {
             imageViewLocal.setImage(new Image(getClass().getResourceAsStream("/icons/default_image.png")));
         }
+
+        // Set equipment checkboxes based on stored values
+        String equipements = local.getEquipement();
+        if (equipements != null) {
+            chkWifi.setSelected(equipements.contains("Wifi"));
+            chkCameras.setSelected(equipements.contains("Caméras de surveillance extérieures"));
+            chkEspaceTravail.setSelected(equipements.contains("Espace de travail dédié"));
+            chkCuisine.setSelected(equipements.contains("Cuisine"));
+            chkParking.setSelected(equipements.contains("Parking"));
+        }
     }
+    @FXML
 
     private void choisirImage() {
         FileChooser fileChooser = new FileChooser();
@@ -75,7 +94,6 @@ public class CrudModify implements Initializable {
 
         if (selectedFile != null) {
             try {
-                // Sauvegarde l'image dans le projet
                 File destination = new File("src/main/resources/images/" + selectedFile.getName());
                 Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 photoPath = destination.toURI().toString();
@@ -85,6 +103,8 @@ public class CrudModify implements Initializable {
             }
         }
     }
+    @FXML
+
 
     private void saveChanges() {
         if (!validateInputs()) return;
@@ -93,7 +113,19 @@ public class CrudModify implements Initializable {
             currentLocal.setAdresse(TFAdresse.getText());
             currentLocal.setCapacite(Integer.parseInt(TFCapacite.getText()));
             currentLocal.setType(CBType.getValue());
-            currentLocal.setEquipement(CBEquipements.getValue());
+
+            // Collect selected equipment
+            StringBuilder equipements = new StringBuilder();
+            if (chkWifi.isSelected()) equipements.append("Wifi, ");
+            if (chkCameras.isSelected()) equipements.append("Caméras de surveillance extérieures, ");
+            if (chkEspaceTravail.isSelected()) equipements.append("Espace de travail dédié, ");
+            if (chkCuisine.isSelected()) equipements.append("Cuisine, ");
+            if (chkParking.isSelected()) equipements.append("Parking, ");
+            if (equipements.length() > 0) {
+                equipements.delete(equipements.length() - 2, equipements.length());
+            }
+
+            currentLocal.setEquipement(equipements.toString());
             currentLocal.setTarifs(new BigDecimal(TFTarifs.getText()));
             currentLocal.setPhoto(photoPath);
 
@@ -105,9 +137,10 @@ public class CrudModify implements Initializable {
         }
     }
 
+
     private boolean validateInputs() {
         if (TFAdresse.getText().isEmpty() || TFCapacite.getText().isEmpty() || TFTarifs.getText().isEmpty()
-                || CBType.getValue() == null || CBEquipements.getValue() == null) {
+                || CBType.getValue() == null) {
             showAlert("Erreur", "Veuillez remplir tous les champs.");
             return false;
         }
@@ -128,8 +161,54 @@ public class CrudModify implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    @FXML
 
     private void cancelChanges() {
         TFAdresse.getScene().getWindow().hide();
+    }
+
+    public void gotohome(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/Home.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Gestionnaire de Locaux");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de Home.fxml !");
+        }
+    }
+
+    public void gotocrudLocaux(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/CrudLocaux.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Gestionnaire de Locaux");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de CrudLocaux.fxml !");
+        }
+    }
+
+    public void gotoafficherLocaux(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GL/AfficherLocaux.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Gestionnaire de Locaux");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de ModifierLocaux.fxml !");
+        }
     }
 }

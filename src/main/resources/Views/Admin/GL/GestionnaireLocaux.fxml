@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GL.GestionnaireLocaux">
+
+
+        <children>
+            <Pane prefHeight="700.0" prefWidth="199.0" style="-fx-background-color: ED4E00; -fx-background-radius: 0 30 0 30;">
+                <children>
+                    <ImageView fitHeight="268.0" fitWidth="282.0" layoutX="-20.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../Images/Blanc_non_bg.png" />
+                        </image>
+                    </ImageView>
+                    <Button layoutX="34.0" layoutY="280.0" mnemonicParsing="false" onAction="#gotohome" prefHeight="35.0" prefWidth="132.0" text="Home" />
+                    <Button layoutX="33.0" layoutY="350.0" mnemonicParsing="false" onAction="#gotocrudLocaux" prefHeight="35.0" prefWidth="132.0" text="Gestion locaux" />
+                    <Button layoutX="33.0" layoutY="422.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Statistique" onAction="#goToStatistics"/>
+                    <Button layoutX="51.0" layoutY="569.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" text="Logout" />
+                </children>
+            </Pane>
+            <Pane layoutX="236.0" layoutY="202.0" prefHeight="389.0" prefWidth="666.0">
+                <children>
+                    <ImageView fitHeight="399.0" fitWidth="666.0" layoutX="155.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../Images/picAcceuil.jpg" />
+                        </image>
+                    </ImageView>
+                </children>
+            </Pane>
+            <Text layoutX="302.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajoutez, modifiez et suivez vos Locaux  en toute simplicité pour un événement parfaitement orchestré." textAlignment="CENTER" wrappingWidth="479.73681640625">
+                <font>
+                    <Font name="System Italic" size="16.0" />
+                </font>
+            </Text>
+        </children>
+</AnchorPane>
