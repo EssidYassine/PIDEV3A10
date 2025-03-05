@@ -209,7 +209,12 @@ public class ReservationGP implements IService<Reservation> {
                 user.setEmail(rs.getString("user_id")); // À adapter selon votre modèle
                 r.setUser(user);
                 r.setNbreInvites(rs.getInt("nbre_invites"));
-                r.setStatutReservation(Reservation.StatutReservation.EN_ATTENTE);
+                String statutString = rs.getString("statut_reservation").trim();
+// Remplacer les espaces par des underscores et mettre en majuscules pour correspondre à l'enum
+                statutString = statutString.replace(" ", "_").toUpperCase();
+                r.setStatutReservation(Reservation.StatutReservation.valueOf(statutString));
+
+
                 reservations.add(r);
             }
         }
@@ -236,7 +241,12 @@ public class ReservationGP implements IService<Reservation> {
 
     @Override
     public void delete(Reservation reservation) throws SQLException {
-
+        String query = "DELETE FROM reservationpack WHERE reservation_id = ?";
+        try (Connection conn = cnx.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, reservation.getReservationId());
+            stmt.executeUpdate();
+        }
     }
 
     @Override
@@ -246,11 +256,12 @@ public class ReservationGP implements IService<Reservation> {
 
     @Override
     public Reservation getById(int reservationId) throws SQLException {
-        String query = "SELECT r.*, u.email, l.adresse " +
+        String query = "SELECT r.*, u.email, l.adresse, r.statut_reservation, r.nbre_invites, r.commentaire " +
                 "FROM reservationpack r " +
                 "LEFT JOIN user u ON r.user_id = u.id " +
                 "LEFT JOIN locaux l ON r.lieu_id = l.id_local " +
                 "WHERE r.reservation_id = ?";
+
 
         try (Connection conn = cnx.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -277,10 +288,27 @@ public class ReservationGP implements IService<Reservation> {
                 Locaux lieu = new Locaux();
                 lieu.setAdresse(rs.getString("adresse"));
                 reservation.setLieu(lieu);
+                // Correction clé : Récupération du statut depuis la base
+                String dbStatus = rs.getString("statut_reservation");
+                reservation.setStatutReservation(Reservation.StatutReservation.fromDbValue(dbStatus)); // Utilisation du convertisseur
+                reservation.setNbreInvites(rs.getInt("nbre_invites"));
+                reservation.setCommentaire(rs.getString("commentaire"));
+
 
                 return reservation;
             }
         }
         return null;
     }
+
+    public void updateStatus(Reservation reservation) throws SQLException {
+        String query = "UPDATE reservationpack SET statut_reservation = ? WHERE reservation_id = ?";
+        try (Connection conn = cnx.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, reservation.getStatutReservation().getDbValue());
+            stmt.setInt(2, reservation.getReservationId());
+            stmt.executeUpdate();
+        }
+    }
+
 }

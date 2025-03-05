@@ -107,9 +107,10 @@ public class Reservation {
         this.dateReservation = dateReservation;
     }
 
-    public String getStatutReservation() {
-        return String.valueOf(statutReservation);
+    public StatutReservation getStatutReservation() {
+        return statutReservation;
     }
+
 
     public void setStatutReservation(StatutReservation statutReservation) {
         this.statutReservation = statutReservation;
@@ -140,10 +141,28 @@ public class Reservation {
         this.services = services;
     }
 
-    // Enumération des statuts de réservation
     public enum StatutReservation {
-        EN_ATTENTE,
-        CONFIRMEE,
-        ANNULEE
+        EN_ATTENTE("en attente"),
+        CONFIRMÉE("confirmée"),    // Accent ajouté
+        ANNULÉE("annulée");         // Orthographe corrigée
+        private final String dbValue;
+
+        StatutReservation(String dbValue) {
+            this.dbValue = dbValue;
+        }
+
+        public String getDbValue() {
+            return dbValue;
+        }
+
+        // Conversion depuis la valeur de la BDD vers la constante enum
+        public static StatutReservation fromDbValue(String value) {
+            for (StatutReservation statut : values()) {
+                if (statut.getDbValue().equalsIgnoreCase(value)) {
+                    return statut;
+                }
+            }
+            throw new IllegalArgumentException("Valeur de statut inconnue: " + value);
+        }
     }
 }

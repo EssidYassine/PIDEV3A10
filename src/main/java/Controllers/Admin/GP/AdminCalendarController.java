@@ -2,6 +2,7 @@ package Controllers.Admin.GP;
 
 import Models.Reservation;
 import Services.ReservationGP;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -63,17 +64,27 @@ public class AdminCalendarController implements Initializable {
 
         for (int i = 0; i < 48; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPrefHeight(30);
-            row.setMinHeight(30);
+            row.setPrefHeight(40);
+            row.setMinHeight(40);
             calendarGrid.getRowConstraints().add(row);
         }
     }
 
     private void buildCalendar() {
-        createHeaderRow();
-        createTimeColumn();
-        createDayColumns();
-        loadReservations();
+        // Désactiver temporairement le GridPane
+        calendarGrid.setDisable(true);
+
+        Platform.runLater(() -> {
+            try {
+                setupGridStructure();
+                createHeaderRow();
+                createTimeColumn();
+                createDayColumns();
+                loadReservations();
+            } finally {
+                calendarGrid.setDisable(false);
+            }
+        });
     }
 
     private void createHeaderRow() {
@@ -136,10 +147,21 @@ public class AdminCalendarController implements Initializable {
 
         Label titleLabel = new Label("Réservation #" + reservation.getReservationId());
         titleLabel.setStyle("-fx-font-size: 11px; -fx-font-weight: bold;");
+        System.out.println("Réservation #" + reservation.getReservationId() + " -> Statut: " + reservation.getStatutReservation());
 
+
+        String color = switch (reservation.getStatutReservation()) {
+            case CONFIRMÉE -> "#C8E6C9"; // Vert
+            case EN_ATTENTE -> "#FFF3E0"; // Orange
+            case ANNULÉE -> "#FFCDD2"; // Rouge
+            default -> "#E3F2FD"; // Bleu clair par défaut
+        };
         Button detailsBtn = new Button("Détails");
         detailsBtn.setStyle("-fx-font-size: 9px; -fx-padding: 2 5 2 5;");
         detailsBtn.setOnAction(e -> showReservationDetails(reservation.getReservationId()));
+
+
+        eventBox.setStyle("-fx-background-color: " + color + "; -fx-background-radius: 10;");
 
         eventBox.getChildren().addAll(titleLabel, detailsBtn);
         GridPane.setMargin(eventBox, new Insets(1));
@@ -154,7 +176,7 @@ public class AdminCalendarController implements Initializable {
 
     private void showReservationDetails(int reservationId) {
         try {
-            detailsContainer.getChildren().clear(); // Nettoyer avant d'ajouter
+            detailsContainer.getChildren().clear();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/cardReservationcellule.fxml"));
             Parent cardRoot = loader.load();
@@ -164,15 +186,25 @@ public class AdminCalendarController implements Initializable {
 
             if (reservation != null) {
                 controller.setReservationData(reservation);
+                // Ajoutez ce listener pour rafraîchir le calendrier
+                controller.setOnRefreshListener(() -> {
+                    setupGridStructure();
+                    buildCalendar();
+                });
+                controller.setOnDeleteListener(() -> {
+                    setupGridStructure();
+                    buildCalendar();
+                    detailsContainer.getChildren().clear();
+                });
                 detailsContainer.getChildren().add(cardRoot);
-            } else {
-                showAlert("Erreur", "Aucune réservation trouvée pour l'ID " + reservationId);
             }
 
         } catch (IOException | SQLException ex) {
             showAlert("Erreur", "Impossible d'afficher les détails : " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
+
 
     private void updateWeekLabel() {
         LocalDate endOfWeek = currentWeekStart.plusDays(6);
