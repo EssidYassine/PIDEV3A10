@@ -38,7 +38,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnStudents" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleGestionPacks" prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button" text="Gestion Packs" GridPane.columnIndex="1">
+                  <Button fx:id="btnStudents" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleGestionPacks" prefHeight="181.0" prefWidth="242.0" styleClass="rounded-button" text="Gestion Packs and Réservation" GridPane.columnIndex="1">
                      <graphic>
                         <ImageView fitHeight="40.0" fitWidth="40.0">
                            <image>
@@ -125,3 +125,4 @@
       </BorderPane>
    </children>
 </AnchorPane>
+

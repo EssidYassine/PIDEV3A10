@@ -6,40 +6,57 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="495.0" style="-fx-background-color: #ef4e00;"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Controllers.Admin.GP.UpdatePackController">
+<AnchorPane prefHeight="791.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GP.UpdatePackController">
    <children>
-      <VBox alignment="CENTER" layoutX="107.0" layoutY="36.0" prefHeight="537.0" prefWidth="386.0" spacing="20"
-            style="-fx-background-color: #ffffff; -fx-border-color: #1e0fc6; -fx-border-radius: 15; -fx-background-radius: 15; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 10);"
-            AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+      <!-- Pane de navigation à gauche -->
+      <Pane layoutX="0.0" prefHeight="819.0" prefWidth="200.0" style="-fx-background-color: #ed4e00; -fx-background-radius: 0 30 0 30;">
          <children>
-            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Modifier un Pack" />
-            <TextField fx:id="tfNom" promptText="Nom du pack" style="-fx-pref-height: 40px;" />
-            <TextArea fx:id="taDescription" prefRowCount="4" promptText="Description" style="-fx-pref-height: 100px;" />
-            <ComboBox fx:id="cbType" promptText="Type d'événement" style="-fx-pref-width: 250px;" />
-            <ComboBox fx:id="cbStatut" promptText="Status d'événement" style="-fx-pref-width: 250px;" />
-            <ComboBox fx:id="cbLieu" promptText="Lieu" style="-fx-pref-width: 250px;" />
-            <DatePicker fx:id="dpDateEvenement" promptText="Date de l'événement" style="-fx-pref-height: 40px;" />
-            <VBox spacing="10">
-               <Label style="-fx-font-weight: bold;" text="Services disponibles:" />
-               <VBox fx:id="servicesContainer" spacing="5"/>
+            <!-- Logo en haut -->
+            <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="25.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Images/Blanc_non_bg.png" />
+               </image>
+            </ImageView>
+            <!-- Boutons de navigation -->
+            <VBox layoutX="25.0" layoutY="150.0" spacing="15.0">
+               <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Ajouter" />
+               <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Calender" />
+               <Button onAction="#redirectToPackPage" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Consulter" />
+               <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Statistique" />
             </VBox>
-            <HBox spacing="15">
-               <children>
-                  <TextField fx:id="tfNbreInvitesMax" promptText="Nombre d'invités" style="-fx-pref-width: 180px;" />
-                  <TextField fx:id="tfPrix" promptText="Prix" style="-fx-pref-width: 180px;" />
-                  <TextField fx:id="tfBudgetPrevu" promptText="Budget prévu" style="-fx-pref-width: 180px;" />
-               </children>
-            </HBox>
-            <Button fx:id="btnEnregistrer" onAction="#handleUpdate" text="Mettre à jour"
-                    style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-height: 45px; -fx-pref-width: 200px; -fx-background-radius: 10;" />
+            <Button layoutX="32.0" layoutY="737.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Logout" />
          </children>
+      </Pane>
+      <!-- Formulaire de modification à droite -->
+      <VBox layoutX="234.0" layoutY="90.0" prefHeight="650.0" prefWidth="840.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #FFFFFF; -fx-border-radius: 10; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, #7490d5, 10, 0.5, 0, 0);">
+         <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Modifier un Pack" />
+         <TextField fx:id="tfNom" promptText="Nom du pack" style="-fx-pref-height: 40px;" />
+         <TextArea fx:id="taDescription" prefRowCount="4" promptText="Description" style="-fx-pref-height: 80px;" />
+         <HBox spacing="15">
+            <ComboBox fx:id="cbType" promptText="Type d'événement" style="-fx-pref-width: 250px;" />
+            <ComboBox fx:id="cbStatut" promptText="Statut d'événement" style="-fx-pref-width: 250px;" />
+         </HBox>
+         <HBox spacing="15">
+            <ComboBox fx:id="cbLieu" promptText="Lieu" style="-fx-pref-width: 250px;" />
+            <DatePicker fx:id="dpDateEvenement" promptText="Date de l'événement" style="-fx-pref-height: 40px; -fx-pref-width: 250px;" />
+         </HBox>
+         <VBox spacing="10">
+            <Label style="-fx-font-weight: bold;" text="Services disponibles:" />
+            <VBox fx:id="servicesContainer" spacing="5" />
+         </VBox>
+         <HBox spacing="15">
+            <TextField fx:id="tfNbreInvitesMax" promptText="Nombre d'invités" style="-fx-pref-width: 180px;" />
+            <TextField fx:id="tfPrix" promptText="Prix" style="-fx-pref-width: 180px;" />
+            <TextField fx:id="tfBudgetPrevu" promptText="Budget prévu" style="-fx-pref-width: 180px;" />
+         </HBox>
+         <Button fx:id="btnEnregistrer" onAction="#handleUpdate" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-height: 45px; -fx-pref-width: 200px; -fx-background-radius: 10;" text="Mettre à jour" />
       </VBox>
    </children>
 </AnchorPane>

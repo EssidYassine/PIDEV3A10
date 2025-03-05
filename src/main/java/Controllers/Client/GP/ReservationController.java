@@ -17,8 +17,10 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,31 +28,44 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class ReservationController {
+public class ReservationController implements Initializable {
 
     @FXML private TextField userEmailField;
     @FXML private TextField nbreInvitesField;
@@ -59,12 +74,25 @@ public class ReservationController {
     @FXML private TextArea commentaireField;
     @FXML private ComboBox<String> lieuField;
     @FXML private VBox servicesContainer;
+    @FXML private ComboBox<String> hourComboBox;
+    @FXML private ComboBox<String> minuteComboBox;
 
     private final ReservationGP reservationGP = new ReservationGP();
     private final UserService userService = new UserService();
     private final ServiceGP serviceGP = new ServiceGP();
     private int packId;
     DataBaseConnection cnx = new DataBaseConnection();
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Initialisation des ComboBox d'heure
+        hourComboBox.getItems().addAll(
+                "00","01","02","03","04","05","06","07","08", "09", "10", "11", "12",
+                "13", "14", "15", "16", "17", "18","19","20","21","22","23"
+        );
+        minuteComboBox.getItems().addAll("00","30");
+
+    }
 
     public void setPackId(int packId) {
         this.packId = packId;
@@ -123,7 +151,8 @@ public class ReservationController {
                 .map(node -> (Service) ((CheckBox) node).getUserData())
                 .collect(Collectors.toList());
     }
-    // Ajoutez cette méthode pour construire l'URL avec les données de réservation
+
+    // Méthode de construction de l'URL pour le QR code (invariée)
     private String buildQrUrl(Reservation reservation) {
         final String BASE_URL = "https://bright-kashata-88b9ac.netlify.app/reservation.html";
         try {
@@ -140,43 +169,55 @@ public class ReservationController {
         }
     }
 
-
     @FXML
     public void handleAddReservation(ActionEvent event) {
         try {
             if (!validateInputs()) return;
 
-            String userEmail = userEmailField.getText().trim();
-            if (userEmail.isEmpty()) {
-                showAlert("Erreur : L'email de l'utilisateur ne peut pas être vide.");
-                return;
-            }
-
-            User user = userService.getUserByEmail(userEmail);
+            // Récupération utilisateur
+            User user = userService.getUserByEmail(userEmailField.getText().trim());
             if (user == null) {
                 showAlert("Erreur : Utilisateur non trouvé.");
                 return;
             }
 
-            Locaux lieu = reservationGP.getLocauxByName(lieuField.getValue());
-            List<Service> services = getSelectedServices();
+            // Création de la date/heure
+            LocalDate date = dateReservationField.getValue();
+            LocalTime time = LocalTime.of(
+                    Integer.parseInt(hourComboBox.getValue()),
+                    Integer.parseInt(minuteComboBox.getValue())
+            );
+            // Vérification de la disponibilité
+            LocalDateTime dateTime = LocalDateTime.of(date, time);
+            if (reservationGP.isDateTimeReserved(dateTime)) {
+                showAlert(Alert.AlertType.ERROR, "Créneau occupé",
+                        "Un événement existe déjà à cette date/heure !");
+                return;
+            }
 
-            Reservation reservation = createReservation(user, lieu, services);
-            reservationGP.addR(reservation);
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Le pack a été ajouté avec succès !");
-            redirectToPackPage(event);
+            // Création de la réservation
+            Reservation reservation = new Reservation();
+            reservation.setUser(user);
+            reservation.setNbreInvites(Integer.parseInt(nbreInvitesField.getText()));
+            reservation.setBudgetAlloue(new java.math.BigDecimal(budgetField.getText()));
+            reservation.setDateReservation(Timestamp.valueOf(dateTime));
+            reservation.setLieu(reservationGP.getLocauxByName(lieuField.getValue()));
+            reservation.setServices(getSelectedServices());
+            reservation.setCommentaire(commentaireField.getText());
 
-            // Construire l'URL de QR code avec les données de réservation
-            String qrUrl = buildQrUrl(reservation);
-            BufferedImage qrImage = generateQrWithApi(qrUrl);
-            showQRConfirmation(qrImage, qrUrl);
+            // Enregistrement
+            String qrCode = reservationGP.addR(reservation);
+            showAlert(Alert.AlertType.INFORMATION, "Succès",
+                    "Réservation créée ! QR Code: " + qrCode);
+
+            // Redirection
+            retourHome1(event);
 
         } catch (Exception e) {
+            showAlert("Erreur critique: " + e.getMessage());
             e.printStackTrace();
-            showAlert("Erreur lors de la réservation : " + e.getMessage());
         }
     }
-
     private boolean validateInputs() {
         if (userEmailField.getText().trim().isEmpty()) {
             showAlert("Veuillez entrer un email utilisateur");
@@ -231,19 +272,6 @@ public class ReservationController {
                 commentaireField.getText().trim(),
                 lieu,
                 services
-        );
-    }
-
-    private String generateQrContent(Reservation reservation) {
-        return String.format(
-                "Réservation #%d\nPack: %d\nDate: %s\nInvites: %d\nBudget: %s€\nLieu: %s\nServices: %s",
-                reservation.getReservationId(),
-                packId,
-                new SimpleDateFormat("dd/MM/yyyy HH:mm").format(reservation.getDateReservation()),
-                reservation.getNbreInvites(),
-                reservation.getBudgetAlloue().toPlainString(),
-                reservation.getLieu().getAdresse(),
-                getServicesNames(reservation)
         );
     }
 
@@ -303,40 +331,66 @@ public class ReservationController {
         }
     }
 
-    private void showQRConfirmation(BufferedImage qrImage, String qrUrl) {
+    private String generateReservationPdf(Reservation reservation) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GP/QrConfirmation.fxml"));
-            Parent root = loader.load();
-            QrConfirmationController controller = loader.getController();
+            String qrUrl = buildQrUrl(reservation);
+            BufferedImage qrImage = generateQrWithApi(qrUrl);
 
-            if (qrImage == null) {
-                qrImage = generateFallbackQr("Erreur de génération du QR code");
-                if (qrImage == null) {
-                    throw new IllegalStateException("Impossible de générer un QR code de secours.");
-                }
+            // Création du document PDF avec PDFBox
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage(PDRectangle.A4);
+            document.addPage(page);
+
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            // Ajout d'un titre
+            contentStream.beginText();
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
+            contentStream.newLineAtOffset(50, 750);
+            contentStream.showText("Votre Réservation");
+            contentStream.endText();
+
+            // Insertion du QR code dans le PDF
+            PDImageXObject pdImage = LosslessFactory.createFromImage(document, qrImage);
+            contentStream.drawImage(pdImage, 50, 500, 200, 200);
+
+            // Ajout des détails de la réservation
+            contentStream.beginText();
+            contentStream.setFont(PDType1Font.HELVETICA, 12);
+            contentStream.newLineAtOffset(50, 470);
+            String details = "ID : " + reservation.getReservationId() + " | Pack : " + packId +
+                    " | Date : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(reservation.getDateReservation());
+            contentStream.showText(details);
+            contentStream.endText();
+
+            contentStream.close();
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Enregistrer le PDF");
+            fileChooser.setInitialFileName("reservation_" + reservation.getReservationId() + ".pdf");
+            File file = fileChooser.showSaveDialog(new Stage());
+            if (file != null) {
+                document.save(file);
+                document.close();
+                return file.getAbsolutePath();
             }
-
-            // Préparation de la map contenant directement le QR URL
-            Map<String, String> reservationDetails = new HashMap<>();
-            reservationDetails.put("qrContent", qrUrl);
-            controller.setQrData(reservationDetails);
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Confirmation de Réservation");
-            stage.show();
-
-        } catch (IOException e) {
-            showAlert("Erreur de chargement de l'interface : " + e.getMessage());
-        } catch (IllegalStateException e) {
-            showAlert("Erreur de génération du QR code : " + e.getMessage());
+            return null;
         } catch (Exception e) {
-            showAlert("Erreur inattendue : " + e.getMessage());
+            showAlert("Erreur PDF : " + e.getMessage());
+            return null;
         }
     }
 
     private void showAlert(String message) {
         new Alert(Alert.AlertType.WARNING, message).showAndWait();
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void retourHome1(ActionEvent actionEvent) {
@@ -372,13 +426,4 @@ public class ReservationController {
             e.printStackTrace();
         }
     }
-
-    private void showAlert(Alert.AlertType type, String title, String message) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
 }

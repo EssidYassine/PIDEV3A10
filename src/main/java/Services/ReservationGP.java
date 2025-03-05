@@ -5,11 +5,12 @@ import Models.Reservation;
 import Tools.DataBaseConnection;
 import Models.Locaux;
 import Models.Service;
+import Models.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ReservationGP implements IService<Reservation> {
@@ -187,6 +188,43 @@ public class ReservationGP implements IService<Reservation> {
     }
 
 
+    public List<Reservation> getReservationsByWeek(LocalDate weekStart) throws SQLException {
+        List<Reservation> reservations = new ArrayList<>();
+        LocalDateTime startOfWeek = weekStart.atStartOfDay();
+        LocalDateTime endOfWeek = weekStart.plusDays(6).atTime(23, 59, 59);
+
+        String query = "SELECT * FROM reservationpack WHERE date_reservation BETWEEN ? AND ?";
+        try (Connection conn = cnx.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setTimestamp(1, Timestamp.valueOf(startOfWeek));
+            stmt.setTimestamp(2, Timestamp.valueOf(endOfWeek));
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Reservation r = new Reservation();
+                r.setReservationId(rs.getInt("reservation_id"));
+                r.setDateReservation(rs.getTimestamp("date_reservation"));
+                // Ajoutez le reste des champs nécessaires
+                User user = new User();
+                user.setEmail(rs.getString("user_id")); // À adapter selon votre modèle
+                r.setUser(user);
+                r.setNbreInvites(rs.getInt("nbre_invites"));
+                r.setStatutReservation(Reservation.StatutReservation.EN_ATTENTE);
+                reservations.add(r);
+            }
+        }
+        return reservations;
+    }
+
+    public boolean isDateTimeReserved(LocalDateTime dateTime) throws SQLException {
+        String query = "SELECT COUNT(*) AS count FROM reservationpack WHERE date_reservation = ?";
+        try (Connection conn = cnx.getConnection();          PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setTimestamp(1, Timestamp.valueOf(dateTime));
+            ResultSet rs = stmt.executeQuery();
+            return rs.next() && rs.getInt("count") > 0;
+        }
+    }
+
     @Override
     public void add(Reservation reservation) throws SQLException {
 
@@ -207,7 +245,42 @@ public class ReservationGP implements IService<Reservation> {
     }
 
     @Override
-    public Reservation getById(int id) throws SQLException {
+    public Reservation getById(int reservationId) throws SQLException {
+        String query = "SELECT r.*, u.email, l.adresse " +
+                "FROM reservationpack r " +
+                "LEFT JOIN user u ON r.user_id = u.id " +
+                "LEFT JOIN locaux l ON r.lieu_id = l.id_local " +
+                "WHERE r.reservation_id = ?";
+
+        try (Connection conn = cnx.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, reservationId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Reservation reservation = new Reservation();
+                reservation.setReservationId(rs.getInt("reservation_id"));
+                // Récupération de la date
+                Timestamp timestamp = rs.getTimestamp("date_reservation");
+                if (timestamp != null) {
+                    reservation.setDateReservation(timestamp);
+                } else {
+                    throw new SQLException("Date de réservation non trouvée pour ID: " + reservationId);
+                }
+                // Récupération User
+                User user = new User();
+                user.setEmail(rs.getString("email"));
+                reservation.setUser(user);
+
+                // Récupération Lieu
+                Locaux lieu = new Locaux();
+                lieu.setAdresse(rs.getString("adresse"));
+                reservation.setLieu(lieu);
+
+                return reservation;
+            }
+        }
         return null;
     }
 }

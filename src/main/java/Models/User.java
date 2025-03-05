@@ -7,6 +7,13 @@ public class User {
     private String email;
     private String mot_de_passe;
 
+    // Constructeur avec 3 paramètres
+    public User(int idUtilisateur, String email) {
+        this.id_user = idUtilisateur;
+        this.email = email;
+    }
+
+
     // Constructeur avec 4 paramètres
     public User(int idUtilisateur, String nom, String prenom, String email) {
         this.id_user = idUtilisateur;

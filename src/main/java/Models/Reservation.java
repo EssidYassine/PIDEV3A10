@@ -18,6 +18,7 @@ public class Reservation {
     private Locaux lieu;               // Lieu associé au pack réservé
     private List<Service> services;    // Liste des services associés à la réservation
 
+    public Reservation() {}
     // Constructeur
     public Reservation(int packId, User user, int nbreInvites, BigDecimal budgetAlloue,
                        String qrCodeUrl, Timestamp dateReservation, StatutReservation statutReservation,
@@ -113,6 +114,7 @@ public class Reservation {
     public void setStatutReservation(StatutReservation statutReservation) {
         this.statutReservation = statutReservation;
     }
+
 
     public String getCommentaire() {
         return commentaire;

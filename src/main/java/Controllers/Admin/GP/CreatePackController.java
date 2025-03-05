@@ -46,7 +46,6 @@ public class CreatePackController implements Initializable {
     private Button btnEnregistrer;
 
     private final ServiceGP serviceGP = new ServiceGP();
-
     private Pack selectedPack;
 
     @Override
@@ -56,16 +55,15 @@ public class CreatePackController implements Initializable {
     }
 
     private void loadDynamicServices() {
-        List<Service> services = serviceGP.getAllServices(); // Récupère tous les services depuis la base
-        System.out.println("Services récupérés : " + services.size()); // Vérifie s'ils sont bien récupérés
+        List<Service> services = serviceGP.getAllServices(); // Retrieve all services from the database
+        System.out.println("Services récupérés : " + services.size()); // Check if they are retrieved
 
-        servicesContainer.getChildren().clear(); // Vide le VBox avant de recharger
+        servicesContainer.getChildren().clear(); // Clear VBox before reloading
 
         for (Service s : services) {
-            CheckBox checkBox = new CheckBox(s.getNom_service()); // Afficher seulement le nom
-            checkBox.setUserData(s.getId_service()); // Stocker l'ID pour l'enregistrement
-            servicesContainer.getChildren().add(checkBox); // Ajouter la CheckBox dans le VBox
-
+            CheckBox checkBox = new CheckBox(s.getNom_service()); // Display only the name
+            checkBox.setUserData(s.getId_service()); // Store the ID for saving
+            servicesContainer.getChildren().add(checkBox); // Add CheckBox to VBox
             System.out.println("Ajout du service : " + s.getNom_service() + " (ID: " + s.getId_service() + ")");
         }
     }
@@ -73,7 +71,6 @@ public class CreatePackController implements Initializable {
     @FXML
     private void loadComboBoxData() {
         cbType.getItems().addAll("Fête", "Mariage", "Conférence");
-
         List<Locaux> locaux = serviceGP.getAllLocaux();
         cbLieu.getItems().clear();
         cbLieu.getItems().addAll(locaux);
@@ -82,60 +79,72 @@ public class CreatePackController implements Initializable {
     @FXML
     private void handleAddAction(ActionEvent event) {
         try {
-            // Vérification des champs obligatoires
-            if (tfNom.getText().isEmpty() || taDescription.getText().isEmpty() ||
-                    tfPrix.getText().isEmpty() || tfNbreInvitesMax.getText().isEmpty() ||
-                    tfBudgetPrevu.getText().isEmpty() || dpDateEvenement.getValue() == null ||
-                    cbType.getValue() == null || cbLieu.getValue() == null) {
-
+            // Validate required fields
+            if (areFieldsEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Erreur", "Veuillez remplir tous les champs !");
                 return;
             }
 
-            // Récupération des valeurs du formulaire
+            // Retrieve form values
             String nom = tfNom.getText();
             String type = cbType.getValue();
             Locaux selectedLocal = cbLieu.getValue();
             LocalDate dateEvenement = dpDateEvenement.getValue();
             int nbreInvitesMax = Integer.parseInt(tfNbreInvitesMax.getText());
-            BigDecimal prix = BigDecimal.valueOf(Double.parseDouble(tfPrix.getText()));
-            BigDecimal budgetPrevu = BigDecimal.valueOf(Double.parseDouble(tfBudgetPrevu.getText()));
+            BigDecimal prix = new BigDecimal(tfPrix.getText());
+            BigDecimal budgetPrevu = new BigDecimal(tfBudgetPrevu.getText());
             String description = taDescription.getText();
 
-            // Récupération des services sélectionnés (via leur id stocké dans userData)
-            List<Integer> selectedServiceIds = new ArrayList<>();
-            for (Node node : servicesContainer.getChildren()) {
-                if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
-                    selectedServiceIds.add((Integer) checkBox.getUserData());
-                }
-            }
+            // Retrieve selected services (via their id stored in userData)
+            List<Integer> selectedServiceIds = getSelectedServiceIds();
 
             if (selectedServiceIds.isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, "Erreur", "Veuillez sélectionner au moins un service !");
                 return;
             }
 
-            // Création du pack – ici, on stocke dans le champ "lieu" l'adresse du local sélectionné
+
+            // Create the pack
             Pack newPack = new Pack(nom, type, description, prix, nbreInvitesMax, budgetPrevu, dateEvenement, selectedLocal.getAdresse(), "actif");
 
-            // Appel de la méthode d'ajout en passant le pack, la liste des services et l'id du local
+            // Call the add method passing the pack, the list of services, and the local ID
             serviceGP.ajouter(newPack, selectedServiceIds, selectedLocal.getIdLocal());
 
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Le pack a été ajouté avec succès !");
-
-            // Rediriger vers la page principale (par exemple Pack.fxml)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/Pack.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            redirectToPackPage(event);
 
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez entrer des valeurs numériques valides !");
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'ajout du pack.");
-            System.out.println(e.getMessage());
+            e.printStackTrace(); // Print stack trace for better debugging
         }
+    }
+
+    private boolean areFieldsEmpty() {
+        return tfNom.getText().isEmpty() || taDescription.getText().isEmpty() ||
+                tfPrix.getText().isEmpty() || tfNbreInvitesMax.getText().isEmpty() ||
+                tfBudgetPrevu.getText().isEmpty() || dpDateEvenement.getValue() == null ||
+                cbType.getValue() == null || cbLieu.getValue() == null;
+    }
+
+    private List<Integer> getSelectedServiceIds() {
+        List<Integer> selectedServiceIds = new ArrayList<>();
+        for (Node node : servicesContainer.getChildren()) {
+            if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
+                selectedServiceIds.add((Integer) checkBox.getUserData());
+            }
+        }
+        return selectedServiceIds;
+    }
+
+    @FXML
+    private void redirectToPackPage(ActionEvent event) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/Pack.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     private void clearForm() {
@@ -148,7 +157,8 @@ public class CreatePackController implements Initializable {
         cbLieu.setValue(null);
         dpDateEvenement.setValue(null);
 
-        // Désélectionner toutes les CheckBox
+
+        // Deselect all CheckBoxes
         for (Node node : servicesContainer.getChildren()) {
             if (node instanceof CheckBox checkBox) {
                 checkBox.setSelected(false);
@@ -166,14 +176,14 @@ public class CreatePackController implements Initializable {
 
     public void setSelectedPack(Pack pack) {
         this.selectedPack = pack;
-        // Remplir les champs si modification (logique similaire à l'ajout)
+        // Fill fields if modifying (similar logic to adding)
         tfNom.setText(pack.getNom());
         tfNbreInvitesMax.setText(String.valueOf(pack.getNbreInvitesMax()));
         tfPrix.setText(pack.getPrix().toString());
         tfBudgetPrevu.setText(pack.getBudgetPrevu().toString());
         taDescription.setText(pack.getDescription());
         cbType.setValue(pack.getType());
-        // Pour le lieu, il faudrait retrouver le Locaux correspondant (selon l'adresse stockée)
+        // For the place, find the corresponding Locaux (based on stored address)
         dpDateEvenement.setValue(pack.getDateEvenement());
         btnEnregistrer.setText("Modifier");
     }

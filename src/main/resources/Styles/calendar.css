@@ -1,0 +1,106 @@
+
+
+.event-card:hover {
+    -fx-background-color: #45a049;
+}
+
+.details-button {
+    -fx-background-color: white;
+    -fx-text-fill: #4CAF50;
+    -fx-font-size: 10px;
+    -fx-padding: 2 5;
+    -fx-border-radius: 3px;
+}
+
+.details-button:hover {
+    -fx-background-color: #f0f0f0;
+}
+
+/* Couleurs selon le statut */
+.event-card.pending {
+    -fx-background-color: #FFC107;
+    -fx-border-color: #FFA000;
+}
+
+.event-card.canceled {
+    -fx-background-color: #F44336;
+    -fx-border-color: #D32F2F;
+}
+
+.event-card.confirmed {
+    -fx-background-color: #4CAF50;
+    -fx-border-color: #388E3C;
+}
+
+/* Ajoutez ces styles à votre fichier CSS existant */
+.grid-cell {
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0.5;
+}
+
+.event-card {
+    -fx-background-color: #e3f2fd;
+    -fx-border-color: #90caf9;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-padding: 5;
+}
+
+.event-card:hover {
+    -fx-background-color: #bbdefb;
+    -fx-cursor: hand;
+}
+
+/* Styles généraux */
+.nav-button {
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-background-color: #ecf0f1;
+    -fx-border-radius: 4px;
+}
+
+
+.calendar-grid {
+    -fx-padding: 10px;
+    -fx-background-color: white;
+    -fx-hgap: 2px;
+    -fx-vgap: 2px;
+}
+
+.time-cell {
+    -fx-padding: 0 5px 0 0;
+    -fx-font-size: 10px;
+    -fx-text-fill: #666;
+}
+
+.day-header {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+.event-card {
+    -fx-spacing: 5px;
+    -fx-padding: 8px;
+    -fx-margin: 2px;
+}
+
+/* calendar.css */
+.calendar-grid {
+    -fx-background-color: white;
+}
+
+.nav-button {
+    -fx-background-color: rgba(202, 95, 45, 0.85);
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-font-size: 12px;
+}
+
+.date-picker {
+    -fx-font-size: 12px;
+}
+
+.week-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}

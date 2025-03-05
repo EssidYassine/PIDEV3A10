@@ -22,6 +22,7 @@ public class HomeController {
     private void handleUpdateClick(ActionEvent event) {
         navigateToScene(event, "/Views/Admin/GP/UpdatePack.fxml");
     }
+
     @FXML
     private void handleGestionPacks(ActionEvent event) {
         navigateToScene(event, "/Views/Admin/GP/Pack.fxml");

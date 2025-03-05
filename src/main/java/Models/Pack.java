@@ -7,6 +7,7 @@ import java.util.List;
 public class Pack {
     private int id;
     private String nom;
+    private User user;
     private String type; // Mariage, Conférence, Fête, Autre
     private String description;
     private BigDecimal prix;
@@ -19,6 +20,21 @@ public class Pack {
 
     // Constructeur par défaut
     public Pack() {
+    }
+
+    public Pack(int id, String nom, User user, String description, String type, BigDecimal prix, Integer nbreInvitesMax, BigDecimal budgetPrevu, LocalDate dateEvenement, String lieu, String statut, List<String> services) {
+        this.id = id;
+        this.nom = nom;
+        this.user = user;
+        this.description = description;
+        this.type = type;
+        this.prix = prix;
+        this.nbreInvitesMax = nbreInvitesMax;
+        this.budgetPrevu = budgetPrevu;
+        this.dateEvenement = dateEvenement;
+        this.lieu = lieu;
+        this.statut = statut;
+        this.services = services;
     }
 
     // Constructeur sans ID (utile lors de la création avant insertion en BDD)
@@ -34,6 +50,22 @@ public class Pack {
         this.dateEvenement = dateEvenement;
         this.lieu = lieu;
         this.statut = statut;
+    }
+
+    // Nouveau constructeur avec services
+    public Pack(String nom, String type, String description, BigDecimal prix,
+                Integer nbreInvitesMax, BigDecimal budgetPrevu, LocalDate dateEvenement,
+                String lieu, String statut, List<String> services) {
+        this.nom = nom;
+        this.type = type;
+        this.description = description;
+        this.prix = prix;
+        this.nbreInvitesMax = nbreInvitesMax;
+        this.budgetPrevu = budgetPrevu;
+        this.dateEvenement = dateEvenement;
+        this.lieu = lieu;
+        this.statut = statut;
+        this.services = services;
     }
 
     // Constructeur complet incluant l'ID

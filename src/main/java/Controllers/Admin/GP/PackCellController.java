@@ -140,26 +140,28 @@ public class PackCellController {
     @FXML
     private void handleUpdateClick(ActionEvent event) {
         try {
+            // Charger la vue UpdatePack
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/UpdatePack.fxml"));
             Parent root = loader.load();
 
+            // Initialiser les données dans le contrôleur de la fenêtre UpdatePack
             UpdatePackController updatePackController = loader.getController();
             updatePackController.initData(pack);
 
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Modifier le Pack");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            // Créer une nouvelle fenêtre pour la mise à jour
+            Stage newStage = new Stage();
+            newStage.setScene(new Scene(root));
+            newStage.setTitle("Modifier le Pack");
+            newStage.initModality(Modality.APPLICATION_MODAL); // Cette ligne rend la fenêtre modale
+            newStage.show(); // Afficher la fenêtre de mise à jour
 
+            // Fermer la fenêtre actuelle (celle qui a lancé l'événement)
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            FXMLLoader parentLoader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/Pack.fxml"));
-            Parent parentRoot = parentLoader.load();
-            currentStage.setScene(new Scene(parentRoot));
-            currentStage.show();
+            currentStage.close(); // Fermer la fenêtre actuelle
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }

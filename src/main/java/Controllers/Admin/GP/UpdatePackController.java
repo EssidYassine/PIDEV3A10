@@ -6,6 +6,10 @@ import Models.Service;
 import Services.ServiceGP;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -128,5 +132,14 @@ public class UpdatePackController {
 
         Stage stage = (Stage) btnEnregistrer.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void redirectToPackPage(ActionEvent event) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GP/Pack.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 }
