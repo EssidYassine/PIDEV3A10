@@ -11,6 +11,7 @@ import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 public class ReservationGP implements IService<Reservation> {
@@ -32,8 +33,8 @@ public class ReservationGP implements IService<Reservation> {
             conn.setAutoCommit(false);
 
             String reservationQuery = "INSERT INTO reservationpack (pack_id, user_id, nbre_invites, "
-                    + "budget_alloue, date_reservation, statut_reservation, commentaire, qr_code_url,lieu_id) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "budget_alloue, date_reservation, statut_reservation, commentaire, qr_code_url,lieu_id,created_at) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
             try (PreparedStatement stmt = conn.prepareStatement(reservationQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 // Génération QR Code
@@ -48,6 +49,8 @@ public class ReservationGP implements IService<Reservation> {
                 stmt.setString(7, reservation.getCommentaire());
                 stmt.setString(8, qrCode); // Ajustement pour correspondre aux colonnes
                 stmt.setInt(9, reservation.getLieu().getIdLocal()); // Ajustement pour correspondre aux colonnes
+                stmt.setTimestamp(10, new Timestamp(System.currentTimeMillis())); // created_at
+
 
 
                 stmt.executeUpdate();
@@ -115,6 +118,60 @@ public class ReservationGP implements IService<Reservation> {
             }
             stmt.executeBatch();
         }
+    }
+
+    public List<Reservation> getReservationsByWeekAndStatus(LocalDate weekStart, Reservation.StatutReservation status)
+            throws SQLException {
+
+        List<Reservation> reservations = new ArrayList<>();
+        LocalDate weekEnd = weekStart.plusDays(6);
+
+        String query = "SELECT r.*, u.email, p.nom as pack_nom " +
+                "FROM reservationpack r " +
+                "LEFT JOIN user u ON r.user_id = u.id " +
+                "LEFT JOIN packevenement p ON r.pack_id = p.pack_id  " +
+                "WHERE r.date_reservation BETWEEN ? AND ?";
+
+        if (status != null) {
+            query += " AND r.statut_reservation = ?";
+        }
+
+        try (Connection conn = cnx.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setTimestamp(1, Timestamp.valueOf(weekStart.atStartOfDay()));
+            stmt.setTimestamp(2, Timestamp.valueOf(weekEnd.atTime(LocalTime.MAX)));
+
+            if (status != null) {
+                stmt.setString(3, status.getDbValue());
+            }
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Reservation reservation = new Reservation();
+                reservation.setReservationId(rs.getInt("reservation_id"));
+                reservation.setDateReservation(rs.getTimestamp("date_reservation"));
+
+                // User info
+                User user = new User();
+                user.setEmail(rs.getString("email"));
+                reservation.setUser(user);
+
+                // Pack info
+                reservation.setPackId(rs.getInt("pack_id"));
+
+                // Correction clé : Récupération du statut depuis la base
+                String dbStatus = rs.getString("statut_reservation");
+                reservation.setStatutReservation(Reservation.StatutReservation.fromDbValue(dbStatus)); // Utilisation du convertisseur
+
+                reservation.setNbreInvites(rs.getInt("nbre_invites"));
+                reservation.setCommentaire(rs.getString("commentaire"));
+
+                reservations.add(reservation);
+            }
+        }
+        return reservations;
     }
 
 
@@ -230,6 +287,23 @@ public class ReservationGP implements IService<Reservation> {
         }
     }
 
+    public void deleteOldCanceledReservations() throws SQLException {
+        // Requête SQL qui supprime les réservations annulées datant de plus de 3 jours.
+        String sql = "DELETE FROM reservationpack WHERE statut_reservation = ? AND date_reservation < ?";
+        try (Connection conn = cnx.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, "ANNULÉE");
+            // Calcule la date limite : aujourd'hui moins 3 jours.
+            LocalDateTime threshold = LocalDateTime.now().minusDays(3);
+            ps.setTimestamp(2, Timestamp.valueOf(threshold));
+
+            int deletedRows = ps.executeUpdate();
+            System.out.println(deletedRows + " réservations annulées ont été supprimées.");
+        }
+    }
+
+
     @Override
     public void add(Reservation reservation) throws SQLException {
 
@@ -310,5 +384,7 @@ public class ReservationGP implements IService<Reservation> {
             stmt.executeUpdate();
         }
     }
+
+
 
 }

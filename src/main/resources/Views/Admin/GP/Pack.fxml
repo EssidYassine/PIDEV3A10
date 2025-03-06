@@ -25,7 +25,7 @@
                   <VBox layoutX="25.0" layoutY="150.0" spacing="15.0">
                      <children>
                         <Button id="BtnAjouter" mnemonicParsing="false" onAction="#handleAjouterClick" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Ajouter" />
-                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Calender" />
+                        <Button mnemonicParsing="false" onAction="#handlCalender" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Calender" />
                         <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Consulter" />
                         <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #1F2C50FF; -fx-text-fill: white;" text="Statistique" />
                      </children>

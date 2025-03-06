@@ -14,7 +14,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage){
 
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Views/Admin/GP/AdminCalendar.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/Views/Admin/GP/Home.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 1086, 700);

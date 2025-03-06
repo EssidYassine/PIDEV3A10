@@ -95,6 +95,10 @@ public class PackController {
     private void handleAjouterClick(ActionEvent event) {
         navigateToScene(event, "/Views/Admin/GP/CreatePack.fxml");
     }
+    @FXML
+    private void handlCalender(ActionEvent event) {
+        navigateToScene(event, "/Views/Admin/GP/AdminCalendar.fxml");
+    }
 
     private void navigateToScene(ActionEvent event, String fxmlPath) {
         try {

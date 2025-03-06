@@ -4,6 +4,7 @@ import Models.Locaux;
 import Models.Reservation;
 import Models.Service;
 import Models.User;
+import Services.GoogleCalendarService;
 import Services.ReservationGP;
 import Services.ServiceGP;
 import Services.UserService;
@@ -13,8 +14,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -59,10 +58,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ReservationController implements Initializable {
@@ -92,7 +91,20 @@ public class ReservationController implements Initializable {
         );
         minuteComboBox.getItems().addAll("00","30");
 
+        // Désactiver les dates antérieures à demain dans le DatePicker
+        dateReservationField.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                // Désactive toutes les dates inférieures à demain (y compris les mois précédents)
+                if (date.isBefore(LocalDate.now().plusDays(1))) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #EEEEEE;"); // Optionnel: changer le style pour visualiser le blocage
+                }
+            }
+        });
     }
+
 
     public void setPackId(int packId) {
         this.packId = packId;
@@ -137,7 +149,6 @@ public class ReservationController implements Initializable {
                 if (packServices.stream().anyMatch(p -> p.getId_service() == service.getId_service())) {
                     checkBox.setSelected(true);
                 }
-
                 servicesContainer.getChildren().add(checkBox);
             }
         } catch (SQLException e) {
@@ -174,7 +185,7 @@ public class ReservationController implements Initializable {
         try {
             if (!validateInputs()) return;
 
-            // Récupération utilisateur
+            // Récupération de l'utilisateur
             User user = userService.getUserByEmail(userEmailField.getText().trim());
             if (user == null) {
                 showAlert("Erreur : Utilisateur non trouvé.");
@@ -182,13 +193,19 @@ public class ReservationController implements Initializable {
             }
 
             // Création de la date/heure
-            LocalDate date = dateReservationField.getValue();
+            LocalDate selectedDate = dateReservationField.getValue();
             LocalTime time = LocalTime.of(
                     Integer.parseInt(hourComboBox.getValue()),
                     Integer.parseInt(minuteComboBox.getValue())
             );
+            // Si la date sélectionnée est antérieure à demain, on la force à être demain.
+            LocalDate tomorrow = LocalDate.now().plusDays(1);
+            if (selectedDate.isBefore(tomorrow)) {
+                selectedDate = tomorrow;
+            }
+            LocalDateTime dateTime = LocalDateTime.of(selectedDate, time);
+
             // Vérification de la disponibilité
-            LocalDateTime dateTime = LocalDateTime.of(date, time);
             if (reservationGP.isDateTimeReserved(dateTime)) {
                 showAlert(Alert.AlertType.ERROR, "Créneau occupé",
                         "Un événement existe déjà à cette date/heure !");
@@ -197,27 +214,87 @@ public class ReservationController implements Initializable {
 
             // Création de la réservation
             Reservation reservation = new Reservation();
+            // Affectation du packId pour éviter qu'il reste à 0
+            reservation.setPackId(packId);
             reservation.setUser(user);
             reservation.setNbreInvites(Integer.parseInt(nbreInvitesField.getText()));
-            reservation.setBudgetAlloue(new java.math.BigDecimal(budgetField.getText()));
+            reservation.setBudgetAlloue(new BigDecimal(budgetField.getText()));
             reservation.setDateReservation(Timestamp.valueOf(dateTime));
             reservation.setLieu(reservationGP.getLocauxByName(lieuField.getValue()));
             reservation.setServices(getSelectedServices());
             reservation.setCommentaire(commentaireField.getText());
 
-            // Enregistrement
+            // Enregistrement de la réservation
             String qrCode = reservationGP.addR(reservation);
-            showAlert(Alert.AlertType.INFORMATION, "Succès",
-                    "Réservation créée ! QR Code: " + qrCode);
 
-            // Redirection
-            retourHome1(event);
+            // Affichage de la confirmation sous forme de card (popup)
+            showConfirmationCard(reservation);
+            GoogleCalendarService.createCalendarEvent(reservation);
+
 
         } catch (Exception e) {
             showAlert("Erreur critique: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
+    /**
+     * Affiche une fenêtre popup (card) de confirmation avec un message de remerciement,
+     * un bouton pour télécharger le PDF de la réservation et redirige ensuite vers la page Home.
+     */
+    private void showConfirmationCard(Reservation reservation) {
+        // Déclaration de la fenêtre de confirmation (popup)
+        final Stage dialog = new Stage();
+        dialog.setTitle("Confirmation de réservation");
+
+        VBox dialogVBox = new VBox(20);
+        dialogVBox.setStyle("-fx-background-color: #ffffff; -fx-padding: 20; -fx-border-color: #000000; " +
+                "-fx-border-radius: 5; -fx-background-radius: 5;");
+
+        // Message de remerciement
+        Label thankYouLabel = new Label("Merci pour votre réservation !");
+        thankYouLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+
+        // Bouton pour télécharger le PDF
+        Button downloadPdfButton = new Button("Télécharger votre réservation en PDF");
+        downloadPdfButton.setOnAction(e -> {
+            String pdfPath = generateReservationPdf(reservation);
+            if (pdfPath != null) {
+                showAlert(Alert.AlertType.INFORMATION, "PDF généré",
+                        "Votre réservation a été enregistrée à l'emplacement :\n" + pdfPath);
+            }
+            // Fermer la popup
+            dialog.close();
+            // Rediriger vers la page Home
+            redirectToHome();
+        });
+
+        dialogVBox.getChildren().addAll(thankYouLabel, downloadPdfButton);
+        Scene dialogScene = new Scene(dialogVBox, 350, 150);
+        dialog.setScene(dialogScene);
+        dialog.show();
+    }
+
+    /**
+     * Redirige vers la page Home.
+     */
+    private void redirectToHome() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GP/AcceuilPacks.fxml"));
+            Parent root = loader.load();
+            // Récupère la scène principale à partir d'un composant (ici userEmailField)
+            Stage primaryStage = (Stage) userEmailField.getScene().getWindow();
+            primaryStage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/Styles/card.css")).toExternalForm());
+            primaryStage.setTitle("Gestionnaire de Services");
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private boolean validateInputs() {
         if (userEmailField.getText().trim().isEmpty()) {
             showAlert("Veuillez entrer un email utilisateur");
@@ -260,21 +337,6 @@ public class ReservationController implements Initializable {
         }
     }
 
-    private Reservation createReservation(User user, Locaux lieu, List<Service> services) {
-        return new Reservation(
-                packId,
-                user,
-                Integer.parseInt(nbreInvitesField.getText().trim()),
-                new BigDecimal(budgetField.getText().trim()),
-                null,
-                Timestamp.valueOf(dateReservationField.getValue().atStartOfDay()),
-                Reservation.StatutReservation.EN_ATTENTE,
-                commentaireField.getText().trim(),
-                lieu,
-                services
-        );
-    }
-
     private String getServicesNames(Reservation reservation) {
         return reservation.getServices().stream()
                 .map(Service::getNom_service)
@@ -283,7 +345,6 @@ public class ReservationController implements Initializable {
 
     private BufferedImage generateQrWithApi(String qrData) {
         try {
-            // Remplacer les retours à la ligne (\r, \n) par un espace
             String cleanQrData = qrData.replaceAll("[\\r\\n]+", " ");
             String json = String.format(
                     "{\"data\":\"%s\",\"config\":{\"body\":\"square\",\"eye\":\"frame0\",\"eyeBall\":\"ball0\"},\"size\":300,\"download\":false,\"file\":\"png\"}",
@@ -298,10 +359,9 @@ public class ReservationController implements Initializable {
 
                 HttpResponse response = client.execute(post);
 
-                // Vérifier le code de statut HTTP
                 if (response.getStatusLine().getStatusCode() != 200) {
                     System.err.println("Erreur API: " + response.getStatusLine());
-                    return generateFallbackQr(qrData); // Génération locale de secours
+                    return generateFallbackQr(qrData);
                 }
 
                 try (InputStream is = response.getEntity().getContent()) {
@@ -314,11 +374,10 @@ public class ReservationController implements Initializable {
             }
         } catch (Exception e) {
             System.err.println("Erreur API QR Code: " + e.getMessage());
-            return generateFallbackQr(qrData); // Retourne un QR code local en cas d'erreur
+            return generateFallbackQr(qrData);
         }
     }
 
-    // Méthode de secours avec ZXing
     private BufferedImage generateFallbackQr(String qrData) {
         try {
             QRCodeWriter writer = new QRCodeWriter();
@@ -326,7 +385,6 @@ public class ReservationController implements Initializable {
             return MatrixToImageWriter.toBufferedImage(matrix);
         } catch (WriterException e) {
             System.err.println("Erreur génération locale QR: " + e.getMessage());
-            // Retourne une image vide si tout échoue
             return new BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB);
         }
     }
@@ -336,25 +394,21 @@ public class ReservationController implements Initializable {
             String qrUrl = buildQrUrl(reservation);
             BufferedImage qrImage = generateQrWithApi(qrUrl);
 
-            // Création du document PDF avec PDFBox
             PDDocument document = new PDDocument();
             PDPage page = new PDPage(PDRectangle.A4);
             document.addPage(page);
 
             PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
-            // Ajout d'un titre
             contentStream.beginText();
             contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
             contentStream.newLineAtOffset(50, 750);
             contentStream.showText("Votre Réservation");
             contentStream.endText();
 
-            // Insertion du QR code dans le PDF
             PDImageXObject pdImage = LosslessFactory.createFromImage(document, qrImage);
             contentStream.drawImage(pdImage, 50, 500, 200, 200);
 
-            // Ajout des détails de la réservation
             contentStream.beginText();
             contentStream.setFont(PDType1Font.HELVETICA, 12);
             contentStream.newLineAtOffset(50, 470);
@@ -408,22 +462,4 @@ public class ReservationController implements Initializable {
         }
     }
 
-    private void redirectToPackPage(ActionEvent event) throws Exception {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Client/GP/AcceuilPacks.fxml"));
-            Parent root = loader.load();
-
-            // Créer une nouvelle scène à partir du root et y ajouter la feuille de style
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/Styles/card.css").toExternalForm());
-
-            // Récupérer la scène actuelle via le stage
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Liste des Packs");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

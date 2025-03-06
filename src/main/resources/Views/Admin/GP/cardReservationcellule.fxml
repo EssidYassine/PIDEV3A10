@@ -3,30 +3,24 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
-
 <?import javafx.scene.control.ComboBox?>
+
 <VBox fx:id="cardRoot" xmlns:fx="http://javafx.com/fxml"
       fx:controller="Controllers.Admin.GP.CardReservationController"
       spacing="10"
       style="-fx-padding: 15; -fx-background-color: #f5f5f5; -fx-border-color: #ccc; -fx-border-width: 1;"
-      maxWidth="300"
-      maxHeight="200">
+      maxWidth="300">
     <Label fx:id="lblId" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
     <Label fx:id="lblDate" style="-fx-text-fill: #555;"/>
     <Label fx:id="lblEmail" style="-fx-text-fill: #555;"/>
     <Label fx:id="lblStatus" style="-fx-text-fill: #555;"/>
     <Label fx:id="lblParticipants" style="-fx-text-fill: #555;"/>
-    <!-- ... existing labels ... -->
     <Label fx:id="lblCommentaire" style="-fx-text-fill: #555;"/>
     <ComboBox fx:id="statusComboBox" onAction="#handleStatusChange"/>
-    <!-- ... existing code ... -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button fx:id="deleteBtn" text="Supprimer"
-                onAction="#handleDelete"
+        <Button fx:id="deleteBtn" text="Supprimer" onAction="#handleDelete"
                 style="-fx-background-color: #e53935; -fx-text-fill: white;"/>
-        <Button fx:id="closeBtn" text="Fermer"
-                onAction="#handleClose"
+        <Button fx:id="closeBtn" text="Fermer" onAction="#handleClose"
                 style="-fx-background-color: #607D8B; -fx-text-fill: white;"/>
     </HBox>
 </VBox>
