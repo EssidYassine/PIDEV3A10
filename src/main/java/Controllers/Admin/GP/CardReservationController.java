@@ -1,14 +1,20 @@
 package Controllers.Admin.GP;
 
 import Models.Reservation;
+import Models.User;
 import Services.ReservationGP;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import mailling.SendEmail;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 
@@ -58,6 +64,14 @@ public class CardReservationController {
     @FXML
     private void handleStatusChange() {
         try {
+            Reservation.StatutReservation newStatus = statusComboBox.getValue();
+            reservation.setStatutReservation(newStatus);
+
+            // Désactiver le ComboBox si confirmé
+            if(newStatus == Reservation.StatutReservation.CONFIRMÉE) {
+                statusComboBox.setDisable(true);
+                sendConfirmationEmail(reservation.getUser(), reservation);
+            }
             ReservationGP service = new ReservationGP();
             // Mettre à jour le statut dans l'objet
             reservation.setStatutReservation(statusComboBox.getValue());
@@ -110,4 +124,26 @@ public class CardReservationController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    private void sendConfirmationEmail(User user, Reservation reservation) {
+        new Thread(() -> {
+            try {
+                // Correction : Ajouter l'email du destinataire
+                SendEmail.sendConfirmationEmail(user.getEmail(), user, reservation);
+            } catch (MessagingException e) {
+                Platform.runLater(() -> showAlert("Erreur d'envoi: " + e.getMessage()));
+            } catch (UnsupportedEncodingException e) {
+                Platform.runLater(() -> showAlert("Erreur d'encodage: " + e.getMessage()));
+            }
+        }).start();
+    }
+
+    private String generateEmailContent(Reservation res) {
+        return String.format(
+                "Bonjour %s,\nVotre réservation #%d du %s a été confirmée.\n\nCordialement,\nL'équipe",
+                res.getUser().getNom(),
+                res.getReservationId(),
+                res.getDateReservation().toLocalDateTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+        );
+    }
+
 }

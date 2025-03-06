@@ -226,7 +226,9 @@ public class ServiceGP implements IService<Pack> {
                 locaux.add(local);
             }
         } catch (SQLException e) {
+
         }
+        System.out.println(locaux);
         return locaux;
     }
 

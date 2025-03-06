@@ -133,7 +133,19 @@
             <version>v3-rev20240927-2.0.0</version>
         </dependency>
 
+        <!-- JavaMail -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
 
+        <!-- Activation pour Java 11+ -->
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 
     </dependencies>
 

@@ -4,6 +4,7 @@ import Models.Reservation;
 import Models.User;
 import Services.ReservationGP;
 import Services.NotificationService;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,10 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
+
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.ScrollPane;
@@ -259,9 +257,45 @@ public class AdminCalendarController implements Initializable {
         setupGridStructure();
         buildCalendar();
 
-        // Faire défiler jusqu'au créneau horaire
+        // Faire défiler jusqu'au créneau horaire et lancer l'animation
         scrollToTimeSlot(reservationDate);
+        addReservationHighlight(reservation);
     }
+
+    private void addReservationHighlight(Reservation reservation) {
+        LocalDateTime dateTime = reservation.getDateReservation().toLocalDateTime();
+        int dayColumn = dateTime.getDayOfWeek().getValue();
+        int startRow = calculateRow(dateTime);
+
+        Platform.runLater(() -> {
+            for (Node node : calendarGrid.getChildren()) {
+                if (GridPane.getRowIndex(node) == startRow && GridPane.getColumnIndex(node) == dayColumn) {
+                    if (node instanceof StackPane timeSlot) {
+                        // Créer une bordure animée
+                        Pane highlight = new Pane();
+                        highlight.setStyle("-fx-background-color: #ff0000; ");
+                        highlight.setPrefSize(timeSlot.getWidth(), 3);
+
+                        // Animation de disparition
+                        Timeline timeline = new Timeline(
+                                new KeyFrame(Duration.seconds(60),
+                                        String.valueOf(new KeyFrame(Duration.seconds(60),
+                                                String.valueOf(new KeyFrame(Duration.seconds(60),
+                                                        String.valueOf(new KeyFrame(Duration.seconds(60),
+                                                                String.valueOf(new KeyFrame(Duration.seconds(60),
+                                                                        String.valueOf(new KeyFrame(Duration.seconds(0), e -> timeSlot.getChildren().remove(highlight)))
+                                                                ))))))))));
+                        timeline.setCycleCount(1);
+                        timeline.play();
+
+                        timeSlot.getChildren().add(0, highlight);
+                    }
+                    break;
+                }
+            }
+        });
+    }
+
 
     private void scrollToTimeSlot(LocalDateTime dateTime) {
         int targetDay = dateTime.getDayOfWeek().getValue();
@@ -281,10 +315,20 @@ public class AdminCalendarController implements Initializable {
                         // Calcul précis de la position
                         Bounds nodeBounds = node.getBoundsInParent();
                         Bounds viewportBounds = calendarScrollPane.getViewportBounds();
-                        double scrollY = (nodeBounds.getMinY() - viewportBounds.getHeight()/2)
+                        double scrollY = (nodeBounds.getMinY() - viewportBounds.getHeight() / 2)
                                 / calendarGrid.getHeight();
 
                         calendarScrollPane.setVvalue(Math.min(scrollY, 1.0));
+
+                        // Animation de mise en évidence : clignotement de l'opacité
+                        Timeline timeline = new Timeline(
+                                new KeyFrame(Duration.ZERO, new KeyValue(node.opacityProperty(), 1.0)),
+                                new KeyFrame(Duration.seconds(0.3), new KeyValue(node.opacityProperty(), 0.5)),
+                                new KeyFrame(Duration.seconds(0.6), new KeyValue(node.opacityProperty(), 1.0))
+                        );
+                        timeline.setCycleCount(3);
+                        timeline.play();
+
                         break;
                     }
                 }
@@ -292,6 +336,7 @@ public class AdminCalendarController implements Initializable {
             delay.play();
         });
     }
+
 
     private int calculateRow(LocalDateTime dateTime) {
         return (dateTime.getHour() * 2) + (dateTime.getMinute() / 30) + 1;

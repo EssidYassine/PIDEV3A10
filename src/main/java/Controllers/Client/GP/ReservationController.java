@@ -226,11 +226,11 @@ public class ReservationController implements Initializable {
 
             // Enregistrement de la réservation
             String qrCode = reservationGP.addR(reservation);
+            GoogleCalendarService.createCalendarEvent(reservation); // Appeler APRÈS avoir obtenu l'ID
 
             // Affichage de la confirmation sous forme de card (popup)
             showConfirmationCard(reservation);
-            GoogleCalendarService.createCalendarEvent(reservation);
-
+            // Après avoir inséré la réservation et récupéré l'ID
 
         } catch (Exception e) {
             showAlert("Erreur critique: " + e.getMessage());

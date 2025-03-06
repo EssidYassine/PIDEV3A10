@@ -36,7 +36,7 @@ public class ReservationGP implements IService<Reservation> {
                     + "budget_alloue, date_reservation, statut_reservation, commentaire, qr_code_url,lieu_id,created_at) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
-            try (PreparedStatement stmt = conn.prepareStatement(reservationQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement stmt = conn.prepareStatement(reservationQuery, Statement.RETURN_GENERATED_KEYS)) {
                 // Génération QR Code
                 qrCode = "QR_" + UUID.randomUUID() + "_" + System.currentTimeMillis();
 
@@ -55,10 +55,11 @@ public class ReservationGP implements IService<Reservation> {
 
                 stmt.executeUpdate();
 
+                // Récupération de l'ID généré
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        int reservationId = generatedKeys.getInt(1);
-                        insertServices(conn, reservationId, reservation.getServices());
+                        int newId = generatedKeys.getInt(1); // Suppose que la colonne ID est la première
+                        reservation.setReservationId(newId); // Mise à jour de l'objet
                     }
                 }
             }
