@@ -54,4 +54,34 @@ public class GestionnaireService {
             System.err.println("Erreur de chargement de AcceuilService.fxml !");
         }
     }
+
+    public void gotostatistique(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/StatistiqueService.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Home");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de AcceuilService.fxml !");
+        }
+    }
+
+    public void gotoreservavtionconfirmer(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Admin/GS/ReservationSconfirmer.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Home");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Erreur de chargement de AcceuilService.fxml !");
+        }
+    }
 }

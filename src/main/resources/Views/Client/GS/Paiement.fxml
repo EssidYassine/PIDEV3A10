@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #f4f4f4; -fx-padding: 20px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GS.PaiementController">
+    <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="1061.0" spacing="30" style="-fx-alignment: center;">
+        <children>
+            <Label onMouseClicked="#gotoHome" prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
+            <Label prefHeight="40.0" prefWidth="290.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Veuillez valider votre panier" />
+            <Button fx:id="btnRetour" onAction="#retourAcceuil" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Accueil" />
+        </children>
+    </HBox>
+    <!-- Conteneur principal bien centré avec AnchorPane -->
+    <VBox alignment="CENTER" layoutX="70.0" layoutY="108.0" prefHeight="350" prefWidth="300" spacing="30" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 15px; -fx-background-radius: 15px;                  -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 5);" AnchorPane.bottomAnchor="32.799999999999955" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.79999999999995" AnchorPane.topAnchor="108.0">
+
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Paiement sécurisé" />
+
+        <TextField fx:id="cardNumber" prefWidth="280" promptText="Numéro de carte (ex: 4242 4242 4242 4242)" style="-fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;" />
+
+        <TextField fx:id="expiryDate" prefWidth="120" promptText="MM/YY" style="-fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;" />
+
+        <TextField fx:id="cvc" prefWidth="80" promptText="CVC" style="-fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;" />
+
+        <Button onAction="#processPayment" prefWidth="280" style="-fx-background-color: #04A76B; -fx-text-fill: white; -fx-font-size: 16px;                        -fx-padding: 10px; -fx-background-radius: 10px; -fx-font-weight: bold;" text="Payer maintenant" />
+
+    </VBox>
+
+</AnchorPane>

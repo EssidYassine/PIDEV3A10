@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="702.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.StatistiqueService">
+    <children>
+        <!-- Pane de navigation sur la gauche -->
+        <Pane prefHeight="720.0" prefWidth="191.0" style="-fx-background-color: #ed4e00; -fx-background-radius: 0 30 0 30;">
+            <children>
+                <!-- Logo -->
+                <ImageView fitHeight="120.0" fitWidth="150.0" layoutX="25.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Images/Blanc_non_bg.png" />
+                    </image>
+                </ImageView>
+                <!-- Boutons de navigation -->
+                <Button layoutX="34.0" layoutY="180.0" mnemonicParsing="false" onAction="#gotohome" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Home" textFill="WHITE" />
+                <Button layoutX="33.0" layoutY="230.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Gérer service" textFill="WHITE" />
+                <Button layoutX="34.0" layoutY="280.0" mnemonicParsing="false" onAction="#retourAfficherService" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Consulter" textFill="WHITE" />
+                <Button layoutX="34.0" layoutY="330.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" style="-fx-background-color: #1F2C50FF;" text="Statistique" textFill="WHITE" />
+                <Button layoutX="52.0" layoutY="396.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #1F2C50FF;" text="Logout" textFill="WHITE" />
+            </children>
+        </Pane>
+        <!-- BarChart placé à droite de la navigation -->
+        <BarChart fx:id="barChart" layoutX="210.0" layoutY="20.0" prefHeight="700.0" prefWidth="855.0">
+            <xAxis>
+                <CategoryAxis label="Service" prefHeight="79.0" prefWidth="777.0" fx:id="xAxis" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="yAxis" label="Rating moyen" />
+            </yAxis>
+        </BarChart>
+    </children>
+</AnchorPane>

@@ -7,31 +7,30 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Client.GS.ListeServiceConfirmer">
+<AnchorPane fx:id="contenuPrincipal" prefHeight="700" prefWidth="1086" style="-fx-background-color: #ffffff;"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.Client.GS.ListeServiceConfirmer">
 
     <!-- Barre de navigation -->
     <HBox layoutX="9.0" layoutY="20.0" prefHeight="60.0" prefWidth="1061.0" spacing="30" style="-fx-alignment: center;">
         <children>
-            <Label prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" onMouseClicked="#gotoHome"/>
-
-            <Label prefHeight="40.0" prefWidth="290.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Veuilez valides votre Panier " />
-            <Button fx:id="btnRetour"  prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Acceuil" onAction="#retourAcceuil"/>
+            <Label onMouseClicked="#gotoHome" prefHeight="46.0" prefWidth="118.0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #1e0fc6;" text="Eventus" />
+            <Label prefHeight="40.0" prefWidth="290.0" style="-fx-font-size: 20px; -fx-text-fill: #333;" text="Veuillez valider votre panier" />
+            <Button fx:id="btnRetour" onAction="#retourAcceuil" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Accueil" />
         </children>
     </HBox>
 
-    <!-- Conteneur de la liste des réservations -->
-    <ScrollPane fx:id="scrollPaneReservations" fitToWidth="true" layoutX="50.0" layoutY="100.0" prefHeight="550.0" prefWidth="980.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">
-        <GridPane fx:id="gridPaneReservations" hgap="20" style="-fx-padding: 20;" vgap="20">
-            <!-- Les cartes de réservation seront ajoutées dynamiquement ici -->
-        </GridPane>
+    <!-- Conteneur qui affichera soit la liste des réservations, soit le formulaire de paiement -->
 
-    </ScrollPane>
+        <ScrollPane fx:id="scrollPaneReservations" fitToWidth="true" layoutX="36.0" layoutY="97.0" prefHeight="545.0" prefWidth="1014.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS" />
+
+
+    <!-- Bouton pour passer au paiement -->
+    <Button fx:id="btnPasserPaiement" layoutX="36.0" layoutY="646.0" onAction="#ouvrirFormulairePaiement" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #1e0fc6; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Passer au paiement" />
 
     <!-- Bouton Valider Panier -->
-    <Button fx:id="btnValiderPanier"
-            layoutX="870.0" layoutY="660.0"
-            prefHeight="40.0" prefWidth="160.0"
-            style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;"
-            text="Valider Panier"
-            onAction="#validerPanier"/>
+    <Button fx:id="btnValiderPanier" layoutX="890.0" layoutY="646.0" onAction="#validerPanier" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 18; -fx-background-radius: 10;" text="Valider Panier" />
+         <GridPane fx:id="gridPaneReservations" hgap="20" layoutX="360.0" layoutY="219.0" style="-fx-padding: 20;" vgap="20">
+                <!-- Les cartes de réservation seront ajoutées dynamiquement ici -->
+            </GridPane>
 </AnchorPane>

@@ -1,54 +1,51 @@
 package Models;
 
+import java.time.LocalDate;
+
 public class User {
-    private int id_user;
-    private String nom;
-    private String prenom;
-    private String email;
-    private String mot_de_passe;
 
-    // Constructeur avec 4 paramètres
-    public User(int idUtilisateur, String nom, String prenom, String email) {
-        this.id_user = idUtilisateur;
-        this.nom = nom;
-        this.prenom = prenom;
+    private int id;                  // Correspond à la colonne `id`
+    private String username;         // Correspond à la colonne `username`
+    private String email;            // Correspond à la colonne `email`
+    private String password;         // Correspond à la colonne `password`
+    private String role;             // Correspond à la colonne `role` (valeurs possibles: "admin" ou "user")
+    private boolean isActive;        // Correspond à la colonne `is_active` (0 ou 1 en base)
+    private String numTel;           // Correspond à la colonne `num_tel`
+    private LocalDate dateDeNaissance; // Correspond à la colonne `date_de_naissance` (type DATE)
+
+    // Constructeur vide
+    public User() {
+    }
+
+    // Constructeur complet
+    public User(int id, String username, String email, String password,
+                String role, boolean isActive, String numTel, LocalDate dateDeNaissance) {
+        this.id = id;
+        this.username = username;
         this.email = email;
-        this.mot_de_passe = ""; // ou null selon vos besoins
+        this.password = password;
+        this.role = role;
+        this.isActive = isActive;
+        this.numTel = numTel;
+        this.dateDeNaissance = dateDeNaissance;
     }
 
-    // Constructeur avec 5 paramètres
-    public User(int id_user, String nom, String prenom, String email, String mot_de_passe) {
-        this.id_user = id_user;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.mot_de_passe = mot_de_passe;
+    // Getters et Setters
+
+    public int getId() {
+        return id;
     }
 
-    public User() {}
-
-    public int getId_user() {
-        return id_user;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public String getUsername() {
+        return username;
     }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -59,30 +56,57 @@ public class User {
         this.email = email;
     }
 
-    public String getMot_de_passe() {
-        return mot_de_passe;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMot_de_passe(String mot_de_passe) {
-        this.mot_de_passe = mot_de_passe;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public String getNumTel() {
+        return numTel;
+    }
+
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
+    }
+
+    public LocalDate getDateDeNaissance() {
+        return dateDeNaissance;
+    }
+
+    public void setDateDeNaissance(LocalDate dateDeNaissance) {
+        this.dateDeNaissance = dateDeNaissance;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id_user=" + id_user +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", mot_de_passe='" + mot_de_passe + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                ", isActive=" + isActive +
+                ", numTel='" + numTel + '\'' +
+                ", dateDeNaissance=" + dateDeNaissance +
                 '}';
-    }
-
-    public int getId_utilisateur() {
-        return id_user;
-    }
-
-    public void setId_utilisateur(int userId) {
-        this.id_user = userId;
     }
 }

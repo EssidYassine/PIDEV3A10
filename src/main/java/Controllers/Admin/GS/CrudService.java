@@ -98,7 +98,16 @@ public class CrudService {
             String experience = experienceField.getText().trim();
 
             // Exemple d'utilisateur (à remplacer par l'utilisateur connecté)
-            User utilisateur = new User(1, "Dupont", "Jean", "jean.dupont@example.com", "emna");
+            User utilisateur = new User(
+                    1,                      // id
+                    "JeanDupont",           // username
+                    "jean.dupont@example.com", // email
+                    "emna",                 // password
+                    "admin",                 // role
+                    true,                   // isActive (true ou false)
+                    "0600000000",           // numTel
+                    null                    // dateDeNaissance (LocalDate) - vous pouvez mettre une date si besoin
+            );
 
             if (nomService.isEmpty() || description.isEmpty() || typeService == null ||
                     prixText.isEmpty() || quantiteMaterielText.isEmpty()) {

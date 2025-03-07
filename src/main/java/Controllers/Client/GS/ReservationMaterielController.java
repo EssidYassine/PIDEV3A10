@@ -183,7 +183,16 @@ public class ReservationMaterielController {
             }
 
             // Création d'un objet User à partir du nom saisi (en pratique, utilisez l'utilisateur connecté)
-            User user = new User(1, utilisateurName, "", "");
+            User user = new User(
+                    1,                  // id
+                    utilisateurName,    // username
+                    "",                 // email
+                    "",                 // password
+                    "user",             // role (peut être "user" ou "admin")
+                    false,              // isActive (true ou false)
+                    "",                 // numTel
+                    null                // dateDeNaissance (LocalDate), ou LocalDate.of(1990, 1, 1) si vous avez une date
+            );
 
             // Définir un statut par défaut, par exemple "En attente"
             Reservation.Statut statut = Reservation.Statut.fromValue("En attente");

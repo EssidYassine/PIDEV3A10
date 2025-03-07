@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="727.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.CrudService">
+<AnchorPane prefHeight="700.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.CrudService">
 
     <HBox layoutX="10.0" layoutY="10.0" prefHeight="700.0" prefWidth="1123.0" spacing="20">
 

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="727.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.AfficherService">
+<AnchorPane prefHeight="700.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Admin.GS.AfficherService">
     <children>
         <!-- ScrollPane affichant la liste des services -->
         <ScrollPane fx:id="scrollPaneReservations" fitToWidth="true" layoutX="203.0" layoutY="88.0" prefHeight="634.0" prefWidth="980.0" style="-fx-background: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">

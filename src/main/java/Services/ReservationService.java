@@ -24,11 +24,11 @@ public class ReservationService implements IService<Reservation> {
 
     @Override
     public void add(Reservation reservation) throws SQLException {
-        String query = "INSERT INTO reservation (id_service, id_utilisateur, date_reservation, quantite, statut) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO reservation (service_id, utilisateur_id, date_reservation, quantite, statut) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, reservation.getService().getId_service());
-            ps.setInt(2, reservation.getUtilisateur().getId_utilisateur());
+            ps.setInt(2, reservation.getUtilisateur().getId());
             ps.setTimestamp(3, Timestamp.valueOf(reservation.getDate_reservation())); // Conversion LocalDateTime -> Timestamp
             ps.setInt(4, reservation.getQuantite());
             ps.setString(5, reservation.getStatut().getValue());
@@ -46,11 +46,11 @@ public class ReservationService implements IService<Reservation> {
 
     @Override
     public void update(Reservation reservation) throws SQLException {
-        String query = "UPDATE reservation SET id_service=?, id_utilisateur=?, date_reservation=?, quantite=?, statut=? WHERE id_reservation=?";
+        String query = "UPDATE reservation SET service_id=?, utilisateur_id=?, date_reservation=?, quantite=?, statut=? WHERE id_reservation=?";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, reservation.getService().getId_service());
-            ps.setInt(2, reservation.getUtilisateur().getId_utilisateur());
+            ps.setInt(2, reservation.getUtilisateur().getId());
             ps.setTimestamp(3, Timestamp.valueOf(reservation.getDate_reservation())); // Conversion LocalDateTime -> Timestamp
             ps.setInt(4, reservation.getQuantite());
             ps.setString(5, reservation.getStatut().getValue());
@@ -127,8 +127,8 @@ public class ReservationService implements IService<Reservation> {
      */
     private Reservation creerReservation(ResultSet rs) throws SQLException {
         // Récupération des objets liés (Service et User)
-        Service service = serviceService.getById(rs.getInt("id_service"));
-        User utilisateur = userService.getById(rs.getInt("id_utilisateur"));
+        Service service = serviceService.getById(rs.getInt("service_id"));
+        User utilisateur = userService.getById(rs.getInt("utilisateur_id"));
 
         // Récupération du statut en utilisant la méthode fromValue()
         Reservation.Statut statut = Reservation.Statut.fromValue(rs.getString("statut"));

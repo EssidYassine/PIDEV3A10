@@ -18,6 +18,10 @@ public class Service {
     public Service(int idService, String nomService, String description, int prix, TypeService typeService, int disponibilite, int idUtilisateur, String imageUrl, int quantiteMateriel, String roleStaff, String experience) {
     }
 
+    public Service(int idService, String nomService, String description, double prix, int quantiteMateriel, String imageUrl) {
+    }
+
+
     public void setUtilisateurId(int userId) {
         this.id_service = userId;
     }

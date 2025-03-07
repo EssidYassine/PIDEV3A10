@@ -21,14 +21,14 @@ public class ServiceService implements IService<Service> {
     @Override
 
     public void add(Service service) throws SQLException {
-        String query = "INSERT INTO service (nom_service, description, prix, type_service, id_utilisateur, image_url, quantite_materiel, role_staff, experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO service (nom_service, description, prix, type_service, utilisateur_id, image_url, quantite_materiel, role_staff, experience) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, service.getNom_service());
             ps.setString(2, service.getDescription());
             ps.setInt(3, service.getPrix());
             ps.setString(4, service.getType_service().name());
-            ps.setInt(5, service.getUtilisateur().getId_utilisateur()); // Utilisation de l'objet Utilisateur
+            ps.setInt(5, service.getUtilisateur().getId()); // Utilisation de l'objet Utilisateur
             ps.setString(6, service.getImage_url());
             ps.setInt(7, service.getQuantite_materiel());
             ps.setString(8, service.getRole_staff());
@@ -50,7 +50,7 @@ public class ServiceService implements IService<Service> {
 
     @Override
     public void update(Service service) throws SQLException {
-        String query = "UPDATE service SET nom_service=?, description=?, prix=?, type_service=?, disponibilite=?, id_utilisateur=?, image_url=?, quantite_materiel=?, role_staff=?, experience=? WHERE id_service=?";
+        String query = "UPDATE service SET nom_service=?, description=?, prix=?, type_service=?, disponibilite=?, utilisateur_id=?, image_url=?, quantite_materiel=?, role_staff=?, experience=? WHERE id_service=?";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, service.getNom_service());
@@ -58,7 +58,7 @@ public class ServiceService implements IService<Service> {
             ps.setInt(3, service.getPrix());
             ps.setString(4, service.getType_service().name());
             ps.setInt(5, service.getDisponibilite());
-            ps.setInt(6, service.getUtilisateur().getId_utilisateur()); // Utilisation de l'objet Utilisateur
+            ps.setInt(6, service.getUtilisateur().getId()); // Utilisation de l'objet Utilisateur
             ps.setString(7, service.getImage_url());
             ps.setInt(8, service.getQuantite_materiel());
             ps.setString(9, service.getRole_staff());
@@ -92,19 +92,33 @@ public class ServiceService implements IService<Service> {
     @Override
     public List<Service> getAll() throws SQLException {
         List<Service> services = new ArrayList<>();
-        String query = "SELECT s.*, u.nom, u.prenom, u.email FROM service s " +
-                "JOIN user u ON s.id_utilisateur = u.id_user";
-
+        String query = "SELECT s.*, "
+                + "u.id AS user_id, "
+                + "u.username, "
+                + "u.email, "
+                + "u.password, "
+                + "u.role, "
+                + "u.is_active, "
+                + "u.num_tel, "
+                + "u.date_de_naissance "
+                + "FROM service s "
+                + "JOIN user u ON s.utilisateur_id = u.id";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
                 // Création de l'objet Utilisateur
                 User utilisateur = new User(
-                        rs.getInt("id_utilisateur"),
-                        rs.getString("nom"),
-                        rs.getString("prenom"),
-                        rs.getString("email")
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getBoolean("is_active"),
+                        rs.getString("num_tel"),
+                        (rs.getDate("date_de_naissance") != null)
+                                ? rs.getDate("date_de_naissance").toLocalDate()
+                                : null
                 );
 
                 // Création de l'objet Service avec l'objet Utilisateur
@@ -127,9 +141,18 @@ public class ServiceService implements IService<Service> {
         return services;
     }
     public Service getById(int id) throws SQLException {
-        String query = "SELECT s.*, u.nom, u.prenom, u.email FROM service s " +
-                "JOIN user u ON s.id_utilisateur = u.id_user " +
-                "WHERE s.id_service = ?";
+        String query = "SELECT s.*,\n" +
+                "       u.id AS user_id,\n" +
+                "       u.username,\n" +
+                "       u.email,\n" +
+                "       u.password,\n" +
+                "       u.role,\n" +
+                "       u.is_active,\n" +
+                "       u.num_tel,\n" +
+                "       u.date_de_naissance\n" +
+                "FROM service s\n" +
+                "JOIN user u ON s.utilisateur_id = u.id\n" +
+                "WHERE s.id_service = ?\n";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
@@ -138,10 +161,16 @@ public class ServiceService implements IService<Service> {
             if (rs.next()) {
                 // Création de l'objet Utilisateur
                 User utilisateur = new User(
-                        rs.getInt("id_utilisateur"),
-                        rs.getString("nom"),
-                        rs.getString("prenom"),
-                        rs.getString("email")
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getBoolean("is_active"),
+                        rs.getString("num_tel"),
+                        (rs.getDate("date_de_naissance") != null)
+                                ? rs.getDate("date_de_naissance").toLocalDate()
+                                : null
                 );
 
                 // Création de l'objet Service avec l'objet Utilisateur
@@ -225,6 +254,28 @@ public class ServiceService implements IService<Service> {
                 System.out.println("Aucune mise à jour effectuée pour le service " + idService);
             }
         }
+    }
+    public List<Service> getServicesConfirmes() throws SQLException {
+        List<Service> listeServices = new ArrayList<>();
+        String query = "SELECT s.id_service, s.nom_service, s.prix, s.image_url " +
+                "FROM reservation r " +
+                "JOIN service s ON r.service_id = s.id_service " +
+                "WHERE r.statut = 'Confirmée'";
+
+        Connection conn = DataBaseConnection.getMyDataBase().getConnection();
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Service service = new Service();
+            service.setId_service(rs.getInt("id_service"));
+            service.setNom_service(rs.getString("nom_service"));
+            service.setPrix((int) rs.getDouble("prix"));
+            service.setImage_url(rs.getString("image_url"));
+            listeServices.add(service);
+        }
+
+        return listeServices;
     }
 
 }

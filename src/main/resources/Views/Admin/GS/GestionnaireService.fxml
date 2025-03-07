@@ -19,8 +19,8 @@
                 </ImageView>
                 <Button layoutX="34.0" layoutY="280.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Home" onAction="#gotohome"/>
                 <Button layoutX="33.0" layoutY="350.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Gestion Service" onAction="#gotocrudService" />
-                <Button layoutX="33.0" layoutY="422.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Statistique" />
-                <Button layoutX="51.0" layoutY="569.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" text="Logout" />
+                <Button layoutX="33.0" layoutY="422.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Statistique" onAction="#gotostatistique" />
+                <Button layoutX="51.0" layoutY="569.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" text="Les reservations confirmées" onAction="#gotoreservavtionconfirmer"/>
             </children>
         </Pane>
         <Pane layoutX="243.0" layoutY="296.0" prefHeight="389.0" prefWidth="666.0">

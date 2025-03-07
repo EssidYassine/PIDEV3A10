@@ -70,7 +70,7 @@ public class ReservationListController {
                 Label nomService = new Label("Service: " + res.getService().getNom_service());
                 nomService.setStyle("-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #333;");
 
-                Label utilisateur = new Label("Utilisateur: " + res.getUtilisateur().getNom());
+                Label utilisateur = new Label("Utilisateur: " + res.getUtilisateur().getUsername());
                 utilisateur.setStyle("-fx-font-size: 14; -fx-text-fill: #666;");
 
                 Label dateReservation = new Label("Date: " + res.getDate_reservation().format(dtf));

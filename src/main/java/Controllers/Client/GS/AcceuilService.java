@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -373,22 +374,47 @@ public class AcceuilService {
     private void enregistrerEvaluation(int rating) {
         try {
             Connection conn = DataBaseConnection.getMyDataBase().getConnection();
-            String sql = "INSERT INTO rating (user_id, service_id, rating) VALUES (?, ?, ?) " +
-                    "ON DUPLICATE KEY UPDATE rating = ?";
+
+            // Vérifier si l'utilisateur a déjà évalué ce service
+            String checkSql = "SELECT COUNT(*) AS count FROM rating WHERE user_id = ? AND service_id = ?";
+            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+            checkStmt.setInt(1, 1); // ID utilisateur (remplace par un ID dynamique)
+            checkStmt.setInt(2, serviceSelectionne.getId_service());
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next() && rs.getInt("count") > 0) {
+                // L'utilisateur a déjà évalué ce service, on affiche un message d'erreur
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Évaluation déjà existante");
+                alert.setHeaderText(null);
+                alert.setContentText("❌ Vous avez déjà noté ce service !");
+                alert.showAndWait();
+                return; // On arrête ici, pas d'ajout en base
+            }
+
+            // Si aucun rating n'existe, on insère la nouvelle évaluation
+            String sql = "INSERT INTO rating (user_id, service_id, rating) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, 1); // Utilisateur statique
+            stmt.setInt(1, 1); // ID utilisateur (remplace par un ID dynamique)
             stmt.setInt(2, serviceSelectionne.getId_service());
             stmt.setInt(3, rating);
-            stmt.setInt(4, rating);
             stmt.executeUpdate();
 
+            // Mettre à jour la moyenne affichée
             double nouvelleMoyenne = calculerMoyenne(serviceSelectionne);
             moyenneRating.setText(String.format("%.1f ★", nouvelleMoyenne));
+
+            // Afficher un message de confirmation
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Évaluation enregistrée");
+            alert.setHeaderText(null);
+            alert.setContentText("⭐ Merci pour votre évaluation !");
+            alert.showAndWait();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-    }
+    }}
 
 
 

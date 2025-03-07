@@ -178,7 +178,17 @@ public class ReservationStaffController {
             }
 
             // Création d'un objet User (en pratique, utilisez l'utilisateur connecté)
-            User user = new User(1, utilisateurName, "", "");
+            User user = new User(
+                    1,                    // id
+                    utilisateurName,      // username
+                    "",                   // email
+                    "",                   // password
+                    "user",               // role ("user" ou "admin")
+                    false,                // isActive (true ou false)
+                    "",                   // numTel
+                    null                  // dateDeNaissance (LocalDate) ou une date si disponible
+            );
+
 
             // Définir un statut par défaut, par exemple "En attente"
             Reservation.Statut statut = Reservation.Statut.fromValue("En attente");
